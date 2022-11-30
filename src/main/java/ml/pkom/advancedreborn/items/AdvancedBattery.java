@@ -20,7 +20,6 @@ import reborncore.common.powerSystem.RcEnergyTier;
 import reborncore.common.util.ItemUtils;
 import techreborn.items.BatteryItem;
 import techreborn.utils.InitUtils;
-import techreborn.utils.MessageIDs;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class AdvancedBattery extends Item implements RcEnergyItem {
     public TypedActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
         final ItemStack stack = player.getStackInHand(hand);
         if (player.isSneaking()) {
-            ItemUtils.switchActive(stack, 1, MessageIDs.poweredToolID, player);
+            ItemUtils.switchActive(stack, 1, player);
             return new TypedActionResult<>(ActionResult.SUCCESS, stack);
         }
         return new TypedActionResult<>(ActionResult.PASS, stack);
@@ -46,7 +45,7 @@ public class AdvancedBattery extends Item implements RcEnergyItem {
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        ItemUtils.checkActive(stack, 1, MessageIDs.poweredToolID, entity);
+        ItemUtils.checkActive(stack, 1, entity);
         if (world.isClient) {
             return;
         }
