@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "advanced_reborn:items/can/empty_can"
+        "layer0": "advanced_reborn:item/can/empty_can"
     }
 }

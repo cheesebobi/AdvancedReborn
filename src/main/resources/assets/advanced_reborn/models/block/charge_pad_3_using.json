@@ -1,10 +1,10 @@
 {   "parent": "block/thin_block",
     "textures": {
         "particle": "#texture",
-        "texture": "advanced_reborn:blocks/charge_pad_mk-3/bottom",
-        "texture_top": "advanced_reborn:blocks/charge_pad_mk-3/top_charge",
-        "texture_side": "advanced_reborn:blocks/charge_pad_mk-3/side",
-        "texture_bottom": "advanced_reborn:blocks/charge_pad_mk-3/bottom"
+        "texture": "advanced_reborn:block/charge_pad_mk-3/bottom",
+        "texture_top": "advanced_reborn:block/charge_pad_mk-3/top_charge",
+        "texture_side": "advanced_reborn:block/charge_pad_mk-3/side",
+        "texture_bottom": "advanced_reborn:block/charge_pad_mk-3/bottom"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

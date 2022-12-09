@@ -12,6 +12,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -48,8 +49,8 @@ public class DynamiteEntity extends ThrownItemEntity {
     }
 
     // ThrownItemEntityはパケットを送らないとレンダリングされないらしい。
-    public Packet<?> createSpawnPacket() {
-        return EntitySpawnPacket.create(this, Defines.SPAWN_PACKET_ID);
+    public Packet<ClientPlayPacketListener> createSpawnPacket() {
+        return (Packet<ClientPlayPacketListener>) EntitySpawnPacket.create(this, Defines.SPAWN_PACKET_ID);
     }
 
     public void setSticky(boolean sticky) {
@@ -132,13 +133,13 @@ public class DynamiteEntity extends ThrownItemEntity {
 
     public void explode() {
         if (isIndustrial) {
-            Explosion explosion = new IndustrialExplosion(world, this, null, null, getX(), getBodyY(0.0625D), getZ(),2.5F,false, Explosion.DestructionType.BREAK);
+            Explosion explosion = new IndustrialExplosion(world, this, null, null, getX(), getBodyY(0.0625D), getZ(),2.5F,false, Explosion.DestructionType.DESTROY);
             explosion.collectBlocksAndDamageEntities();
             explosion.affectWorld(true);
             world.playSound(null, getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.2F) * 0.7F);
             ((ServerWorld)world).spawnParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
             return;
         }
-        world.createExplosion(this, getX(), getBodyY(0.0625D), getZ(), 4.0F, Explosion.DestructionType.BREAK);
+        world.createExplosion(this, getX(), getBodyY(0.0625D), getZ(), 4.0F, World.ExplosionSourceType.TNT);
     }
 }

@@ -2,6 +2,7 @@ package ml.pkom.advancedreborn.screen;
 
 import ml.pkom.advancedreborn.ScreenHandlers;
 import ml.pkom.advancedreborn.tile.CardboardBoxTile;
+import ml.pkom.mcpitanlibarch.api.gui.SimpleScreenHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -14,7 +15,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
-public class CardboardBoxScreenHandler extends ScreenHandler {
+public class CardboardBoxScreenHandler extends SimpleScreenHandler {
 
     public Inventory inventory;
     public String tmpNote = "";
@@ -60,8 +61,8 @@ public class CardboardBoxScreenHandler extends ScreenHandler {
     public boolean canUse(PlayerEntity player) {
         return true;
     }
-
-    public ItemStack transferSlot(PlayerEntity player, int invSlot) {
+    
+    public ItemStack quickMoveOverride(PlayerEntity player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         if (slot != null && slot.hasStack()) {

@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "advanced_reborn:items/config_wrench"
+        "layer0": "advanced_reborn:item/config_wrench"
     }
 }

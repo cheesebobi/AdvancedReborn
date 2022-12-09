@@ -37,6 +37,6 @@
     "fabric": "*",
     "minecraft": "*",
     "techreborn": "*",
-    "mcpitanlibarch": "*"
+    "mcpitanlibarch": ">1.2.0"
   }
 }

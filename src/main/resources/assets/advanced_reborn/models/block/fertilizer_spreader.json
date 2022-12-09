@@ -1,12 +1,12 @@
 {
     "parent": "minecraft:block/cube",
     "textures": {
-        "particle": "advanced_reborn:blocks/fertilizer_spreader/top",
-        "up": "advanced_reborn:blocks/fertilizer_spreader/top",
-        "down": "advanced_reborn:blocks/fertilizer_spreader/bottom",
-        "north": "advanced_reborn:blocks/fertilizer_spreader/side",
-        "east": "advanced_reborn:blocks/fertilizer_spreader/side",
-        "south": "advanced_reborn:blocks/fertilizer_spreader/side",
-        "west": "advanced_reborn:blocks/fertilizer_spreader/side"
+        "particle": "advanced_reborn:block/fertilizer_spreader/top",
+        "up": "advanced_reborn:block/fertilizer_spreader/top",
+        "down": "advanced_reborn:block/fertilizer_spreader/bottom",
+        "north": "advanced_reborn:block/fertilizer_spreader/side",
+        "east": "advanced_reborn:block/fertilizer_spreader/side",
+        "south": "advanced_reborn:block/fertilizer_spreader/side",
+        "west": "advanced_reborn:block/fertilizer_spreader/side"
     }
 }

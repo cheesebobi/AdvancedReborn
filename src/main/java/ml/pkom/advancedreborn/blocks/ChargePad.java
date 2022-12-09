@@ -123,7 +123,8 @@ public class ChargePad extends Block {
             double rZ = random.nextInt(9) * 0.1;
             ((ServerWorld)world).spawnParticles(Particles.ENERGY, pos.getX() + 0.1 + rX, pos.getY() + 0.25, pos.getZ() + 0.1 + rZ, 1, 0, 0.3, 0, 0);
             world.setBlockState(pos, state.with(USING, true));
-            world.createAndScheduleBlockTick(pos, this, 5);
+            //world.createAndScheduleBlockTick(pos, this, 5);
+            world.scheduleBlockTick(pos, this, 5);
             world.updateComparators(pos, this);
         }
     }

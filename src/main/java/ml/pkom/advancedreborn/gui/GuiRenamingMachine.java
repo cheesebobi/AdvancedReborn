@@ -66,7 +66,7 @@ public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
 
     public void removed() {
         super.removed();
-        client.keyboard.setRepeatEvents(false);
+        //client.keyboard.setRepeatEvents(false);
     }
 
     public TextFieldWidget getFieldBox() {

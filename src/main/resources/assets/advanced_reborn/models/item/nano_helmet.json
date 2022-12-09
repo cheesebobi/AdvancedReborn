@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "advanced_reborn:items/nano_armor/helmet"
+        "layer0": "advanced_reborn:item/nano_armor/helmet"
     }
 }

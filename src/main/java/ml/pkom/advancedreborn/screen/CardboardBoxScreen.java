@@ -27,7 +27,7 @@ public class CardboardBoxScreen extends HandledScreen<CardboardBoxScreenHandler>
     }
 
     public void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         if (client == null) return;
@@ -70,7 +70,7 @@ public class CardboardBoxScreen extends HandledScreen<CardboardBoxScreenHandler>
 
     public void removed() {
         super.removed();
-        client.keyboard.setRepeatEvents(false);
+        //client.keyboard.setRepeatEvents(false);
     }
 
     public TextFieldWidget getNoteBox() {
