@@ -89,7 +89,7 @@ public class Items {
     // 缶
     public static Item EMPTY_CAN = new Item(new ExtendSettings().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("empty_can")).maxCount(64));
     public static Item FUEL_CAN = new FuelCanItem(new ExtendSettings().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("fuel_can")).maxCount(64).recipeRemainder(EMPTY_CAN));
-    public static Item FOOD_CAN = new FoodCanItem(new ExtendSettings().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("empty_can")).maxCount(64).recipeRemainder(EMPTY_CAN).food(new FoodComponent.Builder().snack().hunger(2).saturationModifier(2).build()));
+    public static Item FOOD_CAN = new FoodCanItem(new ExtendSettings().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("food_can")).maxCount(64).recipeRemainder(EMPTY_CAN).food(new FoodComponent.Builder().snack().hunger(2).saturationModifier(2).build()));
 
     // Better Batpack
     public static Item BATPACK_4 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 4, new BBArmorMaterial("batpack4"), RcEnergyTier.MEDIUM);
