@@ -56,8 +56,8 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 
-	modApi "me.sargunvohra.mcmods:autoconfig1u:3.4.0"
-	include "me.sargunvohra.mcmods:autoconfig1u:3.4.0"
+	//modApi "me.sargunvohra.mcmods:autoconfig1u:3.4.0"
+	//include "me.sargunvohra.mcmods:autoconfig1u:3.4.0"
 
 	modImplementation "ml.pkom:mcpitanlibarch-fabric${rootProject.mcpitanlib_version}"
 }
