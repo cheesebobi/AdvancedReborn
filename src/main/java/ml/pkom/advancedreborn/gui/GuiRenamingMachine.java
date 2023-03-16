@@ -3,8 +3,9 @@ package ml.pkom.advancedreborn.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import ml.pkom.advancedreborn.Defines;
 import ml.pkom.advancedreborn.tile.RenamingMachineTile;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import ml.pkom.mcpitanlibarch.api.network.ClientNetworking;
+import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
+import ml.pkom.mcpitanlibarch.api.util.client.ScreenUtil;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,7 +36,7 @@ public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
         fieldBox = new TextFieldWidget(textRenderer, x + 55,  y + 20, 98, 15, TextUtil.literal(""));
         getFieldBox().setText(tile.getName());
         getFieldBox().setFocusUnlocked(false);
-        getFieldBox().setTextFieldFocused(true);
+        ScreenUtil.TextFieldUtil.setFocused(getFieldBox(), true);
         getFieldBox().setMaxLength(2048);
         addSelectableChild(getFieldBox());
     }
@@ -54,14 +55,14 @@ public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
     }
 
     public void sendPacket() {
-        PacketByteBuf buf = PacketByteBufs.create();
+        PacketByteBuf buf = PacketByteUtil.create();
         NbtCompound data = new NbtCompound();
         data.putString("name", getFieldBox().getText());
         data.putDouble("x", tile.getPos().getX());
         data.putDouble("y", tile.getPos().getY());
         data.putDouble("z", tile.getPos().getZ());
         buf.writeNbt(data);
-        ClientPlayNetworking.send(Defines.RENAMING_PACKET_ID, buf);
+        ClientNetworking.send(Defines.RENAMING_PACKET_ID, buf);
     }
 
     public void removed() {

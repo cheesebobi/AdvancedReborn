@@ -2,6 +2,7 @@ package ml.pkom.advancedreborn.entities.itnt;
 
 import com.google.common.collect.Sets;
 import ml.pkom.advancedreborn.mixins.ExplosionAccessor;
+import ml.pkom.mcpitanlibarch.api.util.math.PosUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
@@ -48,7 +49,7 @@ public class IndustrialExplosion extends Explosion {
                         double o = thisAccessor.getZ();
 
                         for(float var21 = 0.3F; h > 0.0F; h -= 0.22500001F) {
-                            BlockPos blockPos = new BlockPos(m, n, o);
+                            BlockPos blockPos = PosUtil.flooredBlockPos(m, n, o);
                             BlockState blockState = this.world.getBlockState(blockPos);
                             FluidState fluidState = this.world.getFluidState(blockPos);
                             Optional<Float> optional = this.behavior.getBlastResistance(this, this.world, blockPos, blockState, fluidState);

@@ -3,6 +3,7 @@ package ml.pkom.advancedreborn;
 import ml.pkom.advancedreborn.packet.EntitySpawnPacket;
 import ml.pkom.advancedreborn.renderer.IndustrialTNTEntityRenderer;
 import ml.pkom.advancedreborn.screen.CardboardBoxScreen;
+import ml.pkom.mcpitanlibarch.api.network.ClientNetworking;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -35,7 +36,7 @@ public class AdvancedRebornClient implements ClientModInitializer {
 
         HandledScreens.register(ScreenHandlers.CARDBOARD_BOX_SCREEN_HANDLER, CardboardBoxScreen::new);
 
-        ClientPlayNetworking.registerGlobalReceiver(Defines.SPAWN_PACKET_ID, (client, handler, byteBuf, sender) -> {
+        ClientNetworking.registerReceiver(Defines.SPAWN_PACKET_ID, (client, player, byteBuf) -> {
             EntityType<?> et = Registries.ENTITY_TYPE.get(byteBuf.readVarInt());
             UUID uuid = byteBuf.readUuid();
             int entityId = byteBuf.readVarInt();

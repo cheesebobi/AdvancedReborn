@@ -1,6 +1,6 @@
 package ml.pkom.advancedreborn.armormaterials;
 
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.recipe.Ingredient;
@@ -11,13 +11,13 @@ public class NanoArmorMaterial implements ArmorMaterial {
     public static ArmorMaterial NANO = new NanoArmorMaterial();
 
     @Override
-    public int getDurability(EquipmentSlot slot) {
-        return ArmorMaterials.DIAMOND.getDurability(slot);
+    public int getDurability(ArmorItem.Type type) {
+        return ArmorMaterials.DIAMOND.getDurability(type);
     }
 
     @Override
-    public int getProtectionAmount(EquipmentSlot slot) {
-        return ArmorMaterials.DIAMOND.getProtectionAmount(slot);
+    public int getProtection(ArmorItem.Type type) {
+        return ArmorMaterials.DIAMOND.getProtection(type);
     }
 
     @Override

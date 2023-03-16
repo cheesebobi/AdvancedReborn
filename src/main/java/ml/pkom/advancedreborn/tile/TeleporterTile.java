@@ -3,6 +3,7 @@ package ml.pkom.advancedreborn.tile;
 import ml.pkom.advancedreborn.Tiles;
 import ml.pkom.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import ml.pkom.advancedreborn.event.TileCreateEvent;
+import ml.pkom.mcpitanlibarch.api.util.math.PosUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -132,6 +133,6 @@ public class TeleporterTile extends BlockEntity implements BlockEntityTicker<Tel
 
     public void readNbt(NbtCompound tag) {
         super.readNbt(tag);
-        if (tag.contains("tpX") && tag.contains("tpY") && tag.contains("tpZ")) teleportPos = new BlockPos(tag.getDouble("tpX"), tag.getDouble("tpY"), tag.getDouble("tpZ"));
+        if (tag.contains("tpX") && tag.contains("tpY") && tag.contains("tpZ")) teleportPos = PosUtil.flooredBlockPos(tag.getDouble("tpX"), tag.getDouble("tpY"), tag.getDouble("tpZ"));
     }
 }

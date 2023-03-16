@@ -7,6 +7,7 @@ import ml.pkom.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import ml.pkom.advancedreborn.event.TileCreateEvent;
 import ml.pkom.advancedreborn.inventory.IInventory;
 import ml.pkom.advancedreborn.tile.base.HeatMachineTile;
+import ml.pkom.mcpitanlibarch.api.util.RecipeUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
@@ -127,7 +128,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
     }
 
     private boolean canAcceptOutput(SmeltingRecipe recipe, int slot) {
-        ItemStack recipeOutput = recipe.getOutput();
+        ItemStack recipeOutput = RecipeUtil.getOutput(recipe, world);
         if (recipeOutput.isEmpty()) {
             return false;
         }
@@ -227,7 +228,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
         }
         ItemStack outputStack = inventory.getStack(outputSlot);
         if (outputStack.isEmpty()) {
-            inventory.setStack(outputSlot, recipe.getOutput().copy());
+            inventory.setStack(outputSlot, RecipeUtil.getOutput(recipe, world).copy());
         } else {
             // Just increment. We already checked stack match and stack size
             outputStack.increment(1);

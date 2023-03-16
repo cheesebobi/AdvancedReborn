@@ -2,6 +2,7 @@ package ml.pkom.advancedreborn.items;
 
 import ml.pkom.advancedreborn.Items;
 import ml.pkom.advancedreborn.tile.TeleporterTile;
+import ml.pkom.mcpitanlibarch.api.util.math.PosUtil;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
@@ -31,7 +32,7 @@ public class FreqTrans extends Item {
                     NbtCompound tag = stack.getNbt();
                     if (!tag.contains("tpX") || !tag.contains("tpY") || !tag.contains("tpZ")) return ActionResult.FAIL;
                     TeleporterTile machine = (TeleporterTile) tile;
-                    machine.setTeleportPos(new BlockPos(tag.getDouble("tpX"), tag.getDouble("tpY"), tag.getDouble("tpZ")));
+                    machine.setTeleportPos(PosUtil.flooredBlockPos(tag.getDouble("tpX"), tag.getDouble("tpY"), tag.getDouble("tpZ")));
                     player.sendMessage(TextUtil.literal("Loaded Teleport Pos from The Frequency Transmitter.(" + tag.getDouble("tpX") + "," + tag.getDouble("tpY") + "," + tag.getDouble("tpZ") + ")"), false);
                     return ActionResult.SUCCESS;
                 }

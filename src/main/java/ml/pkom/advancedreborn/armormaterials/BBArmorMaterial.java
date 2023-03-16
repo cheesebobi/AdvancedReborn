@@ -1,6 +1,6 @@
 package ml.pkom.advancedreborn.armormaterials;
 
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.recipe.Ingredient;
@@ -15,13 +15,13 @@ public class BBArmorMaterial implements ArmorMaterial {
     }
 
     @Override
-    public int getDurability(EquipmentSlot slot) {
-        return ArmorMaterials.IRON.getDurability(EquipmentSlot.CHEST);
+    public int getDurability(ArmorItem.Type type) {
+        return ArmorMaterials.IRON.getDurability(ArmorItem.Type.CHESTPLATE);
     }
 
     @Override
-    public int getProtectionAmount(EquipmentSlot slot) {
-        return ArmorMaterials.IRON.getProtectionAmount(EquipmentSlot.CHEST);
+    public int getProtection(ArmorItem.Type type) {
+        return ArmorMaterials.IRON.getProtection(ArmorItem.Type.CHESTPLATE);
     }
 
     @Override

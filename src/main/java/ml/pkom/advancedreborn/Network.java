@@ -2,14 +2,14 @@ package ml.pkom.advancedreborn;
 
 import ml.pkom.advancedreborn.tile.CardboardBoxTile;
 import ml.pkom.advancedreborn.tile.RenamingMachineTile;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import ml.pkom.mcpitanlibarch.api.network.ServerNetworking;
+import ml.pkom.mcpitanlibarch.api.util.math.PosUtil;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.BlockPos;
 
 public class Network {
     public static void init() {
-        ServerPlayNetworking.registerGlobalReceiver(Defines.CARDBOARD_BOX_CLOSE_PACKET_ID, (server, player, handler, buf, responseSender) -> {
+        ServerNetworking.registerReceiver(Defines.CARDBOARD_BOX_CLOSE_PACKET_ID, (server, player, buf) -> {
             NbtCompound data = buf.readNbt();
             server.execute(() -> {
                 if (data == null) return;
@@ -17,13 +17,13 @@ public class Network {
                 if (!data.contains("y")) return;
                 if (!data.contains("z")) return;
                 if (!data.contains("note")) return;
-                BlockEntity blockEntity = player.getWorld().getBlockEntity(new BlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z")));
+                BlockEntity blockEntity = player.getWorld().getBlockEntity(PosUtil.flooredBlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z")));
                 if (!(blockEntity instanceof CardboardBoxTile)) return;
                 CardboardBoxTile tile = (CardboardBoxTile) blockEntity;
                 tile.setNote(data.getString("note"));
             });
         });
-        ServerPlayNetworking.registerGlobalReceiver(Defines.RENAMING_PACKET_ID, (server, player, handler, buf, responseSender) -> {
+        ServerNetworking.registerReceiver(Defines.RENAMING_PACKET_ID, (server, player, buf) -> {
             NbtCompound data = buf.readNbt();
             server.execute(() -> {
                 if (data == null) return;
@@ -31,7 +31,7 @@ public class Network {
                 if (!data.contains("y")) return;
                 if (!data.contains("z")) return;
                 if (!data.contains("name")) return;
-                BlockEntity blockEntity = player.getWorld().getBlockEntity(new BlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z")));
+                BlockEntity blockEntity = player.getWorld().getBlockEntity(PosUtil.flooredBlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z")));
                 if (!(blockEntity instanceof RenamingMachineTile)) return;
                 RenamingMachineTile tile = (RenamingMachineTile) blockEntity;
                 tile.setName(data.getString("name"));

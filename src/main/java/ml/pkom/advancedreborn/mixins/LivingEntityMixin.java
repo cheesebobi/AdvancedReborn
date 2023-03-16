@@ -40,7 +40,7 @@ public abstract class LivingEntityMixin extends Entity {
                     energy.tryUseEnergy(stack, 800 * vanillaPlayerDamage);
                 }
                 if (userDamage > 0) {
-                    this.damage(DamageSource.FALL, (float) userDamage);
+                    this.damage(world.getDamageSources().fall(), (float) userDamage);
                 }
                 info.cancel();
             }

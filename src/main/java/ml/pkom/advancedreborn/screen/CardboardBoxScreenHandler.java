@@ -2,15 +2,15 @@ package ml.pkom.advancedreborn.screen;
 
 import ml.pkom.advancedreborn.ScreenHandlers;
 import ml.pkom.advancedreborn.tile.CardboardBoxTile;
+import ml.pkom.mcpitanlibarch.api.entity.Player;
 import ml.pkom.mcpitanlibarch.api.gui.SimpleScreenHandler;
-import net.minecraft.entity.player.PlayerEntity;
+import ml.pkom.mcpitanlibarch.api.util.math.PosUtil;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +26,7 @@ public class CardboardBoxScreenHandler extends SimpleScreenHandler {
         NbtCompound data = buf.readNbt();
         if (data == null) return;
         if (data.contains("x") && data.contains("y") && data.contains("z")) {
-            pos = new BlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z"));
+            pos = PosUtil.flooredBlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z"));
         }
         if (data.contains("note")) {
             tmpNote = data.getString("note");
@@ -45,34 +45,34 @@ public class CardboardBoxScreenHandler extends SimpleScreenHandler {
         int m;
         int l;
         for (l = 0; l < 9; ++l) {
-            addSlot(new Slot(inventory, l, 8 + l * 18, 20));
+            callAddSlot(new Slot(inventory, l, 8 + l * 18, 20));
         }
         for (m = 0; m < 3; ++m) {
             for (l = 0; l < 9; ++l) {
-                addSlot(new Slot(playerInventory, l + m * 9 + 9, 8 + l * 18, 51 + m * 18));
+                callAddSlot(new Slot(playerInventory, l + m * 9 + 9, 8 + l * 18, 51 + m * 18));
             }
         }
         for (m = 0; m < 9; ++m) {
-            addSlot(new Slot(playerInventory, m, 8 + m * 18, 109));
+            callAddSlot(new Slot(playerInventory, m, 8 + m * 18, 109));
         }
 
     }
 
-    public boolean canUse(PlayerEntity player) {
+    public boolean canUse(Player player) {
         return true;
     }
     
-    public ItemStack quickMoveOverride(PlayerEntity player, int invSlot) {
+    public ItemStack quickMoveOverride(Player player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         if (slot != null && slot.hasStack()) {
             ItemStack originalStack = slot.getStack();
             newStack = originalStack.copy();
             if (invSlot < this.inventory.size()) {
-                if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
+                if (!this.callInsertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
+            } else if (!this.callInsertItem(originalStack, 0, this.inventory.size(), false)) {
                 return ItemStack.EMPTY;
             }
 

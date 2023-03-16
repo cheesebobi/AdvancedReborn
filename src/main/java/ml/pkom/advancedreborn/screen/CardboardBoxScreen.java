@@ -3,8 +3,9 @@ package ml.pkom.advancedreborn.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import ml.pkom.advancedreborn.AdvancedReborn;
 import ml.pkom.advancedreborn.Defines;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import ml.pkom.mcpitanlibarch.api.network.ClientNetworking;
+import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
+import ml.pkom.mcpitanlibarch.api.util.client.ScreenUtil;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.render.GameRenderer;
@@ -45,14 +46,14 @@ public class CardboardBoxScreen extends HandledScreen<CardboardBoxScreenHandler>
         getNoteBox().setText(handler.tmpNote);
         getNoteBox().setDrawsBackground(false);
         getNoteBox().setFocusUnlocked(false);
-        getNoteBox().setTextFieldFocused(true);
+        ScreenUtil.TextFieldUtil.setFocused(getNoteBox(), true);
         getNoteBox().setMaxLength(2048);
         addSelectableChild(getNoteBox());
     }
 
     public void close() {
         super.close();
-        PacketByteBuf buf = PacketByteBufs.create();
+        PacketByteBuf buf = PacketByteUtil.create();
         NbtCompound data = new NbtCompound();
         data.putString("note", getNote());
         data.putDouble("x", handler.pos.getX());
@@ -60,7 +61,7 @@ public class CardboardBoxScreen extends HandledScreen<CardboardBoxScreenHandler>
         data.putDouble("z", handler.pos.getZ());
         //AdvancedReborn.LOGGER.info("nbt: " + data);
         buf.writeNbt(data);
-        ClientPlayNetworking.send(Defines.CARDBOARD_BOX_CLOSE_PACKET_ID, buf);
+        ClientNetworking.send(Defines.CARDBOARD_BOX_CLOSE_PACKET_ID, buf);
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
