@@ -31,7 +31,7 @@ public class AdvancedReborn implements ModInitializer {
 
     public static ItemGroup AR_GROUP = new CreativeTabBuilder(
             id("item_group")).
-            setIcon(() -> new ItemStack(Items.CHARGE_PAD_MK_FINAL)).
+            setIcon(() -> new ItemStack(Items.CHARGE_PAD_MK_FINAL, 1)).
             build();
 
     @Override
