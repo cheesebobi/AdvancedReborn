@@ -1,13 +1,19 @@
 package ml.pkom.advancedreborn.blocks;
+
 import ml.pkom.advancedreborn.Tiles;
-import ml.pkom.advancedreborn.event.TileCreateEvent;
+import ml.pkom.mcpitanlibarch.api.event.block.TileCreateEvent;
 import ml.pkom.advancedreborn.tile.CardboardBoxTile;
+import ml.pkom.mcpitanlibarch.api.block.CompatibleBlockSettings;
+import ml.pkom.mcpitanlibarch.api.block.ExtendBlock;
+import ml.pkom.mcpitanlibarch.api.block.ExtendBlockEntityProvider;
+import ml.pkom.mcpitanlibarch.api.event.block.BlockUseEvent;
+import ml.pkom.mcpitanlibarch.api.event.block.TileCreateEvent;
+import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.ItemEntity;
@@ -25,31 +31,26 @@ import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
-import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
 import java.util.List;
 
-public class CardboardBox extends BlockWithEntity {
+public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvider {
 
     public static Identifier CONTENTS = new Identifier("contents");
     public static DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
-    public CardboardBox(Settings settings) {
+    public CardboardBox(CompatibleBlockSettings settings) {
         super(settings);
         getStateManager().getDefaultState().with(FACING, Direction.NORTH);
     }
@@ -70,14 +71,6 @@ public class CardboardBox extends BlockWithEntity {
 
     public BlockEntity createBlockEntity(TileCreateEvent event) {
         return new CardboardBoxTile(event);
-    }
-
-    public BlockEntity createBlockEntity(BlockView world) {
-        return createBlockEntity(new TileCreateEvent(world));
-    }
-
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return createBlockEntity(new TileCreateEvent(pos, state));
     }
 
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
@@ -132,18 +125,18 @@ public class CardboardBox extends BlockWithEntity {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient) {
+    public ActionResult onRightClick(BlockUseEvent event) {
+        if (event.world.isClient) {
             return ActionResult.SUCCESS;
-        } else if (player.isSpectator()) {
+        } else if (event.player.getPlayerEntity().isSpectator()) {
             return ActionResult.CONSUME;
         } else {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+            BlockEntity blockEntity = event.world.getBlockEntity(event.pos);
             if (blockEntity instanceof CardboardBoxTile) {
                 CardboardBoxTile tile = (CardboardBoxTile)blockEntity;
-                player.openHandledScreen(tile);
-                player.incrementStat(Stats.OPEN_SHULKER_BOX);
-                PiglinBrain.onGuardedBlockInteracted(player, true);
+                event.player.openGuiScreen(tile);
+                event.player.getPlayerEntity().incrementStat(Stats.OPEN_SHULKER_BOX);
+                PiglinBrain.onGuardedBlockInteracted(event.player.getPlayerEntity(), true);
                 return ActionResult.CONSUME;
             } else {
                 return ActionResult.PASS;
@@ -174,10 +167,8 @@ public class CardboardBox extends BlockWithEntity {
                 Inventories.readNbt(nbtCompound, defaultedList);
                 int i = 0;
                 int j = 0;
-                Iterator var9 = defaultedList.iterator();
 
-                while(var9.hasNext()) {
-                    ItemStack itemStack = (ItemStack)var9.next();
+                for (ItemStack itemStack : defaultedList) {
                     if (!itemStack.isEmpty()) {
                         ++j;
                         if (i <= 4) {

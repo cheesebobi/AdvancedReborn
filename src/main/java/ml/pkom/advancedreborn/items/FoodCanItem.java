@@ -1,28 +1,29 @@
 package ml.pkom.advancedreborn.items;
 
 import ml.pkom.advancedreborn.Items;
+import ml.pkom.mcpitanlibarch.api.event.item.ItemUseEvent;
+import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
+import ml.pkom.mcpitanlibarch.api.item.ExtendItem;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class FoodCanItem extends Item {
-    public FoodCanItem(Settings settings) {
+public class FoodCanItem extends ExtendItem {
+    public FoodCanItem(CompatibleItemSettings settings) {
         super(settings);
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        TypedActionResult<ItemStack> result = super.use(world, user, hand);
+    public TypedActionResult<ItemStack> onRightClick(ItemUseEvent event) {
+        TypedActionResult<ItemStack> result = super.onRightClick(event);
         if (result.getResult().equals(ActionResult.CONSUME)) {
-            user.heal(1);
+            event.user.getPlayerEntity().heal(1);
         }
         return result;
     }

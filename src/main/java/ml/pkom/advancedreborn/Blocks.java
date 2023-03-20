@@ -1,14 +1,16 @@
 package ml.pkom.advancedreborn;
 
 import ml.pkom.advancedreborn.blocks.*;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import ml.pkom.mcpitanlibarch.api.block.CompatibleBlockSettings;
+import ml.pkom.mcpitanlibarch.api.block.ExtendBlock;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.sound.BlockSoundGroup;
 
 public class Blocks {
 
-    public static FabricBlockSettings baseSetting = FabricBlockSettings.of(Material.METAL).requiresTool().strength(2, 8);
+    public static AbstractBlock.Settings baseSetting = CompatibleBlockSettings.of(Material.METAL).requiresTool().strength(2, 8).build();
 
     public static Block CHARGE_PAD_MK_1 = new ChargePad(baseSetting, 4);
     public static Block CHARGE_PAD_MK_2 = new ChargePad(baseSetting, 16);
@@ -47,15 +49,15 @@ public class Blocks {
 
 
     //breakByHand
-    public static Block CARDBOARD_BOX = new CardboardBox(FabricBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3));
-    public static Block CARDBOARD_BOX_MINEZON = new CardboardBox(FabricBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3));
-    public static Block CARDBOARD_BOX_MINETARO = new CardboardBox(FabricBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3));
-    public static Block CARDBOARD_BOX_NOTHING = new CardboardBox(FabricBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3));
+    public static Block CARDBOARD_BOX = new CardboardBox(CompatibleBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3));
+    public static Block CARDBOARD_BOX_MINEZON = new CardboardBox(CompatibleBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3));
+    public static Block CARDBOARD_BOX_MINETARO = new CardboardBox(CompatibleBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3));
+    public static Block CARDBOARD_BOX_NOTHING = new CardboardBox(CompatibleBlockSettings.of(Material.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3));
 
-    public static Block LIGHT = new Block(FabricBlockSettings.of(Material.METAL).strength(1.5F, 4).luminance((state) -> 15));
+    public static Block LIGHT = new ExtendBlock(CompatibleBlockSettings.of(Material.METAL).strength(1.5F, 4).luminance((state) -> 15));
     // breakByHand
 
-    public static Block INDUSTRIAL_TNT = new IndustrialTNT(FabricBlockSettings.copyOf(net.minecraft.block.Blocks.TNT));
+    public static Block INDUSTRIAL_TNT = new IndustrialTNT(CompatibleBlockSettings.copy(net.minecraft.block.Blocks.TNT));
 
     public static void init() {
         AdvancedReborn.registry.registerBlock(AdvancedReborn.id("charge_pad"), () -> CHARGE_PAD_MK_1);

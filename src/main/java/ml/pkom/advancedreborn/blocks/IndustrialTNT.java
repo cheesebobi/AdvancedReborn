@@ -1,6 +1,7 @@
 package ml.pkom.advancedreborn.blocks;
 
 import ml.pkom.advancedreborn.entities.IndustrialTNTEntity;
+import ml.pkom.mcpitanlibarch.api.block.CompatibleBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -18,8 +19,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class IndustrialTNT extends TntBlock {
 
-    public IndustrialTNT(Settings settings) {
-        super(settings);
+    public IndustrialTNT(CompatibleBlockSettings settings) {
+        super(settings.build());
     }
 
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {

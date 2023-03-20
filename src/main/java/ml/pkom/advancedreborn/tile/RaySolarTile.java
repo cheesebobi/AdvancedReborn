@@ -3,7 +3,7 @@ package ml.pkom.advancedreborn.tile;
 import ml.pkom.advancedreborn.Blocks;
 import ml.pkom.advancedreborn.Tiles;
 import ml.pkom.advancedreborn.blocks.RaySolar;
-import ml.pkom.advancedreborn.event.TileCreateEvent;
+import ml.pkom.mcpitanlibarch.api.event.block.TileCreateEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;

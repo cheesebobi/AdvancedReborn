@@ -1,7 +1,7 @@
 package ml.pkom.advancedreborn.blocks;
 
 import ml.pkom.advancedreborn.GuiTypes;
-import ml.pkom.advancedreborn.event.TileCreateEvent;
+import ml.pkom.mcpitanlibarch.api.event.block.TileCreateEvent;
 import ml.pkom.advancedreborn.tile.FarmingMachineTile;
 import net.minecraft.block.entity.BlockEntity;
 import reborncore.api.blockentity.IMachineGuiHandler;

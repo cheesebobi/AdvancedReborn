@@ -1,7 +1,7 @@
 package ml.pkom.advancedreborn.blocks;
 
 import ml.pkom.advancedreborn.api.Energy;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +12,7 @@ import team.reborn.energy.api.base.SimpleBatteryItem;
 
 public class ChargePadFinal extends ChargePad {
 
-    public ChargePadFinal(FabricBlockSettings settings, int multiple) {
+    public ChargePadFinal(Block.Settings settings, int multiple) {
         super(settings, multiple);
     }
 

@@ -4,7 +4,7 @@ import ml.pkom.advancedreborn.AdvancedReborn;
 import ml.pkom.advancedreborn.Blocks;
 import ml.pkom.advancedreborn.Tiles;
 import ml.pkom.advancedreborn.addons.autoconfig.AutoConfigAddon;
-import ml.pkom.advancedreborn.event.TileCreateEvent;
+import ml.pkom.mcpitanlibarch.api.event.block.TileCreateEvent;
 import ml.pkom.advancedreborn.inventory.IInventory;
 import ml.pkom.advancedreborn.tile.base.HeatMachineTile;
 import ml.pkom.mcpitanlibarch.api.util.RecipeUtil;

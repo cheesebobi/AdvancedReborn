@@ -1,9 +1,9 @@
 package ml.pkom.advancedreborn.tile;
 
 import ml.pkom.advancedreborn.Tiles;
-import ml.pkom.advancedreborn.event.TileCreateEvent;
 import ml.pkom.advancedreborn.inventory.IInventory;
 import ml.pkom.advancedreborn.screen.CardboardBoxScreenHandler;
+import ml.pkom.mcpitanlibarch.api.event.block.TileCreateEvent;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;

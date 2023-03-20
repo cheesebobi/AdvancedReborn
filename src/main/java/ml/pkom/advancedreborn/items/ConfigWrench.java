@@ -2,12 +2,13 @@ package ml.pkom.advancedreborn.items;
 
 import ml.pkom.advancedreborn.Items;
 import ml.pkom.advancedreborn.mixins.MachineBaseBlockEntityAccessor;
+import ml.pkom.mcpitanlibarch.api.event.item.ItemUseOnBlockEvent;
+import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
+import ml.pkom.mcpitanlibarch.api.item.ExtendItem;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.text.Text;
@@ -22,8 +23,8 @@ import reborncore.common.blockentity.SlotConfiguration;
 
 import java.util.List;
 
-public class ConfigWrench extends Item {
-    public ConfigWrench(Settings settings) {
+public class ConfigWrench extends ExtendItem {
+    public ConfigWrench(CompatibleItemSettings settings) {
         super(settings);
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
             ItemStack stack = player.getStackInHand(hand);
@@ -50,9 +51,9 @@ public class ConfigWrench extends Item {
         });
     }
 
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        World world = context.getWorld();
-        BlockPos pos = context.getBlockPos();
+    public ActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
+        World world = event.world;
+        BlockPos pos = event.hit.getBlockPos();
         BlockEntity tile = world.getBlockEntity(pos);
         if (tile == null) return ActionResult.PASS;
         if (!(tile instanceof MachineBaseBlockEntity)) return ActionResult.PASS;
@@ -66,7 +67,7 @@ public class ConfigWrench extends Item {
         if (machine.fluidConfiguration != null)
             fluidConfig = machineAccessor.getFluidConfiguration();
 
-        ItemStack stack = context.getPlayer().getStackInHand(context.getHand());
+        ItemStack stack = event.player.getPlayerEntity().getStackInHand(event.hand);
         NbtCompound tag = stack.getNbt();
         if (tag == null) {
             tag = new NbtCompound();
@@ -80,7 +81,7 @@ public class ConfigWrench extends Item {
             config.put("redstone", redstoneConfig.write());
         tag.put("configs", config);
         stack.setNbt(tag);
-        context.getPlayer().sendMessage(TextUtil.literal("Saved Configuration to The Config Wrench."), false);
+        event.player.sendMessage(TextUtil.literal("Saved Configuration to The Config Wrench."));
         return ActionResult.SUCCESS;
     }
 

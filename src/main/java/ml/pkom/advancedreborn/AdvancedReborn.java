@@ -29,7 +29,7 @@ public class AdvancedReborn implements ModInitializer {
     // Add ItemGroup
     public static DefaultedList<ItemStack> addStacksIG = DefaultedList.of();
 
-    public static ItemGroup AR_GROUP = new CreativeTabBuilder(
+    public static ItemGroup AR_GROUP = CreativeTabBuilder.create(
             id("item_group")).
             setIcon(() -> new ItemStack(Items.CHARGE_PAD_MK_FINAL, 1)).
             build();

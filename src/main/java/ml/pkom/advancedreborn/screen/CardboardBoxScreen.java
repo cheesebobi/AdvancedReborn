@@ -1,47 +1,48 @@
 package ml.pkom.advancedreborn.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import ml.pkom.advancedreborn.AdvancedReborn;
 import ml.pkom.advancedreborn.Defines;
+import ml.pkom.mcpitanlibarch.api.client.SimpleHandledScreen;
 import ml.pkom.mcpitanlibarch.api.network.ClientNetworking;
 import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
+import ml.pkom.mcpitanlibarch.api.util.TextUtil;
+import ml.pkom.mcpitanlibarch.api.util.client.RenderUtil;
 import ml.pkom.mcpitanlibarch.api.util.client.ScreenUtil;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import ml.pkom.mcpitanlibarch.api.util.TextUtil;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class CardboardBoxScreen extends HandledScreen<CardboardBoxScreenHandler> {
-    private static Identifier TEXTURE = AdvancedReborn.id("textures/gui/cardboard_box.png");
+public class CardboardBoxScreen extends SimpleHandledScreen {
+    private static final Identifier TEXTURE = AdvancedReborn.id("textures/gui/cardboard_box.png");
     private TextFieldWidget noteBox;
 
-    public CardboardBoxScreen(CardboardBoxScreenHandler handler, PlayerInventory inventory, Text title) {
+    private final CardboardBoxScreenHandler handler;
+
+    public CardboardBoxScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         backgroundHeight = 133;
         this.playerInventoryTitleY = this.backgroundHeight - 94;
+        this.handler = (CardboardBoxScreenHandler) handler;
     }
 
-    public void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+    public void drawBackgroundOverride(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        ScreenUtil.setBackground(TEXTURE);
         if (client == null) return;
         client.getTextureManager().bindTexture(TEXTURE);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
         getNoteBox().render(matrices, mouseX, mouseY, delta);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    public void init() {
-        super.init();
+    public void initOverride() {
+        super.initOverride();
         noteBox = new TextFieldWidget(textRenderer, x + 98,  y + 7, 70, 9, TextUtil.literal(""));
         getNoteBox().setText(handler.tmpNote);
         getNoteBox().setDrawsBackground(false);
@@ -71,7 +72,7 @@ public class CardboardBoxScreen extends HandledScreen<CardboardBoxScreenHandler>
 
     public void removed() {
         super.removed();
-        //client.keyboard.setRepeatEvents(false);
+        ScreenUtil.setRepeatEvents(false);
     }
 
     public TextFieldWidget getNoteBox() {
@@ -86,9 +87,9 @@ public class CardboardBoxScreen extends HandledScreen<CardboardBoxScreenHandler>
         return getNoteBox().getText();
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderOverride(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
+        super.renderOverride(matrices, mouseX, mouseY, delta);
         drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 }

@@ -2,7 +2,6 @@ package ml.pkom.advancedreborn.blocks;
 
 import ml.pkom.advancedreborn.Particles;
 import ml.pkom.advancedreborn.api.Energy;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -18,16 +17,13 @@ import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.tick.OrderedTick;
 import org.jetbrains.annotations.Nullable;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
-import team.reborn.energy.api.base.SimpleBatteryItem;
 import techreborn.blockentity.storage.energy.EnergyStorageBlockEntity;
-
-import net.minecraft.util.math.random.Random;
 
 public class ChargePad extends Block {
 
@@ -48,7 +44,7 @@ public class ChargePad extends Block {
         return state.get(USING) ? 15 : 0;
     }
 
-    public ChargePad(FabricBlockSettings settings, int multiple) {
+    public ChargePad(Block.Settings settings, int multiple) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(USING, false));
         this.multiple = multiple;

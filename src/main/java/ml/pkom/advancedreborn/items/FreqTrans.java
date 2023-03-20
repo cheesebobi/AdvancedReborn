@@ -2,13 +2,14 @@ package ml.pkom.advancedreborn.items;
 
 import ml.pkom.advancedreborn.Items;
 import ml.pkom.advancedreborn.tile.TeleporterTile;
+import ml.pkom.mcpitanlibarch.api.event.item.ItemUseOnBlockEvent;
+import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
+import ml.pkom.mcpitanlibarch.api.item.ExtendItem;
 import ml.pkom.mcpitanlibarch.api.util.math.PosUtil;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import net.minecraft.text.Text;
@@ -19,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class FreqTrans extends Item {
-    public FreqTrans(Settings settings) {
+public class FreqTrans extends ExtendItem {
+    public FreqTrans(CompatibleItemSettings settings) {
         super(settings);
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
             ItemStack stack = player.getStackInHand(hand);
@@ -41,15 +42,15 @@ public class FreqTrans extends Item {
         });
     }
 
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        World world = context.getWorld();
-        BlockPos pos = context.getBlockPos();
+    public ActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
+        World world = event.world;
+        BlockPos pos = event.hit.getBlockPos();
         BlockEntity tile = world.getBlockEntity(pos);
         if (tile == null) return ActionResult.PASS;
         if (!(tile instanceof TeleporterTile)) return ActionResult.PASS;
         if (world.isClient()) return ActionResult.SUCCESS;
         TeleporterTile machine = (TeleporterTile) tile;
-        ItemStack stack = context.getPlayer().getStackInHand(context.getHand());
+        ItemStack stack = event.player.getPlayerEntity().getStackInHand(event.hand);
         NbtCompound tag = stack.getNbt();
         if (tag == null) {
             tag = new NbtCompound();
@@ -58,7 +59,7 @@ public class FreqTrans extends Item {
         tag.putDouble("tpY", machine.getY());
         tag.putDouble("tpZ", machine.getZ());
         stack.setNbt(tag);
-        context.getPlayer().sendMessage(TextUtil.literal("Saved Machine's Pos to The Frequency Transmitter.(" + tag.getDouble("tpX") + "," + tag.getDouble("tpY") + "," + tag.getDouble("tpZ") + ")"), false);
+        event.player.sendMessage(TextUtil.literal("Saved Machine's Pos to The Frequency Transmitter.(" + tag.getDouble("tpX") + "," + tag.getDouble("tpY") + "," + tag.getDouble("tpZ") + ")"));
         return ActionResult.SUCCESS;
     }
 

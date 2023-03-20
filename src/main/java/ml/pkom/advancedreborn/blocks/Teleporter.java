@@ -1,8 +1,8 @@
 package ml.pkom.advancedreborn.blocks;
 
-import ml.pkom.advancedreborn.event.TileCreateEvent;
+import ml.pkom.mcpitanlibarch.api.event.block.TileCreateEvent;
 import ml.pkom.advancedreborn.tile.TeleporterTile;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -13,7 +13,7 @@ import net.minecraft.world.BlockView;
 public class Teleporter extends AdvancedMachineBlock {
 
 
-    public Teleporter(FabricBlockSettings settings) {
+    public Teleporter(Block.Settings settings) {
         super(settings);
     }
 

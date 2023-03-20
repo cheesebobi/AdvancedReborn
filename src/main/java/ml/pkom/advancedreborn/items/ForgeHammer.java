@@ -1,15 +1,16 @@
 package ml.pkom.advancedreborn.items;
 
+import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
+import ml.pkom.mcpitanlibarch.api.item.ExtendItem;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 
 import net.minecraft.util.math.random.Random;
 
-public class ForgeHammer extends Item {
-    public ForgeHammer(Settings settings, int damage) {
+public class ForgeHammer extends ExtendItem {
+    public ForgeHammer(CompatibleItemSettings settings, int damage) {
         super(settings.maxDamage(damage));
     }
 

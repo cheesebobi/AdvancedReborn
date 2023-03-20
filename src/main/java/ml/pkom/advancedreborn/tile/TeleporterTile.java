@@ -2,7 +2,7 @@ package ml.pkom.advancedreborn.tile;
 
 import ml.pkom.advancedreborn.Tiles;
 import ml.pkom.advancedreborn.addons.autoconfig.AutoConfigAddon;
-import ml.pkom.advancedreborn.event.TileCreateEvent;
+import ml.pkom.mcpitanlibarch.api.event.block.TileCreateEvent;
 import ml.pkom.mcpitanlibarch.api.util.math.PosUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

@@ -5,6 +5,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import ml.pkom.advancedreborn.Items;
+import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -23,8 +24,8 @@ import reborncore.common.util.ItemUtils;
 import techreborn.items.armor.TRArmourItem;
 
 public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker, RcEnergyItem {
-    public NanoSuitItem(ArmorMaterial material, ArmorItem.Type slot, Settings settings) {
-        super(material, slot, settings);
+    public NanoSuitItem(ArmorMaterial material, ArmorItem.Type slot, CompatibleItemSettings settings) {
+        super(material, slot, settings.build());
 
         ApplyArmorToDamageCallback.EVENT.register(((player, source, amount) -> {
             for (ItemStack stack : player.getArmorItems()) {

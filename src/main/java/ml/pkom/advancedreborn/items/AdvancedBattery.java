@@ -1,13 +1,14 @@
 package ml.pkom.advancedreborn.items;
 
+import ml.pkom.mcpitanlibarch.api.event.item.ItemUseEvent;
+import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
+import ml.pkom.mcpitanlibarch.api.item.ExtendItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -18,21 +19,21 @@ import techreborn.items.BatteryItem;
 
 import java.util.List;
 
-public class AdvancedBattery extends Item implements RcEnergyItem {
+public class AdvancedBattery extends ExtendItem implements RcEnergyItem {
     public int maxEnergy;
     public RcEnergyTier tier;
 
-    public AdvancedBattery(Settings settings, int maxEnergy, RcEnergyTier tier) {
+    public AdvancedBattery(CompatibleItemSettings settings, int maxEnergy, RcEnergyTier tier) {
         super(settings);
         this.maxEnergy = maxEnergy;
         this.tier = tier;
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(final World world, final PlayerEntity player, final Hand hand) {
-        final ItemStack stack = player.getStackInHand(hand);
-        if (player.isSneaking()) {
-            ItemUtils.switchActive(stack, 1, player);
+    public TypedActionResult<ItemStack> onRightClick(ItemUseEvent event) {
+        final ItemStack stack = event.user.getPlayerEntity().getStackInHand(event.hand);
+        if (event.user.isSneaking()) {
+            ItemUtils.switchActive(stack, 1, event.user.getEntity());
             return new TypedActionResult<>(ActionResult.SUCCESS, stack);
         }
         return new TypedActionResult<>(ActionResult.PASS, stack);
