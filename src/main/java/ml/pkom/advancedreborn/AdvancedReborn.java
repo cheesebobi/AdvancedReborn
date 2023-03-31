@@ -1,8 +1,8 @@
 package ml.pkom.advancedreborn;
 
-import dev.architectury.registry.CreativeTabRegistry;
 import ml.pkom.advancedreborn.blocks.RaySolar;
 import ml.pkom.mcpitanlibarch.api.item.CreativeTabBuilder;
+import ml.pkom.mcpitanlibarch.api.item.CreativeTabManager;
 import ml.pkom.mcpitanlibarch.api.registry.ArchRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.ItemGroup;
@@ -51,7 +51,8 @@ public class AdvancedReborn implements ModInitializer {
 
         if (!addStacksIG.isEmpty()) {
             for (ItemStack stack : addStacksIG) {
-                CreativeTabRegistry.appendStack(AR_GROUP, stack);
+                CreativeTabManager.addStack(AR_GROUP, stack);
+                //CreativeTabRegistry.appendStack(AR_GROUP, stack);
                 //ItemGroupEvents.modifyEntriesEvent(AR_GROUP).register(entries -> entries.add(stack));
             }
         }

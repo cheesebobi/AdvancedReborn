@@ -6,8 +6,6 @@ import ml.pkom.advancedreborn.screen.CardboardBoxScreen;
 import ml.pkom.mcpitanlibarch.api.client.registry.ArchRegistryClient;
 import ml.pkom.mcpitanlibarch.api.network.ClientNetworking;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.EmotionParticle;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
@@ -27,11 +25,12 @@ public class AdvancedRebornClient implements ClientModInitializer {
         //ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(((atlasTexture, registry) -> {
         //    registry.register(AdvancedReborn.id("particle/energy"));
         //}));
+        ArchRegistryClient.registryClientSpriteAtlasTexture(AdvancedReborn.id("particle/energy"));
 
-        ParticleFactoryRegistry.getInstance().register(Particles.ENERGY, EmotionParticle.HeartFactory::new);
+        ArchRegistryClient.registerParticle(Particles.ENERGY, EmotionParticle.HeartFactory::new);
 
-        EntityRendererRegistry.register(Entities.DYNAMITE, FlyingItemEntityRenderer::new);
-        EntityRendererRegistry.register(Entities.I_TNT, IndustrialTNTEntityRenderer::new);
+        ArchRegistryClient.registerEntityRenderer(() -> Entities.DYNAMITE, FlyingItemEntityRenderer::new);
+        ArchRegistryClient.registerEntityRenderer(() -> Entities.I_TNT, IndustrialTNTEntityRenderer::new);
 
         ArchRegistryClient.registerScreen(ScreenHandlers.CARDBOARD_BOX_SCREEN_HANDLER, CardboardBoxScreen::new);
 

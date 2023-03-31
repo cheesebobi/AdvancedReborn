@@ -42,16 +42,23 @@ public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-            if (client != null) client.player.closeHandledScreen();
-            return true;
-        }
-        if (this.getFieldBox().keyPressed(keyCode, scanCode, modifiers) || this.getFieldBox().isActive()) {
-            tile.setNameClient(getFieldBox().getText());
-            sendPacket();
-            return true;
+        if (fieldBox.isFocused()) {
+            if (keyCode != 256) {
+                return fieldBox.keyPressed(keyCode, scanCode, modifiers);
+            }
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        if (fieldBox.isFocused()) {
+            if (keyCode != 256) {
+                tile.setNameClient(getFieldBox().getText());
+                sendPacket();
+            }
+        }
+        return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
     public void sendPacket() {

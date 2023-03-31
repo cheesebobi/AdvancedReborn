@@ -8,6 +8,7 @@ import dan200.computercraft.shared.computer.items.ItemComputer;
 import dan200.computercraft.shared.turtle.upgrades.*;
 import ml.pkom.advancedreborn.AdvancedReborn;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.Level;
 import techreborn.init.TRContent;
 
 public class ComputerCraftAddon {
@@ -38,7 +39,7 @@ public class ComputerCraftAddon {
 
 
     public static void init() {
-        AdvancedReborn.LOGGER.info("Found ComputerCraft");
+        AdvancedReborn.log(Level.INFO, "Found ComputerCraft");
         ComputerCraftAPI.registerTurtleUpgrade(RUBY_SWORD);
         ComputerCraftAPI.registerTurtleUpgrade(RUBY_SHOVEL);
         ComputerCraftAPI.registerTurtleUpgrade(RUBY_PICKAXE);

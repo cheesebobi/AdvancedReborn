@@ -41,7 +41,7 @@ dependencies {
 	modImplementation 'RebornCore:RebornCore-1.19:5.7.0'
 	modImplementation 'TechReborn:TechReborn-1.19:5.7.0'
 
-	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:11.0.593"
+	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:11.0.597"
 
 	// CC: Restitched
 	modApi 'com.electronwill.night-config:core:3.6.6'
