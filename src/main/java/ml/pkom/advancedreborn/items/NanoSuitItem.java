@@ -84,7 +84,7 @@ public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker
         ArrayListMultimap<EntityAttribute, EntityAttributeModifier> attributes = ArrayListMultimap.create(super.getAttributeModifiers(stack, getSlotType()));
 
         if (equipmentSlot == this.getSlotType() && getStoredEnergy(stack) > 0) {
-            attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MODIFIERS[getSlotType().getEntitySlotId()], "Armor modifier", 2, EntityAttributeModifier.Operation.ADDITION));
+            attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MODIFIERS[getSlotType().getEntitySlotId()], "Armor modifier", 6, EntityAttributeModifier.Operation.ADDITION));
         } else if (equipmentSlot == this.getSlotType()) {
             attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MODIFIERS[getSlotType().getEntitySlotId()], "Armor modifier", -1, EntityAttributeModifier.Operation.ADDITION));
         }
