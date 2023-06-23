@@ -50,7 +50,7 @@ public class DynamiteEntity extends ThrownItemEntity {
 
     // ThrownItemEntityはパケットを送らないとレンダリングされないらしい。
     public Packet<ClientPlayPacketListener> createSpawnPacket() {
-        return (Packet<ClientPlayPacketListener>) EntitySpawnPacket.create(this, Defines.SPAWN_PACKET_ID);
+        return EntitySpawnPacket.create(this, Defines.SPAWN_PACKET_ID);
     }
 
     public void setSticky(boolean sticky) {
@@ -119,27 +119,27 @@ public class DynamiteEntity extends ThrownItemEntity {
             fuseTimer--;
             if (fuseTimer <= 0) {
                 kill();
-                if (!world.isClient()) {
+                if (!getEntityWorld().isClient()) {
                     explode();
                 }
             } else {
                 updateWaterState();
             }
         }
-        if (world.isClient()) {
-            world.addParticle(ParticleTypes.SMOKE, getX(), getY() + 0.5D, getZ(), 0.0D, 0.0D, 0.0D);
+        if (getEntityWorld().isClient()) {
+            getEntityWorld().addParticle(ParticleTypes.SMOKE, getX(), getY() + 0.5D, getZ(), 0.0D, 0.0D, 0.0D);
         }
     }
 
     public void explode() {
         if (isIndustrial) {
-            Explosion explosion = new IndustrialExplosion(world, this, null, null, getX(), getBodyY(0.0625D), getZ(),2.5F,false, Explosion.DestructionType.DESTROY);
+            Explosion explosion = new IndustrialExplosion(getEntityWorld(), this, null, null, getX(), getBodyY(0.0625D), getZ(),2.5F,false, Explosion.DestructionType.DESTROY);
             explosion.collectBlocksAndDamageEntities();
             explosion.affectWorld(true);
-            world.playSound(null, getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.2F) * 0.7F);
-            ((ServerWorld)world).spawnParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
+            getEntityWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (getEntityWorld().random.nextFloat() - getEntityWorld().random.nextFloat()) * 0.2F) * 0.7F);
+            ((ServerWorld)getEntityWorld()).spawnParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
             return;
         }
-        world.createExplosion(this, getX(), getBodyY(0.0625D), getZ(), 4.0F, World.ExplosionSourceType.TNT);
+        getEntityWorld().createExplosion(this, getX(), getBodyY(0.0625D), getZ(), 4.0F, World.ExplosionSourceType.TNT);
     }
 }

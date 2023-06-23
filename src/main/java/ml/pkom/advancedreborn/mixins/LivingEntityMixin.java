@@ -25,7 +25,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
     public void injectFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> info) {
-        if (world.isClient()) return;
+        if (getWorld().isClient()) return;
         if (!((Object)this instanceof PlayerEntity)) return;
         PlayerEntity player = (PlayerEntity) (Object) this;
         if (player.getEquippedStack(EquipmentSlot.FEET).getItem() == Items.NANO_SUIT_BOOTS) {
@@ -40,7 +40,7 @@ public abstract class LivingEntityMixin extends Entity {
                     energy.tryUseEnergy(stack, 800 * vanillaPlayerDamage);
                 }
                 if (userDamage > 0) {
-                    this.damage(world.getDamageSources().fall(), (float) userDamage);
+                    this.damage(getWorld().getDamageSources().fall(), (float) userDamage);
                 }
                 info.cancel();
             }

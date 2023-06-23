@@ -35,29 +35,29 @@ public class IndustrialTNTEntity extends TntEntity {
 
         move(MovementType.SELF, this.getVelocity());
         setVelocity(this.getVelocity().multiply(0.98D));
-        if (onGround) {
+        if (isOnGround()) {
             setVelocity(this.getVelocity().multiply(0.7D, -0.5D, 0.7D));
         }
         setFuse(getFuse() - 1);
         if (getFuse() <= 0) {
             kill();
-            if (!world.isClient) {
+            if (!getEntityWorld().isClient) {
                 iExplode();
             }
         } else {
             updateWaterState();
-            if (world.isClient) {
-                world.addParticle(ParticleTypes.SMOKE, getX(), getY() + 0.5D, getZ(), 0.0D, 0.0D, 0.0D);
+            if (getEntityWorld().isClient) {
+                getEntityWorld().addParticle(ParticleTypes.SMOKE, getX(), getY() + 0.5D, getZ(), 0.0D, 0.0D, 0.0D);
             }
         }
 
     }
 
     public void iExplode() {
-        Explosion explosion = new IndustrialExplosion(world, this, null, null, getX(), getBodyY(0.0625D), getZ(),2.5F,false, Explosion.DestructionType.DESTROY);
+        Explosion explosion = new IndustrialExplosion(getEntityWorld(), this, null, null, getX(), getBodyY(0.0625D), getZ(),2.5F,false, Explosion.DestructionType.DESTROY);
         explosion.collectBlocksAndDamageEntities();
         explosion.affectWorld(true);
-        world.playSound(null, getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.2F) * 0.7F);
-        ((ServerWorld)world).spawnParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
+        getEntityWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (getEntityWorld().random.nextFloat() - getEntityWorld().random.nextFloat()) * 0.2F) * 0.7F);
+        ((ServerWorld)getEntityWorld()).spawnParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
     }
 }

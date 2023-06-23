@@ -1,7 +1,6 @@
 package ml.pkom.advancedreborn.blocks;
 
 import ml.pkom.advancedreborn.Tiles;
-import ml.pkom.mcpitanlibarch.api.event.block.TileCreateEvent;
 import ml.pkom.advancedreborn.tile.CardboardBoxTile;
 import ml.pkom.mcpitanlibarch.api.block.CompatibleBlockSettings;
 import ml.pkom.mcpitanlibarch.api.block.ExtendBlock;
@@ -23,7 +22,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
@@ -199,11 +198,11 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
         return ScreenHandler.calculateComparatorOutput((Inventory)world.getBlockEntity(pos));
     }
 
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
-        BlockEntity blockEntity = builder.getNullable(LootContextParameters.BLOCK_ENTITY);
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+        BlockEntity blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
         if (blockEntity instanceof CardboardBoxTile) {
             CardboardBoxTile tile = (CardboardBoxTile)blockEntity;
-            builder = builder.putDrop(CONTENTS, (lootContext, consumer) -> {
+            builder = builder.addDynamicDrop(CONTENTS, (consumer) -> {
                 for(int i = 0; i < tile.size(); ++i) {
                     consumer.accept(tile.getStack(i));
                 }

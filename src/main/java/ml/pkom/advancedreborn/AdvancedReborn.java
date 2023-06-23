@@ -36,6 +36,8 @@ public class AdvancedReborn implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        registry.registerItemGroup(id("item_group"), () -> AR_GROUP);
+
         ModManager.beforeInit();
         Items.init();
         Blocks.init();
@@ -56,6 +58,8 @@ public class AdvancedReborn implements ModInitializer {
                 //ItemGroupEvents.modifyEntriesEvent(AR_GROUP).register(entries -> entries.add(stack));
             }
         }
+
+        registry.allRegister();
     }
 
     public static List<RaySolar> solars = new ArrayList<>();

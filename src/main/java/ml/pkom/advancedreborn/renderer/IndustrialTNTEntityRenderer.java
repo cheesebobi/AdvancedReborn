@@ -2,6 +2,8 @@ package ml.pkom.advancedreborn.renderer;
 
 import ml.pkom.advancedreborn.Blocks;
 import ml.pkom.advancedreborn.entities.IndustrialTNTEntity;
+import ml.pkom.mcpitanlibarch.api.util.MathUtil;
+import ml.pkom.mcpitanlibarch.api.util.client.MatrixStackUtil;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -11,7 +13,6 @@ import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RotationAxis;
 
 public class IndustrialTNTEntityRenderer extends EntityRenderer<IndustrialTNTEntity> {
 
@@ -35,9 +36,11 @@ public class IndustrialTNTEntityRenderer extends EntityRenderer<IndustrialTNTEnt
             matrixStack.scale(j, j, j);
         }
 
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90.0F));
+        //matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90.0F));
+        MatrixStackUtil.multiply(matrixStack, MathUtil.RotationAxisType.POSITIVE_Y, -90.0F);
         matrixStack.translate(-0.5D, -0.5D, 0.5D);
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90.0F));
+        //matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90.0F));
+        MatrixStackUtil.multiply(matrixStack, MathUtil.RotationAxisType.POSITIVE_Y, 90.0F);
         TntMinecartEntityRenderer.renderFlashingBlock(this.blockRenderManager, Blocks.INDUSTRIAL_TNT.getDefaultState(), matrixStack, vertexConsumerProvider, i, entity.getFuse() / 5 % 2 == 0);
         matrixStack.pop();
         super.render(entity, f, g, matrixStack, vertexConsumerProvider, i);

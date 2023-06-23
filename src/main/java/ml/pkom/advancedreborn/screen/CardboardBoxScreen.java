@@ -3,13 +3,15 @@ package ml.pkom.advancedreborn.screen;
 import ml.pkom.advancedreborn.AdvancedReborn;
 import ml.pkom.advancedreborn.Defines;
 import ml.pkom.mcpitanlibarch.api.client.SimpleHandledScreen;
+import ml.pkom.mcpitanlibarch.api.client.render.handledscreen.DrawBackgroundArgs;
+import ml.pkom.mcpitanlibarch.api.client.render.handledscreen.DrawMouseoverTooltipArgs;
+import ml.pkom.mcpitanlibarch.api.client.render.handledscreen.RenderArgs;
 import ml.pkom.mcpitanlibarch.api.network.ClientNetworking;
 import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
 import ml.pkom.mcpitanlibarch.api.util.TextUtil;
 import ml.pkom.mcpitanlibarch.api.util.client.RenderUtil;
 import ml.pkom.mcpitanlibarch.api.util.client.ScreenUtil;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -30,14 +32,16 @@ public class CardboardBoxScreen extends SimpleHandledScreen {
         this.handler = (CardboardBoxScreenHandler) handler;
     }
 
-    public void drawBackgroundOverride(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    @Override
+    public void drawBackgroundOverride(DrawBackgroundArgs args) {
+
         ScreenUtil.setBackground(TEXTURE);
         if (client == null) return;
         client.getTextureManager().bindTexture(TEXTURE);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
-        getNoteBox().render(matrices, mouseX, mouseY, delta);
+        args.getDrawObjectDM().getContext().drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        getNoteBox().render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
         RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
@@ -87,9 +91,9 @@ public class CardboardBoxScreen extends SimpleHandledScreen {
         return getNoteBox().getText();
     }
 
-    public void renderOverride(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
-        super.renderOverride(matrices, mouseX, mouseY, delta);
-        drawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void renderOverride(RenderArgs args) {
+        callRenderBackground(args.drawObjectDM);
+        super.renderOverride(args);
+        callDrawMouseoverTooltip(new DrawMouseoverTooltipArgs(args.drawObjectDM, args.mouseX, args.mouseY));
     }
 }

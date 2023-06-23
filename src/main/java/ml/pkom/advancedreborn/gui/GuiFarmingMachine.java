@@ -1,9 +1,9 @@
 package ml.pkom.advancedreborn.gui;
 
 import ml.pkom.advancedreborn.tile.FarmingMachineTile;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
-import reborncore.client.gui.builder.GuiBase;
+import reborncore.client.gui.GuiBase;
 import reborncore.common.screen.BuiltScreenHandler;
 
 public class GuiFarmingMachine extends GuiBase<BuiltScreenHandler> {
@@ -22,26 +22,26 @@ public class GuiFarmingMachine extends GuiBase<BuiltScreenHandler> {
         super.init();
     }
 
-    public void drawBackground(MatrixStack matrixStack, float lastFrameDuration, int mouseX, int mouseY) {
-        super.drawBackground(matrixStack, lastFrameDuration, mouseX, mouseY);
+    public void drawBackground(DrawContext context, float lastFrameDuration, int mouseX, int mouseY) {
+        super.drawBackground(context, lastFrameDuration, mouseX, mouseY);
         Layer layer = Layer.BACKGROUND;
-        drawSlot(matrixStack, 55, 32, layer);
-        drawSlot(matrixStack, 73, 32, layer);
-        drawSlot(matrixStack, 55, 50, layer);
-        drawSlot(matrixStack, 73, 50, layer);
+        drawSlot(context, 55, 32, layer);
+        drawSlot(context, 73, 32, layer);
+        drawSlot(context, 55, 50, layer);
+        drawSlot(context, 73, 50, layer);
 
-        drawSlot(matrixStack, 55, 72, layer);
-        drawSlot(matrixStack, 73, 72, layer);
-        drawSlot(matrixStack, 91, 72, layer);
-        drawSlot(matrixStack, 109, 72, layer);
-        drawSlot(matrixStack, 127, 72, layer);
+        drawSlot(context, 55, 72, layer);
+        drawSlot(context, 73, 72, layer);
+        drawSlot(context, 91, 72, layer);
+        drawSlot(context, 109, 72, layer);
+        drawSlot(context, 127, 72, layer);
 
-        drawSlot(matrixStack, 8, 72, layer);
+        drawSlot(context, 8, 72, layer);
     }
 
-    public void drawForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
-        super.drawForeground(matrixStack, mouseX, mouseY);
+    public void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        super.drawForeground(context, mouseX, mouseY);
         Layer layer = Layer.FOREGROUND;
-        builder.drawMultiEnergyBar(matrixStack, this, 9, 19, (int) tile.getEnergy(), (int) tile.getMaxStoredPower(), mouseX, mouseY, 0, layer);
+        builder.drawMultiEnergyBar(context, this, 9, 19, (int) tile.getEnergy(), (int) tile.getMaxStoredPower(), mouseX, mouseY, 0, layer);
     }
 }

@@ -1,0 +1,6 @@
+{
+  "type": "computercraft:tool",
+  "breakable": "computercraft:turtle_sword_harvestable",
+  "damageMultiplier": 5.0,
+  "item": "techreborn:peridot_sword"
+}

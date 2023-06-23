@@ -1,6 +1,5 @@
 package ml.pkom.advancedreborn;
 
-import ml.pkom.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class ModManager {
@@ -14,8 +13,10 @@ public class ModManager {
     }
 
     public static void initAfterLoadedTR() {
+        /*
         if (FabricLoader.getInstance().isModLoaded("computercraft")) {
             if (AutoConfigAddon.getConfig().linkComputerCraft) ml.pkom.advancedreborn.addons.computercraft.ComputerCraftAddon.init();
         }
+         */
     }
 }

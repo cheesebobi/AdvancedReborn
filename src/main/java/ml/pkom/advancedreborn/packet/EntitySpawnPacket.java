@@ -1,9 +1,10 @@
 package ml.pkom.advancedreborn.packet;
 
-import io.netty.buffer.Unpooled;
+import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -12,10 +13,10 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntitySpawnPacket {
 
-    public static Packet<?> create(Entity entity, Identifier packetID) {
-        if (entity.world.isClient)
+    public static Packet<ClientPlayPacketListener> create(Entity entity, Identifier packetID) {
+        if (entity.getEntityWorld().isClient)
             throw new IllegalStateException("SpawnPacketUtil.create called on the logical client!");
-        PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
+        PacketByteBuf byteBuf = PacketByteUtil.create();
         byteBuf.writeVarInt(Registries.ENTITY_TYPE.getRawId(entity.getType()));
         byteBuf.writeUuid(entity.getUuid());
         byteBuf.writeVarInt(entity.getId());
