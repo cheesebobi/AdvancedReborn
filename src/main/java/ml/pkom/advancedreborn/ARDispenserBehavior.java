@@ -10,12 +10,15 @@ import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Objects;
+
 public class ARDispenserBehavior {
     public static void init() {
         DispenserBlock.registerBehavior(Blocks.INDUSTRIAL_TNT, new ItemDispenserBehavior() {
             public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-                World world = pointer.getWorld();
-                BlockPos blockPos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
+                World world = pointer.blockEntity().getWorld();
+                BlockPos pointerPos = pointer.blockEntity().getPos();
+                BlockPos blockPos = pointer.blockEntity().getPos().offset(Objects.requireNonNull(world).getBlockState(pointerPos).get(DispenserBlock.FACING));
                 IndustrialTNTEntity tntEntity = new IndustrialTNTEntity(world, blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, null);
                 world.spawnEntity(tntEntity);
                 world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);

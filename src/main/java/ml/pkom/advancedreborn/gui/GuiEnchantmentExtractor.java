@@ -32,7 +32,7 @@ public class GuiEnchantmentExtractor extends GuiBase<BuiltScreenHandler> {
         super.drawBackground(context, lastFrameDuration, mouseX, mouseY);
         Layer layer = Layer.BACKGROUND;
 
-        RenderSystem.setShaderTexture(0, GuiBuilder.resourceLocation);
+        RenderSystem.setShaderTexture(0, GuiBuilder.GUI_ELEMENTS);
         drawSlot(context, 40, 25, layer); // Input slot
         drawSlot(context, 40, 65, layer); // Output slot
 

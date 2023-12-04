@@ -48,11 +48,6 @@ public class DynamiteEntity extends ThrownItemEntity {
         setFuse(fuseTimerInit);
     }
 
-    // ThrownItemEntityはパケットを送らないとレンダリングされないらしい。
-    public Packet<ClientPlayPacketListener> createSpawnPacket() {
-        return EntitySpawnPacket.create(this, Defines.SPAWN_PACKET_ID);
-    }
-
     public void setSticky(boolean sticky) {
         isSticky = sticky;
     }

@@ -4,7 +4,7 @@ import ml.pkom.mcpitanlibarch.api.network.PacketByteUtil;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.listener.ClientCommonPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -13,7 +13,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntitySpawnPacket {
 
-    public static Packet<ClientPlayPacketListener> create(Entity entity, Identifier packetID) {
+    public static Packet<ClientCommonPacketListener> create(Entity entity, Identifier packetID) {
         if (entity.getEntityWorld().isClient)
             throw new IllegalStateException("SpawnPacketUtil.create called on the logical client!");
         PacketByteBuf byteBuf = PacketByteUtil.create();

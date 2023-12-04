@@ -45,10 +45,10 @@ public class GuiCentrifugalExtractor extends GuiBase<BuiltScreenHandler> {
     }
 
     public void drawOutputThreeLongSlotBuilder(DrawContext context, Screen gui, int posX, int posY) {
-        getMinecraft().getTextureManager().bindTexture(GuiBuilder.resourceLocation);
-        context.drawTexture(GuiBuilder.resourceLocation, posX, posY, 174, 0, 26 - 4, 26);
-        context.drawTexture(GuiBuilder.resourceLocation, posX + 22, posY, 174 + 4, 0, 26 - 8, 26);
-        context.drawTexture(GuiBuilder.resourceLocation, posX + 40, posY, 174 + 4, 0, 26 - 4, 26);
+        getMinecraft().getTextureManager().bindTexture(GuiBuilder.GUI_ELEMENTS);
+        context.drawTexture(GuiBuilder.GUI_ELEMENTS, posX, posY, 174, 0, 26 - 4, 26);
+        context.drawTexture(GuiBuilder.GUI_ELEMENTS, posX + 22, posY, 174 + 4, 0, 26 - 8, 26);
+        context.drawTexture(GuiBuilder.GUI_ELEMENTS, posX + 40, posY, 174 + 4, 0, 26 - 4, 26);
     }
 
     public void drawForeground(DrawContext context, int mouseX, int mouseY) {

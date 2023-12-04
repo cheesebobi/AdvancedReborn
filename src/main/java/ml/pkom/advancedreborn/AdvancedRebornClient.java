@@ -50,7 +50,7 @@ public class AdvancedRebornClient implements ClientModInitializer {
             entity.setYaw(yaw);
             entity.setId(entityId);
             entity.setUuid(uuid);
-            client.world.addEntity(entityId, entity);
+            client.world.addEntity(entity);
         });
     }
 }

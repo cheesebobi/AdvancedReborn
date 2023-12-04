@@ -66,7 +66,7 @@ public abstract class HeatMachineTile extends PowerAcceptorBlockEntity {
             super.tick(world, pos, state, blockEntity2);
             if (this instanceof InductionFurnaceTile) {
                 InductionFurnaceTile tile = (InductionFurnaceTile) this;
-                tile.setCookTime(tile.getCookTime() + 1);
+                tile.setCookTime(tile.getCookingTime() + 1);
             }
         }
     }
