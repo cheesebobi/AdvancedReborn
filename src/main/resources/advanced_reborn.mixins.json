@@ -4,7 +4,7 @@
   "package": "ml.pkom.advancedreborn.mixins",
   "mixins": [
     "ExplosionAccessor",
-    "LivingEntityMixin",
+    "ARLivingEntityMixin",
     "MachineBaseBlockEntityAccessor",
     "TechRebornMixin"
   ],

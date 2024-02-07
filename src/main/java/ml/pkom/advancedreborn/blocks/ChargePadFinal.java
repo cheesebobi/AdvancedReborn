@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import team.reborn.energy.api.base.SimpleBatteryItem;
+import team.reborn.energy.api.base.SimpleEnergyItem;
 
 public class ChargePadFinal extends ChargePad {
 
@@ -29,8 +29,8 @@ public class ChargePadFinal extends ChargePad {
             }
 
             if (Energy.isHolder(invStack)) {
-                SimpleBatteryItem energy = Energy.of(invStack);
-                if (energy.getStoredEnergy(invStack) >= energy.getEnergyCapacity()) continue;
+                SimpleEnergyItem energy = Energy.of(invStack);
+                if (energy.getStoredEnergy(invStack) >= energy.getEnergyCapacity(invStack)) continue;
                 needCharge = true;
             }
         }

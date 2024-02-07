@@ -40,6 +40,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -72,7 +73,7 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
         return new CardboardBoxTile(event);
     }
 
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof CardboardBoxTile) {
             CardboardBoxTile tile = (CardboardBoxTile) blockEntity;
@@ -94,7 +95,7 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
                 world.spawnEntity(itemEntity);
             }
         }
-        super.onBreak(world, pos, state, player);
+        return super.onBreak(world, pos, state, player);
     }
 
     @Override
@@ -144,7 +145,7 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     }
 
     @Override
-    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         ItemStack itemStack = super.getPickStack(world, pos, state);
         world.getBlockEntity(pos, Tiles.CARDBOARD_BOX_TILE).ifPresent(blockEntity -> blockEntity.setStackNbt(itemStack));
         return itemStack;
