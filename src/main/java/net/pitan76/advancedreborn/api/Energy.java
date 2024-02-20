@@ -3,7 +3,7 @@ package net.pitan76.advancedreborn.api;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
-import team.reborn.energy.api.base.SimpleEnergyItem;
+import team.reborn.energy.api.base.SimpleBatteryItem;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -18,11 +18,11 @@ public class Energy {
     }
 
     @Nullable
-    public static SimpleEnergyItem of(Object object) {
+    public static SimpleBatteryItem of(Object object) {
         if (object instanceof ItemStack) {
             ItemStack stack = (ItemStack) object;
-            if (stack.getItem() instanceof SimpleEnergyItem) {
-                return (SimpleEnergyItem) stack.getItem();
+            if (stack.getItem() instanceof SimpleBatteryItem) {
+                return (SimpleBatteryItem) stack.getItem();
             }
         }
         return null;
@@ -31,11 +31,11 @@ public class Energy {
     public static boolean isHolder(Object object) {
         if (object instanceof ItemStack) {
             ItemStack stack = (ItemStack) object;
-            if (stack.getItem() instanceof SimpleEnergyItem) {
+            if (stack.getItem() instanceof SimpleBatteryItem) {
                 return true;
             }
         }
-        if (object instanceof SimpleEnergyItem) return true;
+        if (object instanceof SimpleBatteryItem) return true;
         return false;
     }
 

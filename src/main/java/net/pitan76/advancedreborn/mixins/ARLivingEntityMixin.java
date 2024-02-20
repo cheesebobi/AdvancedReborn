@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import team.reborn.energy.api.base.SimpleEnergyItem;
+import team.reborn.energy.api.base.SimpleBatteryItem;
 
 @Mixin(LivingEntity.class)
 public abstract class ARLivingEntityMixin extends Entity {
@@ -35,7 +35,7 @@ public abstract class ARLivingEntityMixin extends Entity {
                 int userDamage = vanillaPlayerDamage / 5;
                 int bootDamage = (int) Math.round(vanillaPlayerDamage * 0.4375);
                 if (bootDamage > 0) {
-                    SimpleEnergyItem energy = Energy.of(stack);
+                    SimpleBatteryItem energy = Energy.of(stack);
                     if (energy.getStoredEnergy(stack) <= 800 * vanillaPlayerDamage) return;
                     energy.tryUseEnergy(stack, 800 * vanillaPlayerDamage);
                 }

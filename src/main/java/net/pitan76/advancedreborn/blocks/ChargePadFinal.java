@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.advancedreborn.api.Energy;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
-import team.reborn.energy.api.base.SimpleEnergyItem;
+import team.reborn.energy.api.base.SimpleBatteryItem;
 
 public class ChargePadFinal extends ChargePad {
 
@@ -29,8 +29,8 @@ public class ChargePadFinal extends ChargePad {
             }
 
             if (Energy.isHolder(invStack)) {
-                SimpleEnergyItem energy = Energy.of(invStack);
-                if (energy.getStoredEnergy(invStack) >= energy.getEnergyCapacity(invStack)) continue;
+                SimpleBatteryItem energy = Energy.of(invStack);
+                if (energy.getStoredEnergy(invStack) >= energy.getEnergyCapacity()) continue;
                 needCharge = true;
             }
         }

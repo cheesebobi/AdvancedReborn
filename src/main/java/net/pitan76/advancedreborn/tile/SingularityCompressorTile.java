@@ -22,7 +22,7 @@ import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.recipes.RecipeCrafter;
 import reborncore.common.screen.BuiltScreenHandler;
 import reborncore.common.screen.BuiltScreenHandlerProvider;
-import reborncore.common.screen.builder.ScreenHandlerBuilder;
+import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.util.RebornInventory;
 import techreborn.init.ModRecipes;
 

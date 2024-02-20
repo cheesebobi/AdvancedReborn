@@ -14,7 +14,6 @@ import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import net.pitan76.advancedreborn.Particles;
@@ -27,6 +26,8 @@ import net.pitan76.mcpitanlib.api.event.block.OutlineShapeEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 import techreborn.blockentity.storage.energy.EnergyStorageBlockEntity;
+
+import java.util.Random;
 
 public class ChargePad extends ExtendBlock {
 
@@ -81,7 +82,7 @@ public class ChargePad extends ExtendBlock {
         super.appendProperties(builder);
     }
 
-    Random random = Random.create(256);
+    Random random = new Random(256);
 
     @SuppressWarnings("deprecation")
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
@@ -115,7 +116,7 @@ public class ChargePad extends ExtendBlock {
 
                 if (Energy.isHolder(invStack)) {
                     long energy = Energy.of(invStack).getStoredEnergy(invStack);
-                    if (energy >= Energy.of(invStack).getEnergyCapacity(invStack)) continue;
+                    if (energy >= Energy.of(invStack).getEnergyCapacity()) continue;
                     Energy.of(invStack).setStoredEnergy(invStack, energy + storageEU);
                     storageEU -= Energy.of(invStack).getStoredEnergy(invStack) - energy;
                 }
