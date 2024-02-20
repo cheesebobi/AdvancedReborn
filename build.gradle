@@ -38,13 +38,15 @@ dependencies {
 	modImplementation 'RebornCore:RebornCore-1.19:5.4.0'
 	modImplementation 'TechReborn:TechReborn-1.19:5.4.0'
 
-	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:9.1.682"
+	modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:9.1.682")
 
 	// CC: Restitched
 	modApi 'com.electronwill.night-config:core:3.6.6'
 	modApi 'com.electronwill.night-config:toml:3.6.6'
 
-	modApi "com.github.cc-tweaked:cc-restitched:${project.cc_version}"
+	modApi ("com.github.cc-tweaked:cc-restitched:${project.cc_version}") {
+		transitive = false
+	}
 
 	// Mod Menu
 	// 1.16 => 1.16.19
