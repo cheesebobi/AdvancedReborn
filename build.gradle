@@ -38,14 +38,14 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// TRのエネルギー用
-	modImplementation 'RebornCore:RebornCore-1.20:5.10.3'
-	modImplementation 'TechReborn:TechReborn-1.20:5.10.3'
+	modImplementation 'RebornCore:RebornCore-1.20:5.8.7'
+	modImplementation 'TechReborn:TechReborn-1.20:5.8.7'
 
-	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:14.0.687"
+	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:12.0.684"
 
 	// CC: Tweaked
-	modCompileOnly("cc.tweaked:cc-tweaked-1.20.4-fabric-api:${project.cc_version}")
-	modImplementation("cc.tweaked:cc-tweaked-1.20.4-fabric:${project.cc_version}")
+	modCompileOnly("cc.tweaked:cc-tweaked-1.20.1-fabric-api:${project.cc_version}")
+	modImplementation("cc.tweaked:cc-tweaked-1.20.1-fabric:${project.cc_version}")
 
 	// Mod Menu
 	// 1.16 => 1.16.19
@@ -53,11 +53,11 @@ dependencies {
 	//modApi "com.terraformersmc:modmenu:2.0.10"
 
 	// Cloth Config API
-	// 1.16 => 4.11.26
-	// 1.17 => 5.0.38
-	modApi("me.shedaniel.cloth:cloth-config-fabric:13.0.114") {
+	/*
+	modApi("me.shedaniel.cloth:cloth-config-fabric:11.1.118") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
+	 */
 
 	modImplementation "net.pitan76:mcpitanlib-fabric${rootProject.mcpitanlib_version}"
 }
