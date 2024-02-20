@@ -24,6 +24,7 @@ import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.event.block.BlockPlacedEvent;
 import net.pitan76.mcpitanlib.api.event.block.BlockScheduledTickEvent;
 import net.pitan76.mcpitanlib.api.event.block.OutlineShapeEvent;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 import techreborn.blockentity.storage.energy.EnergyStorageBlockEntity;
 
@@ -125,7 +126,7 @@ public class ChargePad extends ExtendBlock {
             ((ServerWorld)world).spawnParticles(Particles.ENERGY, pos.getX() + 0.1 + rX, pos.getY() + 0.25, pos.getZ() + 0.1 + rZ, 1, 0, 0.3, 0, 0);
             world.setBlockState(pos, state.with(USING, true));
             //world.createAndScheduleBlockTick(pos, this, 5);
-            world.scheduleBlockTick(pos, this, 5);
+            WorldUtil.scheduleBlockTick(world, pos, this, 5);
             world.updateComparators(pos, this);
         }
     }

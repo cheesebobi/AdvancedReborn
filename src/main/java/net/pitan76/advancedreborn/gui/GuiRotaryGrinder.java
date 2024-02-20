@@ -1,12 +1,12 @@
 package net.pitan76.advancedreborn.gui;
 
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.pitan76.advancedreborn.tile.RotaryGrinderTile;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
-import reborncore.client.gui.GuiBase;
-import reborncore.client.gui.GuiBuilder;
+import reborncore.client.gui.builder.GuiBase;
+import reborncore.client.gui.guibuilder.GuiBuilder;
 import reborncore.common.screen.BuiltScreenHandler;
 
 public class GuiRotaryGrinder extends GuiBase<BuiltScreenHandler> {
@@ -27,34 +27,34 @@ public class GuiRotaryGrinder extends GuiBase<BuiltScreenHandler> {
         super.init();
     }
 
-    public void drawBackground(DrawContext context, float lastFrameDuration, int mouseX, int mouseY) {
-        super.drawBackground(context, lastFrameDuration, mouseX, mouseY);
+    public void drawBackground(MatrixStack matrixStack, float lastFrameDuration, int mouseX, int mouseY) {
+        super.drawBackground(matrixStack, lastFrameDuration, mouseX, mouseY);
         Layer layer = Layer.BACKGROUND;
-        drawSlot(context, 55, 45, layer);
-        drawOutputTwoLongSlot(context, 101, 45, layer);
-        //drawOutputSlot(context, 101 + 18, 45, layer);
-        drawSlot(context, 8, 72, layer);
-        drawText(context, TextUtil.translatable("advanced_reborn.advanced_machine.text.speed", tile.getHeatPer() + "%"), 75, 70, 0, layer);
+        drawSlot(matrixStack, 55, 45, layer);
+        drawOutputTwoLongSlot(matrixStack, 101, 45, layer);
+        //drawOutputSlot(matrixStack, 101 + 18, 45, layer);
+        drawSlot(matrixStack, 8, 72, layer);
+        drawText(matrixStack, TextUtil.translatable("advanced_reborn.advanced_machine.text.speed", tile.getHeatPer() + "%"), 75, 70, 0, layer);
     }
 
-    public void drawOutputTwoLongSlot(DrawContext context, int x, int y, Layer layer) {
+    public void drawOutputTwoLongSlot(MatrixStack matrixStack, int x, int y, Layer layer) {
         if (layer == Layer.BACKGROUND) {
             x += this.x;
             y += this.y;
         }
-        drawOutputTwoLongSlotBuilder(context, this, x - 5, y - 5);
+        drawOutputTwoLongSlotBuilder(matrixStack, this, x - 5, y - 5);
     }
 
-    public void drawOutputTwoLongSlotBuilder(DrawContext context, Screen gui, int posX, int posY) {
-        getMinecraft().getTextureManager().bindTexture(GuiBuilder.GUI_ELEMENTS);
-        context.drawTexture(GuiBuilder.GUI_ELEMENTS, posX, posY, 174, 0, 26 - 4, 26);
-        context.drawTexture(GuiBuilder.GUI_ELEMENTS, posX + 22, posY, 174 + 4, 0, 26 - 4, 26);
+    public void drawOutputTwoLongSlotBuilder(MatrixStack matrixStack, Screen gui, int posX, int posY) {
+        getMinecraft().getTextureManager().bindTexture(builder.getResourceLocation());
+        drawTexture(matrixStack, posX, posY, 174, 0, 26 - 4, 26);
+        drawTexture(matrixStack, posX + 22, posY, 174 + 4, 0, 26 - 4, 26);
     }
 
-    public void drawForeground(DrawContext context, int mouseX, int mouseY) {
-        super.drawForeground(context, mouseX, mouseY);
+    public void drawForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
+        super.drawForeground(matrixStack, mouseX, mouseY);
         Layer layer = Layer.FOREGROUND;
-        builder.drawProgressBar(context, this, tile.getProgressScaled(100), 100, 76, 48, mouseX, mouseY, GuiBuilder.ProgressDirection.RIGHT, layer);
-        builder.drawMultiEnergyBar(context, this, 9, 19, (int) tile.getEnergy(), (int) tile.getMaxStoredPower(), mouseX, mouseY, 0, layer);
+        builder.drawProgressBar(matrixStack, this, tile.getProgressScaled(100), 100, 76, 48, mouseX, mouseY, GuiBuilder.ProgressDirection.RIGHT, layer);
+        builder.drawMultiEnergyBar(matrixStack, this, 9, 19, (int) tile.getEnergy(), (int) tile.getMaxStoredPower(), mouseX, mouseY, 0, layer);
     }
 }

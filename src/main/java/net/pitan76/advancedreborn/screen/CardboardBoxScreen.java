@@ -19,7 +19,7 @@ import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 
 public class CardboardBoxScreen extends SimpleInventoryScreen {
-    private static final Identifier TEXTURE = AdvancedReborn.id("textures/gui/cardboard_box.png");
+    private static final Identifier GUI = AdvancedReborn.id("textures/gui/cardboard_box.png");
     private TextFieldWidget noteBox;
 
     private final CardboardBoxScreenHandler handler;
@@ -33,7 +33,7 @@ public class CardboardBoxScreen extends SimpleInventoryScreen {
 
     @Override
     public Identifier getTexture() {
-        return TEXTURE;
+        return GUI;
     }
 
     @Override
@@ -43,8 +43,8 @@ public class CardboardBoxScreen extends SimpleInventoryScreen {
         client.getTextureManager().bindTexture(getTexture());
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        args.getDrawObjectDM().getContext().drawTexture(getTexture(), x, y, 0, 0, backgroundWidth, backgroundHeight);
-        getNoteBox().render(args.drawObjectDM.getContext(), args.mouseX, args.mouseY, args.delta);
+        drawTexture(args.drawObjectDM.getStack(), x, y, 0, 0, backgroundWidth, backgroundHeight);
+        getNoteBox().render(args.drawObjectDM.getStack(), args.mouseX, args.mouseY, args.delta);
         RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 

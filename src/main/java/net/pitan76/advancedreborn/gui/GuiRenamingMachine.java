@@ -1,8 +1,8 @@
 package net.pitan76.advancedreborn.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -12,8 +12,8 @@ import net.pitan76.mcpitanlib.api.network.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
-import reborncore.client.gui.GuiBase;
-import reborncore.client.gui.GuiBuilder;
+import reborncore.client.gui.builder.GuiBase;
+import reborncore.client.gui.guibuilder.GuiBuilder;
 import reborncore.common.screen.BuiltScreenHandler;
 
 public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
@@ -80,20 +80,20 @@ public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
         return fieldBox;
     }
 
-    public void drawBackground(DrawContext context, float lastFrameDuration, int mouseX, int mouseY) {
-        super.drawBackground(context, lastFrameDuration, mouseX, mouseY);
+    public void drawBackground(MatrixStack matrixStack, float lastFrameDuration, int mouseX, int mouseY) {
+        super.drawBackground(matrixStack, lastFrameDuration, mouseX, mouseY);
         Layer layer = Layer.BACKGROUND;
-        drawSlot(context, 55, 45, layer);
-        drawOutputSlot(context, 101, 45, layer);
-        drawSlot(context, 8, 72, layer);
-        getFieldBox().render(context, mouseX, mouseY, lastFrameDuration);
+        drawSlot(matrixStack, 55, 45, layer);
+        drawOutputSlot(matrixStack, 101, 45, layer);
+        drawSlot(matrixStack, 8, 72, layer);
+        getFieldBox().render(matrixStack, mouseX, mouseY, lastFrameDuration);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    public void drawForeground(DrawContext context, int mouseX, int mouseY) {
-        super.drawForeground(context, mouseX, mouseY);
+    public void drawForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
+        super.drawForeground(matrixStack, mouseX, mouseY);
         Layer layer = Layer.FOREGROUND;
-        builder.drawProgressBar(context, this, tile.getProgressScaled(100), 100, 76, 48, mouseX, mouseY, GuiBuilder.ProgressDirection.RIGHT, layer);
-        builder.drawMultiEnergyBar(context, this, 9, 19, (int) tile.getEnergy(), (int) tile.getMaxStoredPower(), mouseX, mouseY, 0, layer);
+        builder.drawProgressBar(matrixStack, this, tile.getProgressScaled(100), 100, 76, 48, mouseX, mouseY, GuiBuilder.ProgressDirection.RIGHT, layer);
+        builder.drawMultiEnergyBar(matrixStack, this, 9, 19, (int) tile.getEnergy(), (int) tile.getMaxStoredPower(), mouseX, mouseY, 0, layer);
     }
 }

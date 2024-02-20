@@ -35,14 +35,16 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// TRのエネルギー用
-	modImplementation 'RebornCore:RebornCore-1.20:5.8.7'
-	modImplementation 'TechReborn:TechReborn-1.20:5.8.7'
+	modImplementation 'RebornCore:RebornCore-1.19:5.4.0'
+	modImplementation 'TechReborn:TechReborn-1.19:5.4.0'
 
-	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:12.0.684"
+	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:9.1.682"
 
-	// CC: Tweaked
-	modCompileOnly("cc.tweaked:cc-tweaked-1.20.1-fabric-api:${project.cc_version}")
-	modImplementation("cc.tweaked:cc-tweaked-1.20.1-fabric:${project.cc_version}")
+	// CC: Restitched
+	modApi 'com.electronwill.night-config:core:3.6.6'
+	modApi 'com.electronwill.night-config:toml:3.6.6'
+
+	modApi "com.github.cc-tweaked:cc-restitched:${project.cc_version}"
 
 	// Mod Menu
 	// 1.16 => 1.16.19

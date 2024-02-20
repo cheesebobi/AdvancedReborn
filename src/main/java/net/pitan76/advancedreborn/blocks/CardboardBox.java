@@ -13,7 +13,7 @@ import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
@@ -207,11 +207,11 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
         return ScreenHandler.calculateComparatorOutput((Inventory)world.getBlockEntity(pos));
     }
 
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
         BlockEntity blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
         if (blockEntity instanceof CardboardBoxTile) {
             CardboardBoxTile tile = (CardboardBoxTile)blockEntity;
-            builder = builder.addDynamicDrop(CONTENTS, (consumer) -> {
+            builder = builder.putDrop(CONTENTS, (lootContext, consumer) -> {
                 for(int i = 0; i < tile.size(); ++i) {
                     consumer.accept(tile.getStack(i));
                 }

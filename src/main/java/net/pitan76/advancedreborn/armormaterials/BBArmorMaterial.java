@@ -1,12 +1,12 @@
 package net.pitan76.advancedreborn.armormaterials;
 
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
+import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
+import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 
-public class BBArmorMaterial implements ArmorMaterial {
+public class BBArmorMaterial implements CompatibleArmorMaterial {
 
     public String name = "";
 
@@ -15,13 +15,13 @@ public class BBArmorMaterial implements ArmorMaterial {
     }
 
     @Override
-    public int getDurability(ArmorItem.Type type) {
-        return ArmorMaterials.IRON.getDurability(ArmorItem.Type.CHESTPLATE);
+    public int getDurability(ArmorEquipmentType type) {
+        return ArmorMaterials.IRON.getDurability(ArmorEquipmentType.CHEST.getSlot());
     }
 
     @Override
-    public int getProtection(ArmorItem.Type type) {
-        return ArmorMaterials.IRON.getProtection(ArmorItem.Type.CHESTPLATE);
+    public int getProtection(ArmorEquipmentType type) {
+        return ArmorMaterials.IRON.getProtectionAmount(ArmorEquipmentType.CHEST.getSlot());
     }
 
     @Override

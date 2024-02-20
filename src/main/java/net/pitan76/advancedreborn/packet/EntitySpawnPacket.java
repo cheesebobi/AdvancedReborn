@@ -2,13 +2,13 @@ package net.pitan76.advancedreborn.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
+import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 
 public class EntitySpawnPacket {
@@ -17,7 +17,7 @@ public class EntitySpawnPacket {
         if (entity.getEntityWorld().isClient)
             throw new IllegalStateException("SpawnPacketUtil.create called on the logical client!");
         PacketByteBuf byteBuf = PacketByteUtil.create();
-        byteBuf.writeVarInt(Registries.ENTITY_TYPE.getRawId(entity.getType()));
+        byteBuf.writeVarInt(Registry.ENTITY_TYPE.getRawId(entity.getType()));
         byteBuf.writeUuid(entity.getUuid());
         byteBuf.writeVarInt(entity.getId());
 
