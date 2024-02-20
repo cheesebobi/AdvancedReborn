@@ -35,10 +35,10 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// TRのエネルギー用
-	modImplementation 'RebornCore:RebornCore-1.18:5.2.1'
-	modImplementation 'TechReborn:TechReborn-1.18:5.2.1'
+	modImplementation 'RebornCore:RebornCore-1.16:3.8.4'
+	modImplementation 'TechReborn:TechReborn-1.16:3.8.4'
 
-	modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:8.3.681")
+	modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:6.5.433")
 
 	// CC: Restitched
 	modApi 'com.electronwill.night-config:core:3.6.6'
@@ -74,10 +74,6 @@ processResources {
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = "UTF-8"
 	it.options.release = 8
-	def targetVersion = 17
-	if (JavaVersion.current().isJava9Compatible()) {
-		it.options.release = targetVersion
-	}
 }
 
 java {
