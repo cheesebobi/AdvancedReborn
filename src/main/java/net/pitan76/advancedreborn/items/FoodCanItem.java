@@ -38,19 +38,19 @@ public class FoodCanItem extends ExtendItem {
         }
         if (playerEntity != null) {
             playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
-            if (!playerEntity.getAbilities().creativeMode) {
+            if (!playerEntity.abilities.creativeMode) {
                 playerEntity.eatFood(world, stack);
             }
         }
 
-        if (playerEntity == null || !playerEntity.getAbilities().creativeMode) {
+        if (playerEntity == null || !playerEntity.abilities.creativeMode) {
             if (stack.isEmpty()) {
                 return new ItemStack(Items.EMPTY_CAN);
             }
 
             if (playerEntity != null) {
                 ItemStack emptyCan = new ItemStack(Items.EMPTY_CAN);
-                boolean inserted = playerEntity.getInventory().insertStack(emptyCan);
+                boolean inserted = playerEntity.inventory.insertStack(emptyCan);
                 if (!inserted) {
                     playerEntity.dropItem(emptyCan, false);
                 }

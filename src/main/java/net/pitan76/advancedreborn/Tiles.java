@@ -1,12 +1,12 @@
 package net.pitan76.advancedreborn;
 
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;
 import net.pitan76.advancedreborn.blocks.RaySolar;
 import net.pitan76.advancedreborn.tile.*;
+import net.pitan76.mcpitanlib.api.tile.BlockEntityTypeBuilder;
 
 public class Tiles {
     public static BlockEntityType<InductionFurnaceTile> INDUCTION_FURNACE_TILE = Registry.register(Registry.BLOCK_ENTITY_TYPE, AdvancedReborn.id("induction_furnace"), create(InductionFurnaceTile::new, Blocks.INDUCTION_FURNACE));
@@ -27,7 +27,7 @@ public class Tiles {
 
     }
 
-    public static <T extends BlockEntity> BlockEntityType<T> create(FabricBlockEntityTypeBuilder.Factory<T> supplier, Block... blocks) {
-        return FabricBlockEntityTypeBuilder.create(supplier, blocks).build(null);
+    public static <T extends BlockEntity> BlockEntityType<T> create(BlockEntityTypeBuilder.Factory<T> supplier, Block... blocks) {
+        return BlockEntityTypeBuilder.create(supplier, blocks).build();
     }
 }

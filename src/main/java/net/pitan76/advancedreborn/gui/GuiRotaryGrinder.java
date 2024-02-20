@@ -7,7 +7,7 @@ import net.pitan76.advancedreborn.tile.RotaryGrinderTile;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import reborncore.client.gui.builder.GuiBase;
 import reborncore.client.gui.guibuilder.GuiBuilder;
-import reborncore.common.screen.BuiltScreenHandler;
+import reborncore.client.screen.builder.BuiltScreenHandler;
 
 public class GuiRotaryGrinder extends GuiBase<BuiltScreenHandler> {
 

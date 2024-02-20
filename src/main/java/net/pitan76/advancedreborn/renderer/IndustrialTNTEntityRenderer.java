@@ -1,8 +1,8 @@
 package net.pitan76.advancedreborn.renderer;
 
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.TntMinecartEntityRenderer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,8 +13,8 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.entities.IndustrialTNTEntity;
 
 public class IndustrialTNTEntityRenderer extends EntityRenderer<IndustrialTNTEntity> {
-    public IndustrialTNTEntityRenderer(EntityRendererFactory.Context context) {
-        super(context);
+    public IndustrialTNTEntityRenderer(EntityRenderDispatcher dispatcher) {
+        super(dispatcher);
         this.shadowRadius = 0.5F;
     }
 

@@ -7,8 +7,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Recipes;
@@ -18,14 +16,14 @@ import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.api.recipe.IRecipeCrafterProvider;
-import reborncore.common.blockentity.MachineBaseBlockEntity;
+import reborncore.client.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.builder.BuiltScreenHandler;
+import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.recipes.RecipeCrafter;
-import reborncore.common.screen.BuiltScreenHandler;
-import reborncore.common.screen.BuiltScreenHandlerProvider;
-import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.util.RebornInventory;
+import team.reborn.energy.EnergySide;
 
 public class CanningMachineTile extends PowerAcceptorBlockEntity implements IToolDrop, InventoryProvider, IRecipeCrafterProvider, BuiltScreenHandlerProvider {
 
@@ -34,10 +32,8 @@ public class CanningMachineTile extends PowerAcceptorBlockEntity implements IToo
     public RebornInventory<?> inventory;
     public RecipeCrafter crafter;
 
-
-
-    public CanningMachineTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public CanningMachineTile(BlockEntityType<?> type) {
+        super(type);
         toolDrop = Blocks.CANNING_MACHINE;
         energySlot = 3;
         inventory = new RebornInventory<>(4, "CanningMachineTile", 64, this);
@@ -45,8 +41,12 @@ public class CanningMachineTile extends PowerAcceptorBlockEntity implements IToo
         checkTier();
     }
 
+    public CanningMachineTile() {
+        this(Tiles.CANNING_MACHINE_TILE);
+    }
+
     public CanningMachineTile(BlockPos pos, BlockState state) {
-        this(Tiles.CANNING_MACHINE_TILE, pos, state);
+        this(Tiles.CANNING_MACHINE_TILE);
     }
 
     public CanningMachineTile(TileCreateEvent event) {
@@ -54,24 +54,24 @@ public class CanningMachineTile extends PowerAcceptorBlockEntity implements IToo
     }
 
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
-        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__canning_machine").player(player.getInventory()).inventory().hotbar().addInventory()
+        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__canning_machine").player(player.inventory).inventory().hotbar().addInventory()
                 .blockEntity(this).slot(0, 55, 35).slot(1, 55, 55).outputSlot(2, 101, 45).energySlot(3, 8, 72).syncEnergyValue()
                 .syncCrafterValue().addInventory().create(this, syncID);
     }
 
-    public long getBaseMaxPower() {
+    public double getBaseMaxPower() {
         return AutoConfigAddon.getConfig().canningMachineMaxEnergy;
     }
 
-    public long getBaseMaxOutput() {
+    public double getBaseMaxOutput() {
         return 0;
     }
 
-    public long getBaseMaxInput() {
+    public double getBaseMaxInput() {
         return AutoConfigAddon.getConfig().canningMachineMaxInput;
     }
 
-    public boolean canProvideEnergy(Direction side) {
+    public boolean canProvideEnergy(EnergySide side) {
         return false;
     }
 
@@ -90,12 +90,13 @@ public class CanningMachineTile extends PowerAcceptorBlockEntity implements IToo
         return new ItemStack(toolDrop, 1);
     }
 
-    public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
-        super.tick(world, pos, state, blockEntity2);
+    public void tick() {
+        super.tick();
         if (world == null || world.isClient) {
             return;
         }
         charge(energySlot);
+        BlockState state = getWorld().getBlockState(getPos());
         BlockMachineBase block = (BlockMachineBase) state.getBlock();
         block.setActive(!inventory.getStack(0).isEmpty() && !inventory.getStack(1).isEmpty(), world, getPos());
     }

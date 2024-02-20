@@ -2,8 +2,8 @@ package net.pitan76.advancedreborn.addons.rei.machine;
 
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.client.gui.widgets.Widget;
-import me.shedaniel.rei.api.client.gui.widgets.Widgets;
+import me.shedaniel.rei.api.widgets.Widgets;
+import me.shedaniel.rei.gui.widget.Widget;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import reborncore.client.gui.guibuilder.GuiBuilder;
 import reborncore.common.crafting.RebornRecipe;

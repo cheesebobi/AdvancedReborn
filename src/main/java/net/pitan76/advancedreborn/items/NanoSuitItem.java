@@ -1,8 +1,6 @@
 package net.pitan76.advancedreborn.items;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -12,18 +10,24 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.advancedreborn.Items;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import reborncore.api.events.ApplyArmorToDamageCallback;
-import reborncore.api.items.ArmorBlockEntityTicker;
-import reborncore.common.powerSystem.RcEnergyItem;
-import reborncore.common.powerSystem.RcEnergyTier;
+import reborncore.api.items.ArmorTickable;
+import reborncore.api.items.ItemStackModifiers;
+import reborncore.common.powerSystem.PowerSystem;
 import reborncore.common.util.ItemUtils;
+import team.reborn.energy.Energy;
+import team.reborn.energy.EnergyHolder;
+import team.reborn.energy.EnergyTier;
 import techreborn.items.armor.TRArmourItem;
+import techreborn.utils.InitUtils;
 
-public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker, RcEnergyItem {
+public class NanoSuitItem extends TRArmourItem implements EnergyHolder, ItemStackModifiers, ArmorTickable {
     public NanoSuitItem(ArmorMaterial material, ArmorEquipmentType slot, CompatibleItemSettings settings) {
         super(material, slot.getSlot(), settings.build());
 
@@ -32,27 +36,25 @@ public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker
                 if (!(stack.getItem() instanceof NanoSuitItem)) {
                     continue;
                 }
-                long stackEnergy = getStoredEnergy(stack);
-                if (stackEnergy <= 0) {
+                double stackEnergy = Energy.of(stack).getEnergy();
+                if (stackEnergy == 0) {
                     continue;
                 }
-                //System.out.println(amount);
-                float damageToAbsorb = Math.min(stackEnergy, amount * 2500);
-                tryUseEnergy(stack, (long) damageToAbsorb);
-                return damageToAbsorb / 2500;
+                double damageToAbsorb = Math.min(stackEnergy, amount * 2500);
+                Energy.of(stack).use(damageToAbsorb);
             }
             return amount;
         }));
     }
 
     @Override
-    public long getEnergyCapacity() {
+    public double getMaxStoredPower() {
         return 1_000_000;
     }
 
     @Override
-    public RcEnergyTier getTier() {
-        return RcEnergyTier.EXTREME;
+    public EnergyTier getTier() {
+        return EnergyTier.EXTREME;
     }
 
     @Override
@@ -61,18 +63,18 @@ public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker
     }
 
     @Override
-    public int getItemBarStep(ItemStack stack) {
+    public double getDurability(ItemStack stack) {
         return ItemUtils.getPowerForDurabilityBar(stack);
     }
 
     @Override
-    public boolean isItemBarVisible(ItemStack stack) {
+    public boolean showDurability(ItemStack stack) {
         return true;
     }
 
     @Override
-    public int getItemBarColor(ItemStack stack) {
-        return ItemUtils.getColorForDurabilityBar(stack);
+    public int getDurabilityColor(ItemStack stack) {
+        return PowerSystem.getDisplayPower().colour;
     }
 
     @Override
@@ -80,17 +82,19 @@ public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker
         return true;
     }
 
-    @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot equipmentSlot) {
-        ArrayListMultimap<EntityAttribute, EntityAttributeModifier> attributes = ArrayListMultimap.create(super.getAttributeModifiers(stack, getSlotType()));
-
-        if (equipmentSlot == this.getSlotType() && getStoredEnergy(stack) > 0) {
-            attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MODIFIERS[getSlotType().getEntitySlotId()], "Armor modifier", 6, EntityAttributeModifier.Operation.ADDITION));
-        } else if (equipmentSlot == this.getSlotType()) {
-            attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MODIFIERS[getSlotType().getEntitySlotId()], "Armor modifier", -1, EntityAttributeModifier.Operation.ADDITION));
+    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> itemList) {
+        if (!isIn(group)) {
+            return;
         }
+        InitUtils.initPoweredItems(this, itemList);
+    }
 
-        return ImmutableMultimap.copyOf(attributes);
+    public void getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack stack, Multimap<EntityAttribute, EntityAttributeModifier> attributes) {
+        if (equipmentSlot == this.slot && Energy.of(stack).getEnergy() > 0) {
+            attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MODIFIERS[slot.getEntitySlotId()], "Armor modifier", 2, EntityAttributeModifier.Operation.ADDITION));
+        } else if (equipmentSlot == this.slot) {
+            attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MODIFIERS[slot.getEntitySlotId()], "Armor modifier", -1, EntityAttributeModifier.Operation.ADDITION));
+        }
     }
 
     @Override
@@ -98,10 +102,9 @@ public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker
         return HashMultimap.create();
     }
 
-    @Override
     public void tickArmor(ItemStack stack, PlayerEntity player) {
         if (stack.getItem().equals(Items.NANO_SUIT_HELMET)) {
-            if (getStoredEnergy(stack) > 0) {
+            if (Energy.of(stack).getEnergy() > 0) {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 300, 3));
             }
         }

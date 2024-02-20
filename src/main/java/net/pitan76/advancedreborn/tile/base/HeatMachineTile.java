@@ -4,18 +4,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.pitan76.advancedreborn.tile.InductionFurnaceTile;
-import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 
 public abstract class HeatMachineTile extends PowerAcceptorBlockEntity {
     public int heat = 0;
     public int heatMultiple = 100; // 上昇する速さ(低いほど早い)
 
-    public HeatMachineTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public HeatMachineTile(BlockEntityType<?> type) {
+        super(type);
     }
 
     public int getHeat() {
@@ -48,8 +45,8 @@ public abstract class HeatMachineTile extends PowerAcceptorBlockEntity {
         setHeat(getHeat() + amount);
     }
 
-    public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
-        super.tick(world, pos, state, blockEntity2);
+    public void tick() {
+        super.tick();
         if (world == null) return;
         if (getWorld().isClient()) {
             if (getWorld().isReceivingRedstonePower(getPos())) {
@@ -63,7 +60,7 @@ public abstract class HeatMachineTile extends PowerAcceptorBlockEntity {
         } else if (getHeat() > 0) addHeat(-1);
         if (getHeat() != 0) for (int i = 0;i <= getHeat() / (5 * getHeatMultiple());i++) {
             if (i >= getHeat() / (5 * getHeatMultiple())) break;
-            super.tick(world, pos, state, blockEntity2);
+            super.tick();
             if (this instanceof InductionFurnaceTile) {
                 InductionFurnaceTile tile = (InductionFurnaceTile) this;
                 tile.setCookTime(tile.getCookingTime() + 1);
@@ -71,13 +68,14 @@ public abstract class HeatMachineTile extends PowerAcceptorBlockEntity {
         }
     }
 
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
+    public void fromTag(BlockState state, NbtCompound tag) {
+        super.fromTag(state, tag);
         setHeat(tag.getInt("heat"));
     }
 
-    public void writeNbt(NbtCompound tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         tag.putInt("heat", getHeat());
         super.writeNbt(tag);
+        return tag;
     }
 }

@@ -2,7 +2,6 @@ package net.pitan76.advancedreborn.tile;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
@@ -14,7 +13,6 @@ import net.minecraft.world.World;
 import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
-import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import org.jetbrains.annotations.Nullable;
 import techreborn.blockentity.storage.energy.EnergyStorageBlockEntity;
 
@@ -22,17 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TeleporterTile extends BlockEntity implements BlockEntityTicker<TeleporterTile> {
+public class TeleporterTile extends BlockEntity {
 
     private static final VoxelShape SHAPE_RANGE = VoxelShapes.cuboid(-2, -2, -2, 3, 3, 3);
     private BlockPos teleportPos = null;
 
-    public TeleporterTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public TeleporterTile(BlockEntityType<?> type) {
+        super(type);
     }
 
     public TeleporterTile(BlockPos pos, BlockState state) {
-        this(Tiles.TELEPORTER_TILE, pos, state);
+        this(Tiles.TELEPORTER_TILE);
     }
 
     public TeleporterTile(TileCreateEvent event) {
@@ -122,17 +120,17 @@ public class TeleporterTile extends BlockEntity implements BlockEntityTicker<Tel
         return getPos().getZ();
     }
 
-    public void writeNbt(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         if (getTeleportPos() != null) {
             nbt.putDouble("tpX", getTeleportPos().getX());
             nbt.putDouble("tpY", getTeleportPos().getY());
             nbt.putDouble("tpZ", getTeleportPos().getZ());
         }
-        super.writeNbt(nbt);
+        return super.writeNbt(nbt);
     }
 
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
-        if (tag.contains("tpX") && tag.contains("tpY") && tag.contains("tpZ")) teleportPos = PosUtil.flooredBlockPos(tag.getDouble("tpX"), tag.getDouble("tpY"), tag.getDouble("tpZ"));
+    public void fromTag(BlockState state, NbtCompound tag) {
+        super.fromTag(state, tag);
+        if (tag.contains("tpX") && tag.contains("tpY") && tag.contains("tpZ")) teleportPos = new BlockPos(tag.getDouble("tpX"), tag.getDouble("tpY"), tag.getDouble("tpZ"));
     }
 }

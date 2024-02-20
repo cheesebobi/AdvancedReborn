@@ -11,7 +11,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
@@ -21,12 +20,11 @@ import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
-import reborncore.common.blockentity.MachineBaseBlockEntity;
+import reborncore.client.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.builder.BuiltScreenHandler;
+import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
-import reborncore.common.screen.BuiltScreenHandler;
-import reborncore.common.screen.BuiltScreenHandlerProvider;
-import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.util.RebornInventory;
 
 public class RenamingMachineTile extends PowerAcceptorBlockEntity implements IToolDrop, InventoryProvider, BuiltScreenHandlerProvider {
@@ -38,8 +36,8 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
     public int coolDown = coolDownDefault;
     public String name = "";
 
-    public RenamingMachineTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public RenamingMachineTile(BlockEntityType<?> type) {
+        super(type);
         toolDrop = Blocks.RENAMING_MACHINE;
         energySlot = 2;
         inventory = new RebornInventory<>(3, "RenamingMachineTile", 64, this);
@@ -47,7 +45,7 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
     }
 
     public RenamingMachineTile(BlockPos pos, BlockState state) {
-        this(Tiles.RENAMING_MACHINE_TILE, pos, state);
+        this(Tiles.RENAMING_MACHINE_TILE);
     }
 
     public RenamingMachineTile(TileCreateEvent event) {
@@ -55,7 +53,7 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
     }
 
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
-        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__renaming_machine").player(player.getInventory()).inventory().hotbar().addInventory()
+        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__renaming_machine").player(player.inventory).inventory().hotbar().addInventory()
                 .blockEntity(this).slot(0, 55, 45).outputSlot(1, 101, 45).energySlot(2, 8, 72).syncEnergyValue()
                 .sync(this::getName, this::setName).sync(this::getCoolDown, this::setCoolDown).sync(this::getCoolDownDefault, this::setCoolDownDefault).addInventory().create(this, syncID);
     }
@@ -91,15 +89,15 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
         return coolDownDefault;
     }
 
-    public long getBaseMaxPower() {
+    public double getBaseMaxPower() {
         return AutoConfigAddon.getConfig().renamingMachineMaxEnergy;
     }
 
-    public long getBaseMaxOutput() {
+    public double getBaseMaxOutput() {
         return 0;
     }
 
-    public long getBaseMaxInput() {
+    public double getBaseMaxInput() {
         return AutoConfigAddon.getConfig().renamingMachineMaxInput;
     }
 
@@ -119,14 +117,14 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
         return new ItemStack(toolDrop, 1);
     }
 
-    public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
-        super.tick(world, pos, state, blockEntity2);
+    public void tick() {
+        super.tick();
         if (world == null || world.isClient) {
             return;
         }
         charge(energySlot);
 
-        //BlockState state = getWorld().getBlockState(getPos());
+        BlockState state = getWorld().getBlockState(getPos());
         BlockMachineBase block = (BlockMachineBase) state.getBlock();
         block.setActive(getCoolDown() != getCoolDownDefault(), world, getPos());
         if (!getInventory().getStack(1).isEmpty()) {
@@ -161,14 +159,15 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
         return inventory;
     }
 
-    public void writeNbt(NbtCompound tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         if (getName() != null) tag.putString("option_name", getName());
         tag.putInt("option_time", coolDown);
         super.writeNbt(tag);
+        return tag;
     }
 
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
+    public void fromTag(BlockState state, NbtCompound tag) {
+        super.fromTag(state, tag);
         if (tag.contains("option_name")) setName(tag.getString("option_name"));
         if (tag.contains("option_time")) coolDown = tag.getInt("option_time");
     }

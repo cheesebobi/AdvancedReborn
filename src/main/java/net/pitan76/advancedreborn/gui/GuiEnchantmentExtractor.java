@@ -1,14 +1,14 @@
 package net.pitan76.advancedreborn.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.tile.EnchantmentExtractorTile;
+import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import reborncore.client.gui.builder.GuiBase;
 import reborncore.client.gui.guibuilder.GuiBuilder;
-import reborncore.common.screen.BuiltScreenHandler;
+import reborncore.client.screen.builder.BuiltScreenHandler;
 
 public class GuiEnchantmentExtractor extends GuiBase<BuiltScreenHandler> {
 
@@ -32,7 +32,7 @@ public class GuiEnchantmentExtractor extends GuiBase<BuiltScreenHandler> {
         super.drawBackground(matrixStack, lastFrameDuration, mouseX, mouseY);
         Layer layer = Layer.BACKGROUND;
 
-        RenderSystem.setShaderTexture(0, builder.getResourceLocation());
+        RenderUtil.setShaderTexture(0, builder.getResourceLocation());
         drawSlot(matrixStack, 40, 25, layer); // Input slot
         drawSlot(matrixStack, 40, 65, layer); // Output slot
 
@@ -47,7 +47,7 @@ public class GuiEnchantmentExtractor extends GuiBase<BuiltScreenHandler> {
 
         drawSlot(matrixStack, 8, 72, layer);
 
-        RenderSystem.setShaderTexture(0, GUI);
+        RenderUtil.setShaderTexture(0, GUI);
         // Book slot
         drawTexture(matrixStack, 60 + this.x - 1, 25 + this.y - 1, 0, 0, 18, 18);
     }

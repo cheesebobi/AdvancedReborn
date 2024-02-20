@@ -2,6 +2,7 @@ package net.pitan76.advancedreborn.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -15,16 +16,14 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.pitan76.advancedreborn.Particles;
-import net.pitan76.advancedreborn.api.Energy;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.event.block.BlockPlacedEvent;
-import net.pitan76.mcpitanlib.api.event.block.BlockScheduledTickEvent;
-import net.pitan76.mcpitanlib.api.event.block.OutlineShapeEvent;
-import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
+import team.reborn.energy.Energy;
 import techreborn.blockentity.storage.energy.EnergyStorageBlockEntity;
 
 import java.util.Random;
@@ -64,12 +63,13 @@ public class ChargePad extends ExtendBlock {
 
     public void onPlaced(BlockPlacedEvent e) {
         super.onPlaced(e);
-        World world = e.getWorld();
-        BlockPos pos = e.getPos();
-        LivingEntity placer = e.getPlacer();
+        LivingEntity placer = e.placer;
+        World world = e.world;
+        BlockPos pos = e.pos;
 
-        if(placer != null)
+        if(placer != null) {
             setFacing(placer.getHorizontalFacing().getOpposite(), world, pos);
+        }
 
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof MachineBaseBlockEntity) {
@@ -104,21 +104,20 @@ public class ChargePad extends ExtendBlock {
             //System.out.println("EU: " + eu + ", OutputEU: " + outputEU);
             long storageEU = outputEU;
             PlayerEntity player = (PlayerEntity) entity;
-            for (int i = 0; i < player.getInventory().size(); i++) {
+            for (int i = 0; i < player.inventory.size(); i++) {
                 if (storageEU <= 0) {
                     break;
                 }
-                ItemStack invStack = player.getInventory().getStack(i);
+                ItemStack invStack = player.inventory.getStack(i);
 
                 if (invStack.isEmpty()) {
                     continue;
                 }
 
-                if (Energy.isHolder(invStack)) {
-                    long energy = Energy.of(invStack).getStoredEnergy(invStack);
-                    if (energy >= Energy.of(invStack).getEnergyCapacity()) continue;
-                    Energy.of(invStack).setStoredEnergy(invStack, energy + storageEU);
-                    storageEU -= Energy.of(invStack).getStoredEnergy(invStack) - energy;
+                if (Energy.valid(invStack)) {
+                    double energy = Energy.of(invStack).getEnergy();
+                    Energy.of(invStack).set(energy + storageEU);
+                    storageEU -= Energy.of(invStack).getEnergy() - energy;
                 }
             }
             tile.setEnergy(eu - outputEU);
@@ -126,23 +125,20 @@ public class ChargePad extends ExtendBlock {
             double rZ = random.nextInt(9) * 0.1;
             ((ServerWorld)world).spawnParticles(Particles.ENERGY, pos.getX() + 0.1 + rX, pos.getY() + 0.25, pos.getZ() + 0.1 + rZ, 1, 0, 0.3, 0, 0);
             world.setBlockState(pos, state.with(USING, true));
-            //world.createAndScheduleBlockTick(pos, this, 5);
-            WorldUtil.scheduleBlockTick(world, pos, this, 5);
+            world.getBlockTickScheduler().schedule(pos, this, 5);
             world.updateComparators(pos, this);
         }
     }
 
-    @Override
-    public void scheduledTick(BlockScheduledTickEvent e) {
-        super.scheduledTick(e);
-        World world = e.getWorld();
-        BlockPos pos = e.getPos();
-
-        world.setBlockState(pos, e.state.with(USING, false));
+    @SuppressWarnings("deprecation")
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        super.scheduledTick(state, world, pos, random);
+        world.setBlockState(pos, state.with(USING, false));
         world.updateComparators(pos, this);
     }
 
-    public VoxelShape getOutlineShape(OutlineShapeEvent e) {
+    @SuppressWarnings("deprecation")
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
     }
 }

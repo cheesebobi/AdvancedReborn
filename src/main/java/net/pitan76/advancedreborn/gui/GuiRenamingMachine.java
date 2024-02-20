@@ -1,6 +1,5 @@
 package net.pitan76.advancedreborn.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,10 +10,11 @@ import net.pitan76.advancedreborn.tile.RenamingMachineTile;
 import net.pitan76.mcpitanlib.api.network.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 import reborncore.client.gui.builder.GuiBase;
 import reborncore.client.gui.guibuilder.GuiBuilder;
-import reborncore.common.screen.BuiltScreenHandler;
+import reborncore.client.screen.builder.BuiltScreenHandler;
 
 public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
 
@@ -37,7 +37,7 @@ public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
         getFieldBox().setFocusUnlocked(false);
         ScreenUtil.TextFieldUtil.setFocused(getFieldBox(), true);
         getFieldBox().setMaxLength(2048);
-        addSelectableChild(getFieldBox());
+        addButton(getFieldBox());
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -87,7 +87,7 @@ public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
         drawOutputSlot(matrixStack, 101, 45, layer);
         drawSlot(matrixStack, 8, 72, layer);
         getFieldBox().render(matrixStack, mouseX, mouseY, lastFrameDuration);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderUtil.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     public void drawForeground(MatrixStack matrixStack, int mouseX, int mouseY) {

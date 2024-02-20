@@ -18,11 +18,11 @@ public class EntitySpawnPacket {
         PacketByteBuf byteBuf = PacketByteUtil.create();
         byteBuf.writeVarInt(Registry.ENTITY_TYPE.getRawId(entity.getType()));
         byteBuf.writeUuid(entity.getUuid());
-        byteBuf.writeVarInt(entity.getId());
-
+        byteBuf.writeVarInt(entity.getEntityId());
+        
         PacketBufUtil.writeVec3d(byteBuf, entity.getPos());
-        PacketBufUtil.writeAngle(byteBuf, entity.getPitch());
-        PacketBufUtil.writeAngle(byteBuf, entity.getYaw());
+        PacketBufUtil.writeAngle(byteBuf, entity.pitch);
+        PacketBufUtil.writeAngle(byteBuf, entity.yaw);
         return ServerPlayNetworking.createS2CPacket(packetID, byteBuf);
     }
 

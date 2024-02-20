@@ -31,12 +31,12 @@ public class CardboardBoxTile extends BlockEntity implements IInventory, SidedIn
     private Text customName;
     private String note = "";
 
-    public CardboardBoxTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public CardboardBoxTile(BlockEntityType<?> type) {
+        super(type);
     }
 
     public CardboardBoxTile(BlockPos pos, BlockState state) {
-        this(Tiles.CARDBOARD_BOX_TILE, pos, state);
+        this(Tiles.CARDBOARD_BOX_TILE);
     }
 
     public CardboardBoxTile(TileCreateEvent event) {
@@ -59,14 +59,14 @@ public class CardboardBoxTile extends BlockEntity implements IInventory, SidedIn
         return !note.equals("");
     }
 
-    public void writeNbt(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         Inventories.writeNbt(nbt, inventory);
         nbt.putString("note", getNote());
-        super.writeNbt(nbt);
+        return super.writeNbt(nbt);
     }
 
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
+    public void fromTag(BlockState state, NbtCompound tag) {
+        super.fromTag(state, tag);
         setNote(tag.getString("note"));
         Inventories.readNbt(tag, inventory);
     }

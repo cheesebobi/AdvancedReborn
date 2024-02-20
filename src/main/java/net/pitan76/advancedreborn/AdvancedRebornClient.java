@@ -1,6 +1,7 @@
 package net.pitan76.advancedreborn;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.EmotionParticle;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
@@ -21,11 +22,12 @@ public class AdvancedRebornClient implements ClientModInitializer {
     public static MinecraftClient client = MinecraftClient.getInstance();
 
     public void onInitializeClient() {
+        GuiTypes.init();
         CompatRegistryClient.registryClientSpriteAtlasTexture(AdvancedReborn.id("particle/energy"));
 
         CompatRegistryClient.registerParticle(Particles.ENERGY, EmotionParticle.HeartFactory::new);
 
-        CompatRegistryClient.registerEntityRenderer(() -> Entities.DYNAMITE, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(Entities.DYNAMITE, (manager, context) -> new FlyingItemEntityRenderer<>(manager, context.getItemRenderer()));
         CompatRegistryClient.registerEntityRenderer(() -> Entities.I_TNT, IndustrialTNTEntityRenderer::new);
 
         CompatRegistryClient.registerScreen(ScreenHandlers.CARDBOARD_BOX_SCREEN_HANDLER, CardboardBoxScreen::new);
@@ -42,9 +44,9 @@ public class AdvancedRebornClient implements ClientModInitializer {
             if (entity == null) return;
             entity.updateTrackedPosition(pos.x, pos.y, pos.z);
             entity.setPos(pos.x, pos.y, pos.z);
-            entity.setYaw(pitch);
-            entity.setYaw(yaw);
-            entity.setId(entityId);
+            entity.pitch = pitch;
+            entity.yaw = yaw;
+            entity.setEntityId(entityId);
             entity.setUuid(uuid);
             client.world.addEntity(entityId, entity);
         });

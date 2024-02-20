@@ -31,8 +31,8 @@ public class ConfigWrench extends ExtendItem {
                 if (world.isClient()) return ActionResult.PASS;
                 BlockEntity tile = world.getBlockEntity(pos);
                 if (tile instanceof MachineBaseBlockEntity) {
-                    if (!stack.hasNbt()) return ActionResult.FAIL;
-                    NbtCompound tag = stack.getNbt();
+                    if (!stack.hasTag()) return ActionResult.FAIL;
+                    NbtCompound tag = stack.getTag();
                     if (!tag.contains("configs")) return ActionResult.FAIL;
                     NbtCompound config = tag.getCompound("configs");
                     MachineBaseBlockEntityAccessor accessor = (MachineBaseBlockEntityAccessor) tile;
@@ -67,7 +67,7 @@ public class ConfigWrench extends ExtendItem {
             fluidConfig = machineAccessor.getFluidConfiguration();
 
         ItemStack stack = event.player.getPlayerEntity().getStackInHand(event.hand);
-        NbtCompound tag = stack.getNbt();
+        NbtCompound tag = stack.getTag();
         if (tag == null) {
             tag = new NbtCompound();
         }
@@ -79,7 +79,7 @@ public class ConfigWrench extends ExtendItem {
         if (redstoneConfig != null)
             config.put("redstone", redstoneConfig.write());
         tag.put("configs", config);
-        stack.setNbt(tag);
+        stack.setTag(tag);
         event.player.sendMessage(TextUtil.literal("Saved Configuration to The Config Wrench."));
         return ActionResult.SUCCESS;
     }

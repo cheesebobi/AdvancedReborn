@@ -1,6 +1,6 @@
 package net.pitan76.advancedreborn;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.fabricmc.fabric.impl.screenhandler.ExtendedScreenHandlerType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.pitan76.advancedreborn.screen.CardboardBoxScreenHandler;
 

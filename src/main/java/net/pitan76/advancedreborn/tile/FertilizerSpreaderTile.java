@@ -20,12 +20,11 @@ import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
-import reborncore.common.blockentity.MachineBaseBlockEntity;
+import reborncore.client.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.builder.BuiltScreenHandler;
+import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
-import reborncore.common.screen.BuiltScreenHandler;
-import reborncore.common.screen.BuiltScreenHandlerProvider;
-import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.util.RebornInventory;
 
 public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements IToolDrop, InventoryProvider, BuiltScreenHandlerProvider {
@@ -40,8 +39,8 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
     public int coolDownDefault = 5;
     public int coolDown = coolDownDefault;
 
-    public FertilizerSpreaderTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public FertilizerSpreaderTile(BlockEntityType<?> type) {
+        super(type);
         toolDrop = Blocks.FERTILIZER_SPREADER;
         energySlot = 10;
         inventory = new RebornInventory<>(11, "FertilizerSpreaderTile", 64, this);
@@ -49,7 +48,7 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
     }
 
     public FertilizerSpreaderTile(BlockPos pos, BlockState state) {
-        this(Tiles.FERTILIZER_SPREADER_TILE, pos, state);
+        this(Tiles.FERTILIZER_SPREADER_TILE);
     }
 
     public FertilizerSpreaderTile(TileCreateEvent event) {
@@ -57,7 +56,7 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
     }
 
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
-        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__FERTILIZER_SPREADER").player(player.getInventory()).inventory().hotbar().addInventory()
+        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__FERTILIZER_SPREADER").player(player.inventory).inventory().hotbar().addInventory()
                 .blockEntity(this)
                 .slot(0, 55, 32).slot(1, 73, 32).slot(2, 91, 32).slot(3, 109, 32).slot(4, 127, 32)
                 .slot(5, 55, 50).slot(6, 73, 50).slot(7, 91, 50).slot(8, 109, 50).slot(9, 127, 50)
@@ -65,15 +64,15 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
                 .addInventory().create(this, syncID);
     }
 
-    public long getBaseMaxPower() {
+    public double getBaseMaxPower() {
         return AutoConfigAddon.getConfig().fertilizerSpreaderMaxEnergy;
     }
 
-    public long getBaseMaxOutput() {
+    public double getBaseMaxOutput() {
         return 0;
     }
 
-    public long getBaseMaxInput() {
+    public double getBaseMaxInput() {
         return AutoConfigAddon.getConfig().fertilizerSpreaderMaxInput;
     }
 
@@ -85,12 +84,13 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
         return new ItemStack(toolDrop, 1);
     }
 
-    public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
-        super.tick(world, pos, state, blockEntity2);
+    public void tick() {
+        super.tick();
         if (world == null || world.isClient) {
             return;
         }
         charge(energySlot);
+        BlockState state = getWorld().getBlockState(getPos());
         BlockMachineBase block = (BlockMachineBase) state.getBlock();
 
         block.setActive(getEnergy() > 0, world, getPos());
@@ -105,7 +105,7 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
             // ここから!isEmpty↓
             if (getInventory().isEmpty()) return;
 
-            long useEnergy = getEuPerTick(AutoConfigAddon.config.fertilizerSpreaderUseEnergy);
+            double useEnergy = getEuPerTick(AutoConfigAddon.config.fertilizerSpreaderUseEnergy);
 
             if (getEnergy() > useEnergy) {
                 ItemStack stack =  getFertilizerStack();

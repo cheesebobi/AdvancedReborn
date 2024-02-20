@@ -11,7 +11,6 @@ import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
@@ -22,14 +21,14 @@ import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
-import reborncore.common.blockentity.MachineBaseBlockEntity;
+import reborncore.client.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.builder.BuiltScreenHandler;
+import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.recipes.RecipeCrafter;
-import reborncore.common.screen.BuiltScreenHandler;
-import reborncore.common.screen.BuiltScreenHandlerProvider;
-import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.util.ItemUtils;
 import reborncore.common.util.RebornInventory;
+import team.reborn.energy.EnergySide;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -50,8 +49,8 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
     private int cookTimeTotal;
     final int EnergyPerTick = 1;
 
-    public InductionFurnaceTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public InductionFurnaceTile(BlockEntityType<?> type) {
+        super(type);
         toolDrop = Blocks.INDUCTION_FURNACE;
         energySlot = 4;
         inventory = new RebornInventory<>(5, "InductionFurnaceTile", 64, this);
@@ -59,7 +58,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
     }
 
     public InductionFurnaceTile(BlockPos pos, BlockState state) {
-        this(Tiles.INDUCTION_FURNACE_TILE, pos, state);
+        this(Tiles.INDUCTION_FURNACE_TILE);
     }
 
     public InductionFurnaceTile(TileCreateEvent event) {
@@ -68,7 +67,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
 
 
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
-        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__induction_furnace_machine").player(player.getInventory()).inventory().hotbar().addInventory()
+        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__induction_furnace_machine").player(player.inventory).inventory().hotbar().addInventory()
                 .blockEntity(this).slot(0, 55 - 18, 45).slot(1, 55, 45).outputSlot(2, 101, 45).outputSlot(3, 101 + 18, 45).energySlot(4, 8, 72).syncEnergyValue()
                 .sync(this::getCookingTime, this::setCookTime).sync(this::getCookingTimeTotal, this::setCookTimeTotal).addInventory().create(this, syncID);
     }
@@ -81,7 +80,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
     }
 
     private void setInvDirty(boolean isDirty) {
-        inventory.setHashChanged(isDirty);
+        inventory.setChanged(isDirty);
     }
 
     private boolean isInvDirty() {
@@ -261,8 +260,8 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
         this.cookTimeTotal = cookTimeTotal;
     }
 
-    public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
-        super.tick(world, pos, state, blockEntity2);
+    public void tick() {
+        super.tick();
         charge(2);
 
         if (world == null || world.isClient) {
@@ -315,26 +314,26 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
         }
 
         if (crafting) {
-            if (getStored() > getEuPerTick(EnergyPerTick)) {
+            if (getStored(EnergySide.UNKNOWN) > getEuPerTick(EnergyPerTick)) {
                 useEnergy(getEuPerTick(EnergyPerTick));
                 cookTime++;
-                if (cookTime == 1 || cookTime % 20 == 0 && RecipeCrafter.soundHandler != null) {
-                    RecipeCrafter.soundHandler.playSound(false, this);
+                if (cookTime == 1 || cookTime % 20 == 0 && RecipeCrafter.soundHanlder != null) {
+                    RecipeCrafter.soundHanlder.playSound(false, this);
                 }
             }
         }
         setInvDirty(false);
     }
 
-    public long getBaseMaxPower() {
+    public double getBaseMaxPower() {
         return AutoConfigAddon.getConfig().advancedMachineMaxEnergy;
     }
 
-    public long getBaseMaxOutput() {
+    public double getBaseMaxOutput() {
         return 0;
     }
 
-    public long getBaseMaxInput() {
+    public double getBaseMaxInput() {
         return AutoConfigAddon.getConfig().advancedMachineMaxInput;
     }
 

@@ -10,17 +10,19 @@ import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
-import reborncore.common.powerSystem.RcEnergyItem;
-import reborncore.common.powerSystem.RcEnergyTier;
+import reborncore.common.powerSystem.PowerSystem;
+import reborncore.common.util.ItemDurabilityExtensions;
 import reborncore.common.util.ItemUtils;
+import team.reborn.energy.EnergyHolder;
+import team.reborn.energy.EnergyTier;
 import techreborn.items.BatteryItem;
 import techreborn.utils.MessageIDs;
 
-public class AdvancedBattery extends ExtendItem implements RcEnergyItem {
+public class AdvancedBattery extends ExtendItem implements EnergyHolder, ItemDurabilityExtensions {
     public int maxEnergy;
-    public RcEnergyTier tier;
+    private final EnergyTier tier;
 
-    public AdvancedBattery(CompatibleItemSettings settings, int maxEnergy, RcEnergyTier tier) {
+    public AdvancedBattery(CompatibleItemSettings settings, int maxEnergy, EnergyTier tier) {
         super(settings);
         this.maxEnergy = maxEnergy;
         this.tier = tier;
@@ -30,7 +32,7 @@ public class AdvancedBattery extends ExtendItem implements RcEnergyItem {
     public TypedActionResult<ItemStack> onRightClick(ItemUseEvent event) {
         final ItemStack stack = event.user.getPlayerEntity().getStackInHand(event.hand);
         if (event.user.isSneaking()) {
-            ItemUtils.switchActive(stack, 1, MessageIDs.poweredToolID, event.user.getPlayerEntity());
+            ItemUtils.switchActive(stack, 1, event.world.isClient, MessageIDs.poweredToolID);
             return new TypedActionResult<>(ActionResult.SUCCESS, stack);
         }
         return new TypedActionResult<>(ActionResult.PASS, stack);
@@ -38,7 +40,7 @@ public class AdvancedBattery extends ExtendItem implements RcEnergyItem {
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        ItemUtils.checkActive(stack, 1, MessageIDs.poweredToolID, entity);
+        ItemUtils.checkActive(stack, 1, entity.world.isClient, MessageIDs.poweredToolID);
         if (world.isClient) {
             return;
         }
@@ -56,27 +58,27 @@ public class AdvancedBattery extends ExtendItem implements RcEnergyItem {
     }
 
     @Override
-    public long getEnergyCapacity() {
+    public double getMaxStoredPower() {
         return maxEnergy;
     }
 
     @Override
-    public RcEnergyTier getTier() {
+    public EnergyTier getTier() {
         return tier;
     }
 
     @Override
-    public int getItemBarStep(ItemStack stack) {
-        return ItemUtils.getPowerForDurabilityBar(stack);
+    public double getDurability(ItemStack stack) {
+        return 1 - ItemUtils.getPowerForDurabilityBar(stack);
     }
 
     @Override
-    public boolean isItemBarVisible(ItemStack stack) {
+    public boolean showDurability(ItemStack stack) {
         return true;
     }
 
     @Override
-    public int getItemBarColor(ItemStack stack) {
-        return ItemUtils.getColorForDurabilityBar(stack);
+    public int getDurabilityColor(ItemStack stack) {
+        return PowerSystem.getDisplayPower().colour;
     }
 }

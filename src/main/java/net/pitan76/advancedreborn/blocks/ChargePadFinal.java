@@ -6,9 +6,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.pitan76.advancedreborn.api.Energy;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
-import team.reborn.energy.api.base.SimpleBatteryItem;
+import team.reborn.energy.Energy;
+import team.reborn.energy.EnergyHandler;
 
 public class ChargePadFinal extends ChargePad {
 
@@ -21,16 +21,16 @@ public class ChargePadFinal extends ChargePad {
         if (!(entity instanceof PlayerEntity)) return;
         PlayerEntity player = (PlayerEntity) entity;
         boolean needCharge = false;
-        for (int i = 0; i < player.getInventory().size(); i++) {
-            ItemStack invStack = player.getInventory().getStack(i);
+        for (int i = 0; i < player.inventory.size(); i++) {
+            ItemStack invStack = player.inventory.getStack(i);
 
             if (invStack.isEmpty()) {
                 continue;
             }
 
-            if (Energy.isHolder(invStack)) {
-                SimpleBatteryItem energy = Energy.of(invStack);
-                if (energy.getStoredEnergy(invStack) >= energy.getEnergyCapacity()) continue;
+            if (Energy.valid(invStack)) {
+                EnergyHandler energy = Energy.of(invStack);
+                if (energy.getEnergy() >= energy.getMaxStored()) continue;
                 needCharge = true;
             }
         }

@@ -10,7 +10,7 @@ import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
-import reborncore.common.powerSystem.RcEnergyTier;
+import team.reborn.energy.EnergyTier;
 import techreborn.config.TechRebornConfig;
 
 import static net.pitan76.advancedreborn.AdvancedReborn.registry;
@@ -68,11 +68,11 @@ public class Items {
     public static Item NANO_SUIT_BOOTS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorEquipmentType.FEET, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("nano_boots")).maxCount(1).maxDamage(-1));
 
     // 強化バッテリー
-    public static Item ADVANCED_BATTERY = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery")).maxCount(1).maxDamage(-1), 8 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
-    public static Item ADVANCED_BATTERY_2 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_2")).maxCount(1).maxDamage(-1), 64 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
-    public static Item ADVANCED_BATTERY_3 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_3")).maxCount(1).maxDamage(-1), 512 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
-    public static Item ADVANCED_BATTERY_4 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_4")).maxCount(1).maxDamage(-1), 4096 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
-    public static Item ADVANCED_BATTERY_5 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_5")).maxCount(1).maxDamage(-1), 32768 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.EXTREME);
+    public static Item ADVANCED_BATTERY = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery")).maxCount(1).maxDamage(-1), 8 * TechRebornConfig.redCellBatteryMaxCharge, EnergyTier.HIGH);
+    public static Item ADVANCED_BATTERY_2 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_2")).maxCount(1).maxDamage(-1), 64 * TechRebornConfig.redCellBatteryMaxCharge, EnergyTier.HIGH);
+    public static Item ADVANCED_BATTERY_3 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_3")).maxCount(1).maxDamage(-1), 512 * TechRebornConfig.redCellBatteryMaxCharge, EnergyTier.HIGH);
+    public static Item ADVANCED_BATTERY_4 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_4")).maxCount(1).maxDamage(-1), 4096 * TechRebornConfig.redCellBatteryMaxCharge, EnergyTier.HIGH);
+    public static Item ADVANCED_BATTERY_5 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_5")).maxCount(1).maxDamage(-1), 32768 * TechRebornConfig.redCellBatteryMaxCharge, EnergyTier.EXTREME);
 
     // ダイナマイト (予定: 時限爆弾)
     public static Item DYNAMITE = new Dynamite(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("dynamite")).maxCount(64));
@@ -95,10 +95,10 @@ public class Items {
     public static Item FOOD_CAN = new FoodCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("food_can")).maxCount(64).recipeRemainder(EMPTY_CAN).food(new FoodComponent.Builder().snack().hunger(2).saturationModifier(2).build()));
 
     // Better Batpack
-    public static Item BATPACK_4 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 4, new BBArmorMaterial("batpack4"), RcEnergyTier.MEDIUM);
-    public static Item BATPACK_16 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 16, new BBArmorMaterial("batpack16"), RcEnergyTier.HIGH);
-    public static Item BATPACK_64 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 64, new BBArmorMaterial("batpack64"), RcEnergyTier.EXTREME);
-    public static Item BATPACK_128 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 128, new BBArmorMaterial("batpack128"), RcEnergyTier.INSANE);
+    public static Item BATPACK_4 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 4, new BBArmorMaterial("batpack4"), EnergyTier.MEDIUM);
+    public static Item BATPACK_16 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 16, new BBArmorMaterial("batpack16"), EnergyTier.HIGH);
+    public static Item BATPACK_64 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 64, new BBArmorMaterial("batpack64"), EnergyTier.EXTREME);
+    public static Item BATPACK_128 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 128, new BBArmorMaterial("batpack128"), EnergyTier.INSANE);
 
 
 

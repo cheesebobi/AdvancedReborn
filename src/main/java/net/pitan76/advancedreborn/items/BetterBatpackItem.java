@@ -8,15 +8,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import reborncore.common.powerSystem.RcEnergyTier;
 import reborncore.common.util.ItemUtils;
+import team.reborn.energy.EnergyTier;
 import techreborn.items.armor.BatpackItem;
 
 import java.util.List;
 
 public class BetterBatpackItem extends BatpackItem {
 
-    public BetterBatpackItem(int maxCharge, ArmorMaterial material, RcEnergyTier tier) {
+    public BetterBatpackItem(int maxCharge, ArmorMaterial material, EnergyTier tier) {
         super(maxCharge, material, tier);
     }
 

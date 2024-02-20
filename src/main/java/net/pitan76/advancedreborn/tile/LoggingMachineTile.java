@@ -24,12 +24,11 @@ import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
-import reborncore.common.blockentity.MachineBaseBlockEntity;
+import reborncore.client.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.builder.BuiltScreenHandler;
+import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
-import reborncore.common.screen.BuiltScreenHandler;
-import reborncore.common.screen.BuiltScreenHandlerProvider;
-import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.util.RebornInventory;
 
 import java.util.ArrayList;
@@ -48,24 +47,24 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
     public int coolDownDefault = 5;
     public int coolDown = coolDownDefault;
 
-    public LoggingMachineTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public LoggingMachineTile(BlockEntityType<?> type) {
+        super(type);
         toolDrop = Blocks.LOGGING_MACHINE;
         energySlot = 6;
         inventory = new RebornInventory<>(7, "LoggingMachineTile", 64, this);
         checkTier();
     }
 
-    public LoggingMachineTile(BlockPos pos, BlockState state) {
-        this(Tiles.LOGGING_MACHINE_TILE, pos, state);
+    public LoggingMachineTile() {
+        this(Tiles.LOGGING_MACHINE_TILE);
     }
 
     public LoggingMachineTile(TileCreateEvent event) {
-        this(event.getBlockPos(), event.getBlockState());
+        this();
     }
 
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
-        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__LOGGING_MACHINE").player(player.getInventory()).inventory().hotbar().addInventory()
+        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__LOGGING_MACHINE").player(player.inventory).inventory().hotbar().addInventory()
                 .blockEntity(this)
                 .slot(0, 55, 50)
                 .slot(1, 55, 72).slot(2, 73, 72).slot(3, 91, 72).slot(4, 109, 72).slot(5, 127, 72)
@@ -73,15 +72,15 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
                 .addInventory().create(this, syncID);
     }
 
-    public long getBaseMaxPower() {
+    public double getBaseMaxPower() {
         return AutoConfigAddon.getConfig().loggingMachineMaxEnergy;
     }
 
-    public long getBaseMaxOutput() {
+    public double getBaseMaxOutput() {
         return 0;
     }
 
-    public long getBaseMaxInput() {
+    public double getBaseMaxInput() {
         return AutoConfigAddon.getConfig().loggingMachineMaxInput;
     }
 
@@ -93,12 +92,13 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
         return new ItemStack(toolDrop, 1);
     }
 
-    public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
-        super.tick(world, pos, state, blockEntity2);
+    public void tick() {
+        super.tick();
         if (world == null || world.isClient) {
             return;
         }
         charge(energySlot);
+        BlockState state = world.getBlockState(getPos());
         BlockMachineBase block = (BlockMachineBase) state.getBlock();
 
         block.setActive(getEnergy() > 0, world, getPos());
@@ -110,7 +110,7 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
 
 
         if (isActive()) {
-            long loggingUseEnergy = getEuPerTick(AutoConfigAddon.config.loggingMachineLoggingUseEnergy);
+            double loggingUseEnergy = getEuPerTick(AutoConfigAddon.config.loggingMachineLoggingUseEnergy);
             if (getEnergy() > loggingUseEnergy) {
                 List<ItemStack> drops = new ArrayList<>();
                 if (tryLogging(world, pos, getFacing(), AutoConfigAddon.config.loggingMachineRange, drops)) {
@@ -124,7 +124,7 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
             // ここから!isEmpty↓
             if (getInventory().isEmpty()) return;
 
-            long plantUseEnergy = getEuPerTick(AutoConfigAddon.config.loggingMachinePlantUseEnergy);
+            double plantUseEnergy = getEuPerTick(AutoConfigAddon.config.loggingMachinePlantUseEnergy);
 
             if (getEnergy() > plantUseEnergy) {
                 ItemStack stack =  inventory.getStack(saplingSlot);
@@ -137,8 +137,8 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
     }
     public void insertStack(ItemStack stack) {
         int[] indexes = insertItemSlots;
-        if (stack.isIn(ItemTags.SAPLINGS) || stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof SaplingBlock) {
-            indexes = ArrayUtils.addFirst(insertItemSlots, saplingSlot);
+        if (stack.getItem().isIn(ItemTags.SAPLINGS) || stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof SaplingBlock) {
+            indexes = ArrayUtils.add(insertItemSlots, saplingSlot);
         }
         for (int i : indexes) {
             ItemStack slotStack = inventory.getStack(i);
@@ -180,8 +180,8 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
         BlockPos executePos = pos.offset(direction);
         if (!world.getBlockState(executePos).isAir()) return false;
 
-        if (world.getBlockState(executePos.down()).isIn(BlockTags.DIRT)) {
-            if (stack.isIn(ItemTags.SAPLINGS)) {
+        if (FarmingMachineTile.getDirtBlocks().contains(world.getBlockState(executePos.down()).getBlock())) {
+            if (stack.getItem().isIn(ItemTags.SAPLINGS)) {
                 world.setBlockState(executePos, ((BlockItem) stack.getItem()).getBlock().getDefaultState(), 11);
                 return true;
             }

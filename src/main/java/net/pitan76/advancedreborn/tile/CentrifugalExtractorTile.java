@@ -10,7 +10,6 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
@@ -20,11 +19,10 @@ import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.api.recipe.IRecipeCrafterProvider;
-import reborncore.common.blockentity.MachineBaseBlockEntity;
-import reborncore.common.recipes.RecipeCrafter;
-import reborncore.common.screen.BuiltScreenHandler;
-import reborncore.common.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.builder.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
+import reborncore.common.recipes.RecipeCrafter;
 import reborncore.common.util.RebornInventory;
 import techreborn.init.ModRecipes;
 import techreborn.items.DynamicCellItem;
@@ -35,8 +33,8 @@ public class CentrifugalExtractorTile extends HeatMachineTile implements IToolDr
     public RebornInventory<?> inventory;
     public RecipeCrafter crafter;
 
-    public CentrifugalExtractorTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public CentrifugalExtractorTile(BlockEntityType<?> type) {
+        super(type);
         toolDrop = Blocks.CENTRIFUGAL_EXTRACTOR;
         energySlot = 4;
         inventory = new RebornInventory<>(5, "CentrifugalExtractorTile", 64, this);
@@ -45,7 +43,7 @@ public class CentrifugalExtractorTile extends HeatMachineTile implements IToolDr
     }
 
     public CentrifugalExtractorTile(BlockPos pos, BlockState state) {
-        this(Tiles.CENTRIFUGAL_EXTRACTOR_TILE, pos, state);
+        this(Tiles.CENTRIFUGAL_EXTRACTOR_TILE);
     }
 
     public CentrifugalExtractorTile(TileCreateEvent event) {
@@ -53,20 +51,20 @@ public class CentrifugalExtractorTile extends HeatMachineTile implements IToolDr
     }
 
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
-        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__centrifugal_extractor_machine").player(player.getInventory()).inventory().hotbar().addInventory()
+        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__centrifugal_extractor_machine").player(player.inventory).inventory().hotbar().addInventory()
                 .blockEntity(this).slot(0, 55, 45).outputSlot(1, 101 + 18 * 2, 45).outputSlot(2, 101 + 18, 45).outputSlot(3, 101, 45).energySlot(4, 8, 72).syncEnergyValue()
                 .syncCrafterValue().addInventory().create(this, syncID);
     }
 
-    public long getBaseMaxPower() {
+    public double getBaseMaxPower() {
         return AutoConfigAddon.getConfig().advancedMachineMaxEnergy;
     }
 
-    public long getBaseMaxOutput() {
+    public double getBaseMaxOutput() {
         return 0;
     }
 
-    public long getBaseMaxInput() {
+    public double getBaseMaxInput() {
         return AutoConfigAddon.getConfig().advancedMachineMaxInput;
     }
 
@@ -89,8 +87,8 @@ public class CentrifugalExtractorTile extends HeatMachineTile implements IToolDr
         return new ItemStack(toolDrop, 1);
     }
 
-    public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
-        super.tick(world, pos, state, blockEntity2);
+    public void tick() {
+        super.tick();
         if (world == null || world.isClient) {
             return;
         }

@@ -84,7 +84,8 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
                     nbtCompound.putString("note" ,tile.getNote());
                 }
                 if (!nbtCompound.isEmpty()) {
-                    itemStack.setSubNbt("BlockEntityTag", nbtCompound);
+                    if (itemStack.getTag() != null)
+                        itemStack.getTag().put("BlockEntityTag", nbtCompound);
                 }
                 if (tile.hasCustomName()) {
                     itemStack.setCustomName(tile.getCustomName());
@@ -153,8 +154,13 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     public ItemStack getPickStack(PickStackEvent e) {
         ItemStack itemStack = super.getPickStack(e);
         BlockEntity blockEntity = e.getBlockEntity();
-        if (blockEntity instanceof CardboardBoxTile)
-            blockEntity.setStackNbt(itemStack);
+        if (blockEntity instanceof CardboardBoxTile) {
+            NbtCompound nbtCompound = blockEntity.writeNbt(new NbtCompound());
+            if (!nbtCompound.isEmpty()) {
+                if (itemStack.getTag() != null)
+                    itemStack.getTag().put("BlockEntityTag", nbtCompound);
+            }
+        }
 
         return itemStack;
     }
@@ -162,7 +168,7 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
         super.appendTooltip(stack, world, tooltip, options);
-        NbtCompound nbtCompound = stack.getSubNbt("BlockEntityTag");
+        NbtCompound nbtCompound = stack.getOrCreateSubTag("BlockEntityTag");
         if (nbtCompound != null) {
             if (nbtCompound.contains("note")) {
                 tooltip.add(TextUtil.literal(nbtCompound.getString("note")));

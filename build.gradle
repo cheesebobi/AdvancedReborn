@@ -35,10 +35,11 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// TRのエネルギー用
-	modImplementation 'RebornCore:RebornCore-1.16:3.8.4'
-	modImplementation 'TechReborn:TechReborn-1.16:3.8.4'
+	modImplementation 'RebornCore:RebornCore-1.16:+'
+	modImplementation 'TechReborn:TechReborn-1.16:+'
 
-	modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:6.5.433")
+	modApi "me.shedaniel:RoughlyEnoughItems-api:5.12.248"
+	modImplementation "me.shedaniel:RoughlyEnoughItems:5.12.248"
 
 	// CC: Restitched
 	modApi 'com.electronwill.night-config:core:3.6.6'

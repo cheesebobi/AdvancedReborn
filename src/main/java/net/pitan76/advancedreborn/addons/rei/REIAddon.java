@@ -1,13 +1,11 @@
 package net.pitan76.advancedreborn.addons.rei;
 
-import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
-import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
-import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
-import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.display.Display;
-import me.shedaniel.rei.api.common.entry.EntryStack;
-import me.shedaniel.rei.api.common.util.EntryStacks;
-import me.shedaniel.rei.plugin.common.BuiltinPlugin;
+import me.shedaniel.rei.api.BuiltinPlugin;
+import me.shedaniel.rei.api.EntryStack;
+import me.shedaniel.rei.api.RecipeDisplay;
+import me.shedaniel.rei.api.RecipeHelper;
+import me.shedaniel.rei.api.plugins.REIPluginV0;
+import net.minecraft.recipe.Recipe;
 import net.minecraft.util.Identifier;
 import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.Blocks;
@@ -23,10 +21,13 @@ import techreborn.init.ModRecipes;
 import techreborn.init.TRContent;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
-public class REIAddon implements REIClientPlugin {
+public class REIAddon implements REIPluginV0 {
 
     public static Identifier PLUGIN = AdvancedReborn.id("advanced_plugin");
+
+    //public static Map<RebornRecipeType<?>, ItemConvertible> iconMap = new HashMap<>();
 
     public REIAddon() {
         ReiPlugin.iconMap.put(Recipes.CANNING_MACHINE, Blocks.CANNING_MACHINE);
@@ -39,46 +40,37 @@ public class REIAddon implements REIClientPlugin {
         return PLUGIN;
     }
 
-    public void registerCategories(CategoryRegistry recipeHelper) {
-        recipeHelper.add(new TwoInputRightOutputCategory<>(Recipes.CANNING_MACHINE));
-        registerOthers();
+    public void registerPluginCategories(RecipeHelper recipeHelper) {
+        recipeHelper.registerCategory(new TwoInputRightOutputCategory<>(Recipes.CANNING_MACHINE));
     }
 
-    private void addWorkstations(Identifier identifier, EntryStack<?>... stacks) {
-        CategoryRegistry.getInstance().addWorkstations(CategoryIdentifier.of(identifier), stacks);
-    }
-
-    public void registerDisplays(DisplayRegistry registry) {
-        registerRecipeDisplays(registry);
-    }
-
-    public void registerRecipeDisplays(DisplayRegistry recipeHelper) {
+    public void registerRecipeDisplays(RecipeHelper recipeHelper) {
         RecipeManager.getRecipeTypes(AdvancedReborn.MOD_ID).forEach(rebornRecipeType -> registerMachineRecipe(recipeHelper, rebornRecipeType));
     }
 
-    public <R extends RebornRecipe> void registerMachineRecipe(DisplayRegistry registry, RebornRecipeType<R> recipeType) {
-        Function<R, Display> recipeDisplay = r -> new MachineRecipeDisplay<>((RebornRecipe) r);
-        registry.registerFiller(RebornRecipe.class, recipe -> {
+    public <R extends RebornRecipe> void registerMachineRecipe(RecipeHelper recipeHelper, RebornRecipeType<R> recipeType) {
+        Function<R, RecipeDisplay> recipeDisplay = r -> new MachineRecipeDisplay<>((RebornRecipe) r);
+        recipeHelper.registerRecipes(recipeType.getName(), (Predicate<Recipe>) recipe -> {
             if (recipe instanceof RebornRecipe) {
-                return recipe.getRebornRecipeType() == recipeType;
+                return ((RebornRecipe) recipe).getRebornRecipeType() == recipeType;
             }
             return false;
         }, recipeDisplay);
     }
 
-    public void registerOthers() {
-        if (AutoConfigAddon.getConfig().linkReiWithTR) registerOthersTR();
+    public void registerOthers(RecipeHelper recipeHelper) {
+        if (AutoConfigAddon.getConfig().linkReiWithTR) registerOthersTR(recipeHelper);
         if (AutoConfigAddon.getConfig().linkReiWithAR) {
-            addWorkstations(Recipes.CANNING_MACHINE.name(), EntryStacks.of(Blocks.CANNING_MACHINE));
-            addWorkstations(ModRecipes.GRINDER.name(), EntryStacks.of(Blocks.ROTARY_GRINDER));
-            addWorkstations(ModRecipes.EXTRACTOR.name(), EntryStacks.of(Blocks.CENTRIFUGAL_EXTRACTOR));
-            addWorkstations(ModRecipes.COMPRESSOR.name(), EntryStacks.of(Blocks.SINGULARITY_COMPRESSOR));
-            addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), EntryStacks.of(Blocks.INDUCTION_FURNACE));
+            recipeHelper.registerWorkingStations(Recipes.CANNING_MACHINE.getName(), EntryStack.create(Blocks.CANNING_MACHINE));
+            recipeHelper.registerWorkingStations(ModRecipes.GRINDER.getName(), EntryStack.create(Blocks.ROTARY_GRINDER));
+            recipeHelper.registerWorkingStations(ModRecipes.EXTRACTOR.getName(), EntryStack.create(Blocks.CENTRIFUGAL_EXTRACTOR));
+            recipeHelper.registerWorkingStations(ModRecipes.COMPRESSOR.getName(), EntryStack.create(Blocks.SINGULARITY_COMPRESSOR));
+            recipeHelper.registerWorkingStations(BuiltinPlugin.SMELTING, EntryStack.create(Blocks.INDUCTION_FURNACE));
         }
     }
 
-    public void registerOthersTR() {
-        addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), EntryStacks.of(TRContent.Machine.IRON_FURNACE));
-        addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), EntryStacks.of(TRContent.Machine.ELECTRIC_FURNACE));
+    public void registerOthersTR(RecipeHelper recipeHelper) {
+        recipeHelper.registerWorkingStations(BuiltinPlugin.SMELTING, EntryStack.create(TRContent.Machine.IRON_FURNACE));
+        recipeHelper.registerWorkingStations(BuiltinPlugin.SMELTING, EntryStack.create(TRContent.Machine.ELECTRIC_FURNACE));
     }
 }

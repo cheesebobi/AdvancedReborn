@@ -56,11 +56,11 @@ public class CardboardBoxScreen extends SimpleInventoryScreen {
         getNoteBox().setFocusUnlocked(false);
         ScreenUtil.TextFieldUtil.setFocused(getNoteBox(), true);
         getNoteBox().setMaxLength(2048);
-        addSelectableChild(getNoteBox());
+        addButton(getNoteBox());
     }
 
-    public void close() {
-        super.close();
+    public void onClose() {
+        super.onClose();
         PacketByteBuf buf = PacketByteUtil.create();
         NbtCompound data = new NbtCompound();
         data.putString("note", getNote());

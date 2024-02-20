@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
 import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
@@ -21,12 +20,11 @@ import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
-import reborncore.common.blockentity.MachineBaseBlockEntity;
+import reborncore.client.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.builder.BuiltScreenHandler;
+import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
-import reborncore.common.screen.BuiltScreenHandler;
-import reborncore.common.screen.BuiltScreenHandlerProvider;
-import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.util.RebornInventory;
 
 import java.util.HashMap;
@@ -40,8 +38,8 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
     public int coolDownDefault = 100;
     public int coolDown = coolDownDefault;
 
-    public EnchantmentExtractorTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public EnchantmentExtractorTile(BlockEntityType<?> type) {
+        super(type);
         toolDrop = Blocks.ENCHANTMENT_EXTRACTOR;
         energySlot = 10;
         inventory = new RebornInventory<>(12, "EnchantmentExtractorTile", 64, this);
@@ -49,7 +47,7 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
     }
 
     public EnchantmentExtractorTile(BlockPos pos, BlockState state) {
-        this(Tiles.ENCHANTMENT_EXTRACTOR_TILE, pos, state);
+        this(Tiles.ENCHANTMENT_EXTRACTOR_TILE);
     }
 
     public EnchantmentExtractorTile(TileCreateEvent event) {
@@ -57,7 +55,7 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
     }
 
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
-        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__enchantment_extractor").player(player.getInventory()).inventory().hotbar().addInventory()
+        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__enchantment_extractor").player(player.inventory).inventory().hotbar().addInventory()
                 .blockEntity(this)
                 .slot(11, 60, 25) // Book Input
 
@@ -86,15 +84,15 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
         return coolDownDefault;
     }
 
-    public long getBaseMaxPower() {
+    public double getBaseMaxPower() {
         return AutoConfigAddon.getConfig().enchantmentExtractorMaxEnergy;
     }
 
-    public long getBaseMaxOutput() {
+    public double getBaseMaxOutput() {
         return 0;
     }
 
-    public long getBaseMaxInput() {
+    public double getBaseMaxInput() {
         return AutoConfigAddon.getConfig().enchantmentExtractorMaxInput;
     }
 
@@ -114,13 +112,14 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
         return new ItemStack(toolDrop, 1);
     }
 
-    public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
-        super.tick(world, pos, state, blockEntity2);
+    public void tick() {
+        super.tick();
         if (world == null || world.isClient) {
             return;
         }
         charge(energySlot);
 
+        BlockState state = getWorld().getBlockState(getPos());
         BlockMachineBase block = (BlockMachineBase) state.getBlock();
         block.setActive(getCoolDown() != getCoolDownDefault(), world, getPos());
         if (!getInventory().getStack(1).isEmpty() || getInventory().getStack(0).isEmpty() || getInventory().getStack(11).isEmpty()) {
@@ -148,9 +147,9 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
                                 insertStack(itemStack);
                             }
                             ItemStack newStack = inputStack.copy();
-                            if (newStack.hasNbt()) {
-                                if (newStack.getNbt().contains(ItemStack.ENCHANTMENTS_KEY)) {
-                                    newStack.getNbt().remove(ItemStack.ENCHANTMENTS_KEY);
+                            if (newStack.hasTag()) {
+                                if (newStack.getTag().contains("Enchantments")) {
+                                    newStack.getTag().remove("Enchantments");
                                 }
                             }
                             inventory.setStack(1, newStack);

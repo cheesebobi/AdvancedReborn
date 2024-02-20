@@ -12,7 +12,6 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -24,12 +23,11 @@ import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
-import reborncore.common.blockentity.MachineBaseBlockEntity;
+import reborncore.client.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.builder.BuiltScreenHandler;
+import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
-import reborncore.common.screen.BuiltScreenHandler;
-import reborncore.common.screen.BuiltScreenHandlerProvider;
-import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.util.RebornInventory;
 
 import java.util.ArrayList;
@@ -48,24 +46,24 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
     public int coolDownDefault = 5;
     public int coolDown = coolDownDefault;
 
-    public FarmingMachineTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
+    public FarmingMachineTile(BlockEntityType<?> type) {
+        super(type);
         toolDrop = Blocks.FARMING_MACHINE;
         energySlot = 9;
         inventory = new RebornInventory<>(10, "FarmingMachineTile", 64, this);
         checkTier();
     }
 
-    public FarmingMachineTile(BlockPos pos, BlockState state) {
-        this(Tiles.FARMING_MACHINE_TILE, pos, state);
+    public FarmingMachineTile() {
+        this(Tiles.FARMING_MACHINE_TILE);
     }
 
     public FarmingMachineTile(TileCreateEvent event) {
-        this(event.getBlockPos(), event.getBlockState());
+        this();
     }
 
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
-        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__FARMING_MACHINE").player(player.getInventory()).inventory().hotbar().addInventory()
+        return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__FARMING_MACHINE").player(player.inventory).inventory().hotbar().addInventory()
                 .blockEntity(this)
                 .slot(0, 55, 32).slot(1, 73, 32).slot(2, 55, 50).slot(3, 73, 50)
                 .slot(4, 55, 72).slot(5, 73, 72).slot(6, 91, 72).slot(7, 109, 72).slot(8, 127, 72)
@@ -73,15 +71,15 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
                 .addInventory().create(this, syncID);
     }
 
-    public long getBaseMaxPower() {
+    public double getBaseMaxPower() {
         return AutoConfigAddon.getConfig().farmingMachineMaxEnergy;
     }
 
-    public long getBaseMaxOutput() {
+    public double getBaseMaxOutput() {
         return 0;
     }
 
-    public long getBaseMaxInput() {
+    public double getBaseMaxInput() {
         return AutoConfigAddon.getConfig().farmingMachineMaxInput;
     }
 
@@ -93,12 +91,13 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
         return new ItemStack(toolDrop, 1);
     }
 
-    public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
-        super.tick(world, pos, state, blockEntity2);
+    public void tick() {
+        super.tick();
         if (world == null || world.isClient) {
             return;
         }
         charge(energySlot);
+        BlockState state = getWorld().getBlockState(getPos());
         BlockMachineBase block = (BlockMachineBase) state.getBlock();
 
         block.setActive(getEnergy() > 0, world, getPos());
@@ -109,7 +108,7 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
         }
 
         if (isActive()) {
-            long harvestUseEnergy = getEuPerTick(AutoConfigAddon.config.farmingMachineHarvestUseEnergy);
+            double harvestUseEnergy = getEuPerTick(AutoConfigAddon.config.farmingMachineHarvestUseEnergy);
             if (getEnergy() > harvestUseEnergy) {
                 List<ItemStack> drops = new ArrayList<>();
                 if (tryHarvest(world, pos, AutoConfigAddon.config.farmingMachineRange, drops)) {
@@ -123,7 +122,7 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
             // ここから!isEmpty↓
             if (getInventory().isEmpty()) return;
 
-            long plantUseEnergy = getEuPerTick(AutoConfigAddon.config.farmingMachinePlantUseEnergy);
+            double plantUseEnergy = getEuPerTick(AutoConfigAddon.config.farmingMachinePlantUseEnergy);
 
             if (getEnergy() > plantUseEnergy) {
                 ItemStack stack =  getPlantStack();
@@ -168,6 +167,18 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
         world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack));
     }
 
+    private static List<Block> CACHE_DIRT_BLOCKS = null;
+
+    public static List<Block> getDirtBlocks() {
+        if (CACHE_DIRT_BLOCKS != null) return CACHE_DIRT_BLOCKS;
+        List<Block> blocks = new ArrayList<>();
+        blocks.add(net.minecraft.block.Blocks.DIRT);
+        blocks.add(net.minecraft.block.Blocks.GRASS_BLOCK);
+        blocks.add(net.minecraft.block.Blocks.COARSE_DIRT);
+        blocks.add(net.minecraft.block.Blocks.PODZOL);
+        CACHE_DIRT_BLOCKS = blocks;
+        return blocks;
+    }
 
     public static void setFarmland(World world, BlockPos pos, int range) {
         if (world.isClient) return;
@@ -177,7 +188,7 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
         for (int x = -range; x < range + 1; x++) {
             for (int z = -range; z < range + 1; z++) {
                 BlockPos executePos = new BlockPos(downPos.getX() + x, downPos.getY(), downPos.getZ() + z);
-                if (world.getBlockState(executePos).isIn(BlockTags.DIRT)) {
+                if (getDirtBlocks().contains(world.getBlockState(executePos).getBlock())) {
                     world.setBlockState(executePos, net.minecraft.block.Blocks.FARMLAND.getDefaultState());
                 }
             }
