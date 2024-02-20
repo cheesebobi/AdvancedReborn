@@ -136,7 +136,7 @@ if (System.getenv("MODRINTH_TOKEN") != null) {
 	modrinth {
 		token = System.getenv("MODRINTH_TOKEN")
 		projectId = 'ir8okcEA'
-		versionNumber = project.mod_version + "-fabric"
+		versionNumber = project.minecraft_version + "-" + project.mod_version + "-fabric"
 		gameVersions = [project.minecraft_version]
 		versionType = 'release'
 		uploadFile = tasks.remapJar
