@@ -6,7 +6,6 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.util.collection.DefaultedList;
@@ -94,17 +93,17 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
             resetCrafter();
             return;
         }
-        Optional<RecipeEntry<SmeltingRecipe>> testRecipe = Objects.requireNonNull(world).getRecipeManager().getFirstMatch(RecipeType.SMELTING, getInventory(), world);
+        Optional<SmeltingRecipe> testRecipe = Objects.requireNonNull(world).getRecipeManager().getFirstMatch(RecipeType.SMELTING, getInventory(), world);
         if (!testRecipe.isPresent()) {
             resetCrafter();
             return;
         }
-        if (!canAcceptOutput(testRecipe.get().value(), outputSlot)) {
+        if (!canAcceptOutput(testRecipe.get(), outputSlot)) {
             resetCrafter();
         }
-        currentRecipe = testRecipe.get().value();
+        currentRecipe = testRecipe.get();
         cookTime = 0;
-        cookTimeTotal = Math.max((int) (currentRecipe.getCookingTime() * (1.0 - getSpeedMultiplier())), 1);
+        cookTimeTotal = Math.max((int) (currentRecipe.getCookTime() * (1.0 - getSpeedMultiplier())), 1);
         updateState();
     }
 
@@ -113,18 +112,18 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
             resetCrafter2();
             return;
         }
-        Optional<RecipeEntry<SmeltingRecipe>> testRecipe = Objects.requireNonNull(world).getRecipeManager().getFirstMatch(RecipeType.SMELTING, getRecipe2AsInventory(), world);
+        Optional<SmeltingRecipe> testRecipe = Objects.requireNonNull(world).getRecipeManager().getFirstMatch(RecipeType.SMELTING, getRecipe2AsInventory(), world);
         if (!testRecipe.isPresent()) {
             resetCrafter2();
             return;
         }
-        if (!canAcceptOutput(testRecipe.get().value(), outputSlot2)) {
+        if (!canAcceptOutput(testRecipe.get(), outputSlot2)) {
             resetCrafter2();
         }
-        currentRecipe2 = testRecipe.get().value();
+        currentRecipe2 = testRecipe.get();
         if (currentRecipe == null) {
             cookTime = 0;
-            cookTimeTotal = Math.max((int) (currentRecipe2.getCookingTime() * (1.0 - getSpeedMultiplier())), 1);
+            cookTimeTotal = Math.max((int) (currentRecipe2.getCookTime() * (1.0 - getSpeedMultiplier())), 1);
         }
         updateState();
     }
@@ -153,7 +152,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
         if (!canAcceptOutput(currentRecipe, outputSlot)) {
             return false;
         }
-        return !(getEnergy() < currentRecipe.getCookingTime() * getEuPerTick(EnergyPerTick));
+        return !(getEnergy() < currentRecipe.getCookTime() * getEuPerTick(EnergyPerTick));
     }
 
     public boolean canCraftAgain2() {
@@ -166,7 +165,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
         if (!canAcceptOutput(currentRecipe2, outputSlot2)) {
             return false;
         }
-        return !(getEnergy() < currentRecipe2.getCookingTime() * getEuPerTick(EnergyPerTick));
+        return !(getEnergy() < currentRecipe2.getCookTime() * getEuPerTick(EnergyPerTick));
     }
 
     private void resetCrafter() {

@@ -8,7 +8,6 @@ import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.plugin.common.BuiltinPlugin;
-import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.util.Identifier;
 import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.Blocks;
@@ -18,12 +17,8 @@ import net.pitan76.advancedreborn.addons.rei.machine.TwoInputRightOutputCategory
 import reborncore.common.crafting.RebornRecipe;
 import reborncore.common.crafting.RebornRecipeType;
 import reborncore.common.crafting.RecipeManager;
-import techreborn.api.recipe.recipes.FluidReplicatorRecipe;
-import techreborn.api.recipe.recipes.RollingMachineRecipe;
 import techreborn.client.compat.rei.MachineRecipeDisplay;
 import techreborn.client.compat.rei.ReiPlugin;
-import techreborn.client.compat.rei.fluidreplicator.FluidReplicatorRecipeDisplay;
-import techreborn.client.compat.rei.rollingmachine.RollingMachineDisplay;
 import techreborn.init.ModRecipes;
 import techreborn.init.TRContent;
 
@@ -32,8 +27,6 @@ import java.util.function.Function;
 public class REIAddon implements REIClientPlugin {
 
     public static Identifier PLUGIN = AdvancedReborn.id("advanced_plugin");
-
-    //public static Map<RebornRecipeType<?>, ItemConvertible> iconMap = new HashMap<>();
 
     public REIAddon() {
         ReiPlugin.iconMap.put(Recipes.CANNING_MACHINE, Blocks.CANNING_MACHINE);
@@ -63,25 +56,14 @@ public class REIAddon implements REIClientPlugin {
         RecipeManager.getRecipeTypes(AdvancedReborn.MOD_ID).forEach(rebornRecipeType -> registerMachineRecipe(recipeHelper, rebornRecipeType));
     }
 
-    private <R extends RebornRecipe> void registerMachineRecipe(DisplayRegistry registry, RebornRecipeType<R> recipeType) {
-        if (recipeType != ModRecipes.RECYCLER) {
-            Function<RecipeEntry<RebornRecipe>, Display> recipeDisplay = MachineRecipeDisplay::new;
-            if (recipeType == ModRecipes.ROLLING_MACHINE) {
-                recipeDisplay = (r) -> {
-                    RollingMachineRecipe rollingMachineRecipe = (RollingMachineRecipe)r.value();
-                    return new RollingMachineDisplay(new RecipeEntry(recipeType.name(), rollingMachineRecipe.getShapedRecipe()));
-                };
+    public <R extends RebornRecipe> void registerMachineRecipe(DisplayRegistry registry, RebornRecipeType<R> recipeType) {
+        Function<R, Display> recipeDisplay = r -> new MachineRecipeDisplay<>((RebornRecipe) r);
+        registry.registerFiller(RebornRecipe.class, recipe -> {
+            if (recipe instanceof RebornRecipe) {
+                return recipe.getRebornRecipeType() == recipeType;
             }
-
-            if (recipeType == ModRecipes.FLUID_REPLICATOR) {
-                recipeDisplay = (r) -> {
-                    FluidReplicatorRecipe recipe = (FluidReplicatorRecipe)r.value();
-                    return new FluidReplicatorRecipeDisplay(new RecipeEntry(recipeType.name(), recipe));
-                };
-            }
-
-            registry.registerRecipeFiller(RebornRecipe.class, (recipeType1) -> true, (recipeEntry) -> recipeEntry.value().getRebornRecipeType() == recipeType, recipeDisplay);
-        }
+            return false;
+        }, recipeDisplay);
     }
 
     public void registerOthers() {

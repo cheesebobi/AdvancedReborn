@@ -46,7 +46,7 @@ public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker
     }
 
     @Override
-    public long getEnergyCapacity(ItemStack itemStack) {
+    public long getEnergyCapacity() {
         return 1_000_000;
     }
 

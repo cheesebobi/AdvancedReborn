@@ -43,12 +43,12 @@ public class IndustrialTNT extends TntBlock {
 
     }
 
-    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (!world.isClient() && !player.isCreative() && state.get(UNSTABLE)) {
             primeITnt(world, pos);
         }
 
-        return super.onBreak(world, pos, state, player);
+        super.onBreak(world, pos, state, player);
     }
 
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {

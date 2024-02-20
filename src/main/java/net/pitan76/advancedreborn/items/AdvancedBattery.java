@@ -55,7 +55,7 @@ public class AdvancedBattery extends ExtendItem implements RcEnergyItem {
     }
 
     @Override
-    public long getEnergyCapacity(ItemStack itemStack) {
+    public long getEnergyCapacity() {
         return maxEnergy;
     }
 
