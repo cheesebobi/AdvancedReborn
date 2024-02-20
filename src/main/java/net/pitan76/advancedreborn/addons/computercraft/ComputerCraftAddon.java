@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Level;
 public class ComputerCraftAddon {
 
     public static void init() {
+        // data/techreborn/computercraft/turtle_upgrades/*.jsonで定義しているので、ここでは何もしない
         AdvancedReborn.log(Level.INFO, "Found ComputerCraft");
     }
 }
