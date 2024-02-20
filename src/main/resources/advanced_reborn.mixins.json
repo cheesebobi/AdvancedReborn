@@ -1,10 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "ml.pkom.advancedreborn.mixins",
+  "package": "net.pitan76.advancedreborn.mixins",
   "mixins": [
-    "ExplosionAccessor",
     "ARLivingEntityMixin",
+    "ExplosionAccessor",
     "MachineBaseBlockEntityAccessor",
     "TechRebornMixin"
   ],

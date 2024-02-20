@@ -9,34 +9,30 @@
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/advancedreborn",
-    "sources": "https://github.com/PTOM76/advancedreborn",
-    "issues": "https://github.com/PTOM76/advancedreborn/issues"
+    "sources": "https://github.com/Pitan76/advancedreborn",
+    "issues": "https://github.com/Pitan76/advancedreborn/issues"
   },
-
   "license": "MPL-2.0",
   "icon": "assets/advanced_reborn/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
-      "ml.pkom.advancedreborn.AdvancedReborn"
+      "net.pitan76.advancedreborn.AdvancedReborn"
     ],
     "client": [
-      "ml.pkom.advancedreborn.AdvancedRebornClient"
+      "net.pitan76.advancedreborn.AdvancedRebornClient"
     ],
     "rei_client": [
-      "ml.pkom.advancedreborn.addons.rei.REIAddon"
+      "net.pitan76.advancedreborn.addons.rei.REIAddon"
     ]
   },
   "mixins": [
     "advanced_reborn.mixins.json"
   ],
-
   "depends": {
     "fabricloader": "*",
-    "fabric": "*",
     "minecraft": "*",
     "techreborn": "*",
-    "mcpitanlibarch": ">1.5.2"
+    "mcpitanlib": ">2.0.0"
   }
 }

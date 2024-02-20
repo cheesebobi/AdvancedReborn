@@ -61,7 +61,7 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 
-	modImplementation "ml.pkom:mcpitanlibarch-fabric${rootProject.mcpitanlib_version}"
+	modImplementation "net.pitan76:mcpitanlib-fabric${rootProject.mcpitanlib_version}"
 }
 
 processResources {
@@ -137,7 +137,7 @@ if (System.getenv("CURSEFORGE_TOKEN") != null) {
 				requiredDependency "fabric-api"
 				requiredDependency "techreborn"
 				requiredDependency "reborncore"
-				requiredDependency "mcpitanlibarch"
+				requiredDependency "mcpitanlib"
 				optionalDependency "roughly-enough-items"
 				optionalDependency "cc-restitched"
 			}
