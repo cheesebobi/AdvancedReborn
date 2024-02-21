@@ -9,6 +9,7 @@ import net.pitan76.advancedreborn.blocks.RaySolar;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
+import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,14 +30,13 @@ public class AdvancedReborn implements ModInitializer {
     // Add ItemGroup
     public static DefaultedList<ItemStack> addStacksIG = DefaultedList.of();
 
-    public static ItemGroup AR_GROUP = CreativeTabBuilder.create(
+    public static CreativeTabBuilder AR_GROUP = CreativeTabBuilder.create(
             id("item_group")).
-            setIcon(() -> new ItemStack(Items.CHARGE_PAD_MK_FINAL, 1)).
-            build();
+            setIcon(() -> new ItemStack(Items.CHARGE_PAD_MK_FINAL, 1));
 
     @Override
     public void onInitialize() {
-        registry.registerItemGroup(id("item_group"), () -> AR_GROUP);
+        RegistryResult<ItemGroup> result = registry.registerItemGroup(id("item_group"), AR_GROUP);
 
         ModManager.beforeInit();
         Items.init();
@@ -53,7 +53,7 @@ public class AdvancedReborn implements ModInitializer {
 
         if (!addStacksIG.isEmpty()) {
             for (ItemStack stack : addStacksIG) {
-                CreativeTabManager.addStack(() -> AR_GROUP, stack);
+                CreativeTabManager.addStack(() -> result.getOrNull(), stack);
             }
         }
 
