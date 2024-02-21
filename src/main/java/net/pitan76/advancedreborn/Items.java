@@ -18,41 +18,41 @@ import static net.pitan76.advancedreborn.AdvancedReborn.registry;
 public class Items {
     public static CompatibleItemSettings nothingSettings = CompatibleItemSettings.of();
 
-    public static Item CHARGE_PAD_MK_1 = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_1, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("charge_pad")).maxCount(64));
-    public static Item CHARGE_PAD_MK_2 = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_2, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("charge_pad_2")).maxCount(64));
-    public static Item CHARGE_PAD_MK_3 = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_3, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("charge_pad_3")).maxCount(64));
-    public static Item CHARGE_PAD_MK_4 = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_4, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("charge_pad_4")).maxCount(64));
-    public static Item CHARGE_PAD_MK_FINAL = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_FINAL, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("charge_pad_final")).maxCount(64));
+    public static Item CHARGE_PAD_MK_1 = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_1, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CHARGE_PAD_MK_2 = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_2, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CHARGE_PAD_MK_3 = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_3, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CHARGE_PAD_MK_4 = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_4, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CHARGE_PAD_MK_FINAL = ItemUtil.ofBlock(Blocks.CHARGE_PAD_MK_FINAL, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
 
-    public static Item RAY_SOLAR_1 = ItemUtil.ofBlock(Blocks.RAY_SOLAR_1, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_solar_panel")).maxCount(64));
-    public static Item RAY_SOLAR_2 = ItemUtil.ofBlock(Blocks.RAY_SOLAR_2, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_solar_panel_2")).maxCount(64));
-    public static Item RAY_SOLAR_3 = ItemUtil.ofBlock(Blocks.RAY_SOLAR_3, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_solar_panel_3")).maxCount(64));
-    public static Item RAY_SOLAR_4 = ItemUtil.ofBlock(Blocks.RAY_SOLAR_4, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_solar_panel_4")).maxCount(64));
-    public static Item RAY_GENERATOR_1 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_1, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator")).maxCount(64));
-    public static Item RAY_GENERATOR_2 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_2, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator_2")).maxCount(64));
-    public static Item RAY_GENERATOR_3 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_3, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator_3")).maxCount(64));
-    public static Item RAY_GENERATOR_4 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_4, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator_4")).maxCount(64));
-    public static Item RAY_GENERATOR_5 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_5, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator_5")).maxCount(64));
-    public static Item RAY_GENERATOR_6 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_6, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator_6")).maxCount(64));
-    public static Item RAY_GENERATOR_7 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_7, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator_7")).maxCount(64));
-    public static Item RAY_GENERATOR_8 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_8, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator_8")).maxCount(64));
-    public static Item RAY_GENERATOR_9 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_9, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator_9")).maxCount(64));
-    public static Item RAY_GENERATOR_10 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_10, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("ray_generator_10")).maxCount(64));
+    public static Item RAY_SOLAR_1 = ItemUtil.ofBlock(Blocks.RAY_SOLAR_1, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_SOLAR_2 = ItemUtil.ofBlock(Blocks.RAY_SOLAR_2, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_SOLAR_3 = ItemUtil.ofBlock(Blocks.RAY_SOLAR_3, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_SOLAR_4 = ItemUtil.ofBlock(Blocks.RAY_SOLAR_4, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_1 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_1, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_2 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_2, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_3 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_3, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_4 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_4, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_5 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_5, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_6 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_6, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_7 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_7, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_8 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_8, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_9 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_9, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RAY_GENERATOR_10 = ItemUtil.ofBlock(Blocks.RAY_GENERATOR_10, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
 
-    public static Item INDUCTION_FURNACE = ItemUtil.ofBlock(Blocks.INDUCTION_FURNACE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("induction_furnace")).maxCount(64));
-    public static Item ROTARY_GRINDER = ItemUtil.ofBlock(Blocks.ROTARY_GRINDER, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("rotary_grinder")).maxCount(64));
-    public static Item CENTRIFUGAL_EXTRACTOR = ItemUtil.ofBlock(Blocks.CENTRIFUGAL_EXTRACTOR, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("centrifugal_extractor")).maxCount(64));
-    public static Item SINGULARITY_COMPRESSOR = ItemUtil.ofBlock(Blocks.SINGULARITY_COMPRESSOR, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("singularity_compressor")).maxCount(64));
-    public static Item CANNING_MACHINE = ItemUtil.ofBlock(Blocks.CANNING_MACHINE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("canning_machine")).maxCount(64));
-    public static Item RENAMING_MACHINE = ItemUtil.ofBlock(Blocks.RENAMING_MACHINE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("renaming_machine")).maxCount(64));
-    public static Item TELEPORTER = ItemUtil.ofBlock(Blocks.TELEPORTER, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("teleporter")).maxCount(64));
-    public static Item FARMING_MACHINE = ItemUtil.ofBlock(Blocks.FARMING_MACHINE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("farming_machine")).maxCount(64));
-    public static Item LOGGING_MACHINE = ItemUtil.ofBlock(Blocks.LOGGING_MACHINE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("logging_machine")).maxCount(64));
-    public static Item FERTILIZER_SPREADER = ItemUtil.ofBlock(Blocks.FERTILIZER_SPREADER, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("fertilizer_spreader")).maxCount(64));
-    public static Item ENCHANTMENT_EXTRACTOR = ItemUtil.ofBlock(Blocks.ENCHANTMENT_EXTRACTOR, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("enchantment_extractor")).maxCount(64));
+    public static Item INDUCTION_FURNACE = ItemUtil.ofBlock(Blocks.INDUCTION_FURNACE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item ROTARY_GRINDER = ItemUtil.ofBlock(Blocks.ROTARY_GRINDER, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CENTRIFUGAL_EXTRACTOR = ItemUtil.ofBlock(Blocks.CENTRIFUGAL_EXTRACTOR, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item SINGULARITY_COMPRESSOR = ItemUtil.ofBlock(Blocks.SINGULARITY_COMPRESSOR, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CANNING_MACHINE = ItemUtil.ofBlock(Blocks.CANNING_MACHINE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item RENAMING_MACHINE = ItemUtil.ofBlock(Blocks.RENAMING_MACHINE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item TELEPORTER = ItemUtil.ofBlock(Blocks.TELEPORTER, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item FARMING_MACHINE = ItemUtil.ofBlock(Blocks.FARMING_MACHINE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item LOGGING_MACHINE = ItemUtil.ofBlock(Blocks.LOGGING_MACHINE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item FERTILIZER_SPREADER = ItemUtil.ofBlock(Blocks.FERTILIZER_SPREADER, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item ENCHANTMENT_EXTRACTOR = ItemUtil.ofBlock(Blocks.ENCHANTMENT_EXTRACTOR, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
 
-    public static Item FREQ_TRANS = new FreqTrans(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("freq_trans")).maxCount(1).maxDamage(-1));
-    public static Item CONFIG_WRENCH = new ConfigWrench(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("config_wrench")).maxCount(1).maxDamage(-1));
+    public static Item FREQ_TRANS = new FreqTrans(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
+    public static Item CONFIG_WRENCH = new ConfigWrench(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
     public static Item FORGE_HAMMER;
     public static Item ADVANCED_FORGE_HAMMER;
 
@@ -62,37 +62,37 @@ public class Items {
         ADVANCED_FORGE_HAMMER = new ForgeHammer(nothingSettings.recipeRemainder(ADVANCED_FORGE_HAMMER), 360);
     }
 
-    public static Item NANO_SUIT_HELMET = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.HELMET, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("nano_helmet")).maxCount(1).maxDamage(-1));
-    public static Item NANO_SUIT_BODY_ARMOR = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.CHESTPLATE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("nano_chestplate")).maxCount(1).maxDamage(-1));
-    public static Item NANO_SUIT_LEGGINGS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.LEGGINGS, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("nano_leggings")).maxCount(1).maxDamage(-1));
-    public static Item NANO_SUIT_BOOTS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.BOOTS, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("nano_boots")).maxCount(1).maxDamage(-1));
+    public static Item NANO_SUIT_HELMET = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.HELMET, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
+    public static Item NANO_SUIT_BODY_ARMOR = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.CHESTPLATE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
+    public static Item NANO_SUIT_LEGGINGS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.LEGGINGS, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
+    public static Item NANO_SUIT_BOOTS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.BOOTS, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
 
     // 強化バッテリー
-    public static Item ADVANCED_BATTERY = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery")).maxCount(1).maxDamage(-1), 8 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
-    public static Item ADVANCED_BATTERY_2 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_2")).maxCount(1).maxDamage(-1), 64 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
-    public static Item ADVANCED_BATTERY_3 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_3")).maxCount(1).maxDamage(-1), 512 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
-    public static Item ADVANCED_BATTERY_4 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_4")).maxCount(1).maxDamage(-1), 4096 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
-    public static Item ADVANCED_BATTERY_5 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("advanced_battery_5")).maxCount(1).maxDamage(-1), 32768 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.EXTREME);
+    public static Item ADVANCED_BATTERY = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1), 8 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
+    public static Item ADVANCED_BATTERY_2 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1), 64 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
+    public static Item ADVANCED_BATTERY_3 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1), 512 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
+    public static Item ADVANCED_BATTERY_4 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1), 4096 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
+    public static Item ADVANCED_BATTERY_5 = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1), 32768 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.EXTREME);
 
     // ダイナマイト (予定: 時限爆弾)
-    public static Item DYNAMITE = new Dynamite(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("dynamite")).maxCount(64));
-    public static Item STICKY_DYNAMITE = new Dynamite(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("sticky_dynamite")).maxCount(64),true);
-    public static Item INDUSTRIAL_DYNAMITE = new Dynamite(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("industrial_dynamite")).maxCount(64),false, true);
-    public static Item INDUSTRIAL_STICKY_DYNAMITE = new Dynamite(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("industrial_sticky_dynamite")).maxCount(64),true, true);
-    public static Item INDUSTRIAL_TNT = ItemUtil.ofBlock(Blocks.INDUSTRIAL_TNT, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("industrial_tnt")).maxCount(64));
+    public static Item DYNAMITE = new Dynamite(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item STICKY_DYNAMITE = new Dynamite(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64),true);
+    public static Item INDUSTRIAL_DYNAMITE = new Dynamite(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64),false, true);
+    public static Item INDUSTRIAL_STICKY_DYNAMITE = new Dynamite(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64),true, true);
+    public static Item INDUSTRIAL_TNT = ItemUtil.ofBlock(Blocks.INDUSTRIAL_TNT, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
 
     // ライト、足場(鉄) 強化石材  ネーミングマシン
-    public static Item LIGHT = ItemUtil.ofBlock(Blocks.LIGHT, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("light")).maxCount(64));
+    public static Item LIGHT = ItemUtil.ofBlock(Blocks.LIGHT, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
 
-    public static Item CARDBOARD_BOX = ItemUtil.ofBlock(Blocks.CARDBOARD_BOX, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("cardboard_box")).maxCount(64));
-    public static Item CARDBOARD_BOX_MINETARO = ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_MINETARO, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("cardboard_box_minetaro")).maxCount(64));
-    public static Item CARDBOARD_BOX_MINEZON = ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_MINEZON, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("cardboard_box_minezon")).maxCount(64));
-    public static Item CARDBOARD_BOX_NOTHING = ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_NOTHING, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("cardboard_box_nothing_logo")).maxCount(64));
+    public static Item CARDBOARD_BOX = ItemUtil.ofBlock(Blocks.CARDBOARD_BOX, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CARDBOARD_BOX_MINETARO = ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_MINETARO, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CARDBOARD_BOX_MINEZON = ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_MINEZON, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CARDBOARD_BOX_NOTHING = ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_NOTHING, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
 
     // 缶
-    public static Item EMPTY_CAN = new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("empty_can")).maxCount(64));
-    public static Item FUEL_CAN = new FuelCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("fuel_can")).maxCount(64).recipeRemainder(EMPTY_CAN));
-    public static Item FOOD_CAN = new FoodCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("food_can")).maxCount(64).recipeRemainder(EMPTY_CAN).food(new FoodComponent.Builder().snack().hunger(2).saturationModifier(2).build()));
+    public static Item EMPTY_CAN = new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item FUEL_CAN = new FuelCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64).recipeRemainder(EMPTY_CAN));
+    public static Item FOOD_CAN = new FoodCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64).recipeRemainder(EMPTY_CAN).food(new FoodComponent.Builder().snack().hunger(2).saturationModifier(2).build()));
 
     // Better Batpack
     public static Item BATPACK_4 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 4, new BBArmorMaterial("batpack4"), RcEnergyTier.MEDIUM);
@@ -103,10 +103,10 @@ public class Items {
 
 
     // 素材アイテム
-    public static Item DUCT_TAPE = new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("duct_tape")).maxCount(64));
-    public static Item CARDBOARD_SHEET = new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("cardboard_sheet")).maxCount(64));
+    public static Item DUCT_TAPE = new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
+    public static Item CARDBOARD_SHEET = new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
 
-    //public static Item ADD_ITEMS = new AddItems(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP, AdvancedReborn.id("z_add_items")).maxCount(64));
+    //public static Item ADD_ITEMS = new AddItems(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
 
     public static void init() {
         registry.registerItem(AdvancedReborn.id("charge_pad"), () -> CHARGE_PAD_MK_1);
