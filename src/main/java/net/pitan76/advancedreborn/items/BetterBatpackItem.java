@@ -3,10 +3,10 @@ package net.pitan76.advancedreborn.items;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 import org.jetbrains.annotations.Nullable;
 import reborncore.common.powerSystem.RcEnergyTier;
 import reborncore.common.util.ItemUtils;
@@ -16,8 +16,8 @@ import java.util.List;
 
 public class BetterBatpackItem extends BatpackItem {
 
-    public BetterBatpackItem(int maxCharge, ArmorMaterial material, RcEnergyTier tier) {
-        super(maxCharge, material, tier);
+    public BetterBatpackItem(int maxCharge, CompatibleArmorMaterial material, RcEnergyTier tier) {
+        super(maxCharge, material.build(), tier);
     }
 
     @Override

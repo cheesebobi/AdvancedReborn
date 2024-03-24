@@ -3,6 +3,7 @@ package net.pitan76.advancedreborn.armormaterials;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 
@@ -42,6 +43,11 @@ public class BBArmorMaterial implements CompatibleArmorMaterial {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Identifier getId() {
+        return new Identifier(name);
     }
 
     @Override
