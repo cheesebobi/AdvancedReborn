@@ -9,12 +9,12 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.advancedreborn.Items;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
+import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import reborncore.api.events.ApplyArmorToDamageCallback;
 import reborncore.api.items.ArmorTickable;
@@ -28,8 +28,8 @@ import techreborn.items.armor.TRArmourItem;
 import techreborn.utils.InitUtils;
 
 public class NanoSuitItem extends TRArmourItem implements EnergyHolder, ItemStackModifiers, ArmorTickable {
-    public NanoSuitItem(ArmorMaterial material, ArmorEquipmentType slot, CompatibleItemSettings settings) {
-        super(material, slot.getSlot(), settings.build());
+    public NanoSuitItem(CompatibleArmorMaterial material, ArmorEquipmentType slot, CompatibleItemSettings settings) {
+        super(material.build(), slot.getSlot(), settings.build());
 
         ApplyArmorToDamageCallback.EVENT.register(((player, source, amount) -> {
             for (ItemStack stack : player.getArmorItems()) {

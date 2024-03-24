@@ -7,6 +7,7 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 import org.jetbrains.annotations.Nullable;
 import reborncore.common.util.ItemUtils;
 import team.reborn.energy.EnergyTier;
@@ -16,8 +17,8 @@ import java.util.List;
 
 public class BetterBatpackItem extends BatpackItem {
 
-    public BetterBatpackItem(int maxCharge, ArmorMaterial material, EnergyTier tier) {
-        super(maxCharge, material, tier);
+    public BetterBatpackItem(int maxCharge, CompatibleArmorMaterial material, EnergyTier tier) {
+        super(maxCharge, material.build(), tier);
     }
 
     @Override

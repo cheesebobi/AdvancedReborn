@@ -1,15 +1,15 @@
 package net.pitan76.advancedreborn.armormaterials;
 
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 
 public class NanoArmorMaterial implements CompatibleArmorMaterial {
 
-    public static ArmorMaterial NANO = new NanoArmorMaterial();
+    public static CompatibleArmorMaterial NANO = new NanoArmorMaterial();
 
     @Override
     public int getDurability(ArmorEquipmentType type) {
@@ -39,6 +39,11 @@ public class NanoArmorMaterial implements CompatibleArmorMaterial {
     @Override
     public String getName() {
         return "nano";
+    }
+
+    @Override
+    public Identifier getId() {
+        return new Identifier("nano");
     }
 
     @Override
