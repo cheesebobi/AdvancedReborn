@@ -2,7 +2,6 @@ package net.pitan76.advancedreborn.blocks;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,12 +12,9 @@ import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.stat.Stats;
-import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.MutableText;
@@ -61,9 +57,9 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     }
 
     @Override
-    public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
-        super.appendProperties(builder);
+    public void appendProperties(AppendPropertiesArgs args) {
+        super.appendProperties(args);
+        args.addProperty(FACING);
     }
 
     public BlockEntity createBlockEntity(TileCreateEvent event) {
@@ -207,16 +203,17 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
         return ScreenHandler.calculateComparatorOutput((Inventory)world.getBlockEntity(pos));
     }
 
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
-        BlockEntity blockEntity = builder.get(LootContextParameters.BLOCK_ENTITY);
+    @Override
+    public List<ItemStack> getDroppedStacks(DroppedStacksArgs args) {
+        BlockEntity blockEntity = args.getBlockEntity();
         if (blockEntity instanceof CardboardBoxTile) {
             CardboardBoxTile tile = (CardboardBoxTile)blockEntity;
-            builder = builder.putDrop(CONTENTS, (lootContext, consumer) -> {
+            args.builder = args.builder.putDrop(CONTENTS, (lootContext, consumer) -> {
                 for(int i = 0; i < tile.size(); ++i) {
                     consumer.accept(tile.getStack(i));
                 }
             });
         }
-        return super.getDroppedStacks(state, builder);
+        return super.getDroppedStacks(args);
     }
 }
