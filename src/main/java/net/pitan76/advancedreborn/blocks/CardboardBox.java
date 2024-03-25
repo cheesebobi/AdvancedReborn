@@ -61,7 +61,7 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
         super.appendProperties(builder);
     }
