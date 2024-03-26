@@ -62,6 +62,7 @@ public class Items {
         ADVANCED_FORGE_HAMMER = new ForgeHammer(nothingSettings.recipeRemainder(ADVANCED_FORGE_HAMMER), 360);
     }
 
+    // 実装しない
     public static Item NANO_SUIT_HELMET = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorEquipmentType.HEAD, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
     public static Item NANO_SUIT_BODY_ARMOR = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorEquipmentType.CHEST, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
     public static Item NANO_SUIT_LEGGINGS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorEquipmentType.LEGS, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
@@ -163,10 +164,10 @@ public class Items {
         registry.registerItem(AdvancedReborn.id("advanced_battery_4"), () -> ADVANCED_BATTERY_4);
         registry.registerItem(AdvancedReborn.id("advanced_battery_5"), () -> ADVANCED_BATTERY_5);
 
-        registry.registerItem(AdvancedReborn.id("nano_helmet"), () -> NANO_SUIT_HELMET);
-        registry.registerItem(AdvancedReborn.id("nano_chestplate"), () -> NANO_SUIT_BODY_ARMOR);
-        registry.registerItem(AdvancedReborn.id("nano_leggings"), () -> NANO_SUIT_LEGGINGS);
-        registry.registerItem(AdvancedReborn.id("nano_boots"), () -> NANO_SUIT_BOOTS);
+        //registry.registerItem(AdvancedReborn.id("nano_helmet"), () -> NANO_SUIT_HELMET);
+        //registry.registerItem(AdvancedReborn.id("nano_chestplate"), () -> NANO_SUIT_BODY_ARMOR);
+        //registry.registerItem(AdvancedReborn.id("nano_leggings"), () -> NANO_SUIT_LEGGINGS);
+        //registry.registerItem(AdvancedReborn.id("nano_boots"), () -> NANO_SUIT_BOOTS);
 
         registry.registerItem(AdvancedReborn.id("empty_can"), () -> EMPTY_CAN);
         registry.registerItem(AdvancedReborn.id("fuel_can"), () -> FUEL_CAN);
