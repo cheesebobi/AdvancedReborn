@@ -11,10 +11,10 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.pitan76.advancedreborn.Items;
+import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
+import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import reborncore.api.events.ApplyArmorToDamageCallback;
 import reborncore.api.items.ArmorBlockEntityTicker;
@@ -24,8 +24,8 @@ import reborncore.common.util.ItemUtils;
 import techreborn.items.armor.TRArmourItem;
 
 public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker, RcEnergyItem {
-    public NanoSuitItem(ArmorMaterial material, ArmorItem.Type slot, CompatibleItemSettings settings) {
-        super(material, slot, settings.build());
+    public NanoSuitItem(CompatibleArmorMaterial material, ArmorEquipmentType slot, CompatibleItemSettings settings) {
+        super(material.build(), slot.getType(), settings.build());
 
         ApplyArmorToDamageCallback.EVENT.register(((player, source, amount) -> {
             for (ItemStack stack : player.getArmorItems()) {
