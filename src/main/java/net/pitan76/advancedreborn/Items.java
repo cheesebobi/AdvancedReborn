@@ -1,12 +1,12 @@
 package net.pitan76.advancedreborn;
 
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.pitan76.advancedreborn.armormaterials.BBArmorMaterial;
 import net.pitan76.advancedreborn.armormaterials.NanoArmorMaterial;
 import net.pitan76.advancedreborn.items.*;
+import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
@@ -62,10 +62,10 @@ public class Items {
         ADVANCED_FORGE_HAMMER = new ForgeHammer(nothingSettings.recipeRemainder(ADVANCED_FORGE_HAMMER), 360);
     }
 
-    public static Item NANO_SUIT_HELMET = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.HELMET, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
-    public static Item NANO_SUIT_BODY_ARMOR = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.CHESTPLATE, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
-    public static Item NANO_SUIT_LEGGINGS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.LEGGINGS, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
-    public static Item NANO_SUIT_BOOTS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorItem.Type.BOOTS, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
+    public static Item NANO_SUIT_HELMET = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorEquipmentType.HEAD, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
+    public static Item NANO_SUIT_BODY_ARMOR = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorEquipmentType.CHEST, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
+    public static Item NANO_SUIT_LEGGINGS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorEquipmentType.LEGS, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
+    public static Item NANO_SUIT_BOOTS = new NanoSuitItem(NanoArmorMaterial.NANO, ArmorEquipmentType.FEET, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1));
 
     // 強化バッテリー
     public static Item ADVANCED_BATTERY = new AdvancedBattery(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(1).maxDamage(-1), 8 * TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.HIGH);
