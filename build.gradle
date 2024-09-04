@@ -45,7 +45,7 @@ dependencies {
 
 	// CC: Tweaked
 	//modImplementation("cc.tweaked:cc-tweaked-1.21-fabric-api:${project.cc_version}")
-	modImplementation("cc.tweaked:cc-tweaked-1.21-fabric:${project.cc_version}")
+	//modApi("cc.tweaked:cc-tweaked-1.21-fabric:${project.cc_version}")
 
 	// Mod Menu
 	//modApi "com.terraformersmc:modmenu:2.0.10"

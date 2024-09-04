@@ -4,9 +4,11 @@ import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ProjectileDispenserBehavior;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ProjectileItem;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Position;
 import net.minecraft.world.World;
 import net.pitan76.advancedreborn.Items;
@@ -15,22 +17,14 @@ import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 
-public class Dynamite extends ExtendItem {
+public class Dynamite extends ExtendItem implements ProjectileItem {
 
     public boolean isSticky = false;
     public boolean isIndustrial = false;
 
     public Dynamite(CompatibleItemSettings settings) {
         super(settings);
-        DispenserBlock.registerBehavior(this, new ProjectileDispenserBehavior(Items.DYNAMITE) {
-            public ProjectileEntity createProjectile(World world, Position pos, ItemStack stack) {
-                DynamiteEntity dynamiteEntity = new DynamiteEntity(world, pos.getX(), pos.getY(), pos.getZ());
-                dynamiteEntity.callSetItem(stack);
-                dynamiteEntity.setSticky(isSticky);
-                dynamiteEntity.setIndustrial(isIndustrial);
-                return dynamiteEntity;
-            }
-        });
+        DispenserBlock.registerBehavior(this, new ProjectileDispenserBehavior(Items.DYNAMITE));
     }
 
     public Dynamite(CompatibleItemSettings settings, boolean isSticky) {
@@ -57,5 +51,14 @@ public class Dynamite extends ExtendItem {
             event.world.playSound(null, dynamiteEntity.getX(), dynamiteEntity.getY(), dynamiteEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
         return TypedActionResult.success(stack);
+    }
+
+    @Override
+    public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
+        DynamiteEntity dynamiteEntity = new DynamiteEntity(world, pos.getX(), pos.getY(), pos.getZ());
+        dynamiteEntity.callSetItem(stack);
+        dynamiteEntity.setSticky(isSticky);
+        dynamiteEntity.setIndustrial(isIndustrial);
+        return dynamiteEntity;
     }
 }
