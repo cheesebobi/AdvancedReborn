@@ -38,9 +38,9 @@ public class AdvancedReborn extends ExtendModInitializer {
         registry = super.registry;
 
         AR_GROUP = CreativeTabBuilder.create(
-                        INSTANCE.compatId("item_group")).
+                INSTANCE.compatId("item_group")).
                 setIcon(() -> ItemStackUtil.create(Items.CHARGE_PAD_MK_FINAL, 1));
-        RegistryResult<ItemGroup> result = registry.registerItemGroup(compatId("item_group"), AR_GROUP);
+        RegistryResult<ItemGroup> result = registry.registerItemGroup(AR_GROUP);
 
         ModManager.beforeInit();
         Items.init();
@@ -65,7 +65,7 @@ public class AdvancedReborn extends ExtendModInitializer {
     public static List<RaySolar> solars = new ArrayList<>();
 
     static {
-        solars.add((RaySolar) Blocks.RAY_SOLAR_1);
+        //solars.add((RaySolar) Blocks.RAY_SOLAR_1);
     }
 
     public static Identifier _id(String id) {
