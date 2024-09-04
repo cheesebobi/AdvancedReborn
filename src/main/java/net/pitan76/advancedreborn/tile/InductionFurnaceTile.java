@@ -6,9 +6,11 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmeltingRecipe;
+import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -71,7 +73,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
         return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__induction_furnace_machine").player(player.getInventory()).inventory().hotbar().addInventory()
                 .blockEntity(this).slot(0, 55 - 18, 45).slot(1, 55, 45).outputSlot(2, 101, 45).outputSlot(3, 101 + 18, 45).energySlot(4, 8, 72).syncEnergyValue()
-                .sync(this::getCookingTime, this::setCookTime).sync(this::getCookingTimeTotal, this::setCookTimeTotal).addInventory().create(this, syncID);
+                .sync(PacketCodecs.INTEGER, this::getCookingTime, this::setCookTime).sync(PacketCodecs.INTEGER, this::getCookingTimeTotal, this::setCookTimeTotal).addInventory().create(this, syncID);
     }
 
     public Inventory getRecipe2AsInventory() {
@@ -94,8 +96,8 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
             resetCrafter();
             return;
         }
-        Optional<RecipeEntry<SmeltingRecipe>> testRecipe = Objects.requireNonNull(world).getRecipeManager().getFirstMatch(RecipeType.SMELTING, getInventory(), world);
-        if (!testRecipe.isPresent()) {
+        Optional<RecipeEntry<SmeltingRecipe>> testRecipe = Objects.requireNonNull(world).getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(inventory.getStack(inputSlot)), world);
+        if (testRecipe.isEmpty()) {
             resetCrafter();
             return;
         }
@@ -113,8 +115,8 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
             resetCrafter2();
             return;
         }
-        Optional<RecipeEntry<SmeltingRecipe>> testRecipe = Objects.requireNonNull(world).getRecipeManager().getFirstMatch(RecipeType.SMELTING, getRecipe2AsInventory(), world);
-        if (!testRecipe.isPresent()) {
+        Optional<RecipeEntry<SmeltingRecipe>> testRecipe = Objects.requireNonNull(world).getRecipeManager().getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(inventory.getStack(inputSlot2)), world);
+        if (testRecipe.isEmpty()) {
             resetCrafter2();
             return;
         }
@@ -200,25 +202,17 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
 
 
     private boolean hasAllInputs(SmeltingRecipe recipe) {
-        if (recipe == null) {
-            return false;
-        }
-        if (inventory.getStack(inputSlot).isEmpty()) {
-            return false;
-        }
+        if (recipe == null) return false;
+        if (inventory.getStack(inputSlot).isEmpty()) return false;
 
-        return recipe.matches(inventory, world);
+        return recipe.matches(new SingleStackRecipeInput(inventory.getStack(inputSlot)), world);
     }
 
     private boolean hasAllInputs2(SmeltingRecipe recipe) {
-        if (recipe == null) {
-            return false;
-        }
-        if (inventory.getStack(inputSlot2).isEmpty()) {
-            return false;
-        }
+        if (recipe == null) return false;
+        if (inventory.getStack(inputSlot2).isEmpty()) return false;
 
-        return recipe.matches(getRecipe2AsInventory(), world);
+        return recipe.matches(new SingleStackRecipeInput(inventory.getStack(inputSlot2)), world);
     }
 
     private void craftRecipe(SmeltingRecipe recipe, int outputSlot, int inputSlot) {

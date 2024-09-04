@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.5-SNAPSHOT'
+	id 'fabric-loom' version '1.7-SNAPSHOT'
 	id 'maven-publish'
 	id 'com.matthewprenger.cursegradle' version '1.+'
 	id "com.modrinth.minotaur" version "2.+"
@@ -38,24 +38,20 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// TRのエネルギー用
-	modImplementation 'RebornCore:RebornCore-1.20:5.10.3'
-	modImplementation 'TechReborn:TechReborn-1.20:5.10.3'
+	modImplementation 'RebornCore:RebornCore-1.21:5.11.10'
+	modImplementation 'TechReborn:TechReborn-1.21:5.11.10'
 
-	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:14.0.687"
+	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:16.0.754"
 
 	// CC: Tweaked
-	modCompileOnly("cc.tweaked:cc-tweaked-1.20.4-fabric-api:${project.cc_version}")
-	modImplementation("cc.tweaked:cc-tweaked-1.20.4-fabric:${project.cc_version}")
+	//modImplementation("cc.tweaked:cc-tweaked-1.21-fabric-api:${project.cc_version}")
+	modImplementation("cc.tweaked:cc-tweaked-1.21-fabric:${project.cc_version}")
 
 	// Mod Menu
-	// 1.16 => 1.16.19
-	// 1.17 => 2.0.14
 	//modApi "com.terraformersmc:modmenu:2.0.10"
 
 	// Cloth Config API
-	// 1.16 => 4.11.26
-	// 1.17 => 5.0.38
-	modApi("me.shedaniel.cloth:cloth-config-fabric:13.0.114") {
+	modApi("me.shedaniel.cloth:cloth-config-fabric:15.0.130") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 

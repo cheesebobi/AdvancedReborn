@@ -9,10 +9,13 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import net.pitan76.advancedreborn.Items;
+import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.item.ItemFinishUsingEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
+
+import static net.pitan76.advancedreborn.Items.CAN_FOOD_COMPONENT;
 
 public class FoodCanItem extends ExtendItem {
     public FoodCanItem(CompatibleItemSettings settings) {
@@ -33,13 +36,16 @@ public class FoodCanItem extends ExtendItem {
         ItemStack stack = e.stack;
 
         PlayerEntity playerEntity = e.user instanceof PlayerEntity ? (PlayerEntity) e.user : null;
-        if (playerEntity instanceof ServerPlayerEntity) {
+        if (playerEntity instanceof ServerPlayerEntity)
             Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity)playerEntity, stack);
-        }
+
+
         if (playerEntity != null) {
-            playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
-            if (!playerEntity.getAbilities().creativeMode) {
-                playerEntity.eatFood(world, stack);
+            Player player = new Player(playerEntity);
+
+            player.incrementStat(Stats.USED.getOrCreateStat(this));
+            if (!player.isCreative()) {
+                playerEntity.eatFood(world, stack, CAN_FOOD_COMPONENT);
             }
         }
 

@@ -11,18 +11,19 @@ import net.minecraft.util.math.BlockPos;
 import net.pitan76.advancedreborn.ScreenHandlers;
 import net.pitan76.advancedreborn.tile.CardboardBoxTile;
 import net.pitan76.mcpitanlib.api.entity.Player;
-import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
+import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandler;
+import net.pitan76.mcpitanlib.api.util.InventoryUtil;
 import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import org.jetbrains.annotations.Nullable;
 
-public class CardboardBoxScreenHandler extends SimpleScreenHandler {
+public class CardboardBoxScreenHandler extends ExtendedScreenHandler {
 
     public Inventory inventory;
     public String tmpNote = "";
     public BlockPos pos = new BlockPos(0, 0, 0);
 
     public CardboardBoxScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
-        this(syncId, playerInventory, new SimpleInventory(9), "", null);
+        this(syncId, playerInventory, InventoryUtil.createSimpleInventory(9), "", null);
         NbtCompound data = buf.readNbt();
         if (data == null) return;
         if (data.contains("x") && data.contains("y") && data.contains("z")) {

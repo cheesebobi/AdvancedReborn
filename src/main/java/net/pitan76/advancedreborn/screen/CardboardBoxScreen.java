@@ -14,6 +14,7 @@ import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawBackgroundArgs
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.KeyEventArgs;
 import net.pitan76.mcpitanlib.api.network.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
@@ -62,7 +63,7 @@ public class CardboardBoxScreen extends SimpleInventoryScreen {
     public void close() {
         super.close();
         PacketByteBuf buf = PacketByteUtil.create();
-        NbtCompound data = new NbtCompound();
+        NbtCompound data = NbtUtil.create();
         data.putString("note", getNote());
         data.putDouble("x", handler.pos.getX());
         data.putDouble("y", handler.pos.getY());

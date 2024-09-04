@@ -2,7 +2,6 @@ package net.pitan76.advancedreborn.items;
 
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -15,14 +14,16 @@ import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnBlockEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
+import net.pitan76.mcpitanlib.api.util.CustomDataUtil;
+import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
-import org.jetbrains.annotations.Nullable;
 import reborncore.common.blockentity.FluidConfiguration;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.blockentity.RedstoneConfiguration;
 import reborncore.common.blockentity.SlotConfiguration;
 
 import java.util.List;
+import java.util.Map;
 
 public class ConfigWrench extends ExtendItem {
     public ConfigWrench(CompatibleItemSettings settings) {
@@ -33,8 +34,8 @@ public class ConfigWrench extends ExtendItem {
                 if (world.isClient()) return ActionResult.PASS;
                 BlockEntity tile = world.getBlockEntity(pos);
                 if (tile instanceof MachineBaseBlockEntity) {
-                    if (!stack.hasNbt()) return ActionResult.FAIL;
-                    NbtCompound tag = stack.getNbt();
+                    if (!CustomDataUtil.hasNbt(stack)) return ActionResult.FAIL;
+                    NbtCompound tag = CustomDataUtil.getNbt(stack);
                     if (!tag.contains("configs")) return ActionResult.FAIL;
                     NbtCompound config = tag.getCompound("configs");
                     MachineBaseBlockEntityAccessor accessor = (MachineBaseBlockEntityAccessor) tile;
@@ -42,8 +43,15 @@ public class ConfigWrench extends ExtendItem {
                         accessor.getSlotConfiguration().read(config.getCompound("slot"));
                     if (config.contains("fluid"))
                         accessor.getFluidConfiguration().read(config.getCompound("fluid"));
-                    if (config.contains("redstone"))
-                        accessor.getRedstoneConfiguration().read(config.getCompound("redstone"));
+                    if (config.contains("redstone")) {
+                        Map<RedstoneConfiguration.Element, RedstoneConfiguration.State> stateMap = accessor.getRedstoneConfiguration().stateMap();
+                        NbtCompound redstone = config.getCompound("redstone");
+                        stateMap.forEach((element, state) -> {
+                            if (redstone.contains(element.name())) {
+                                stateMap.put(element, RedstoneConfiguration.State.valueOf(redstone.getString(element.name())));
+                            }
+                        });
+                    }
                     player.sendMessage(TextUtil.literal("Loaded Configuration from The Config Wrench."), false);
                     return ActionResult.SUCCESS;
                 }
@@ -69,19 +77,26 @@ public class ConfigWrench extends ExtendItem {
             fluidConfig = machineAccessor.getFluidConfiguration();
 
         ItemStack stack = event.player.getPlayerEntity().getStackInHand(event.hand);
-        NbtCompound tag = stack.getNbt();
+        NbtCompound tag = CustomDataUtil.getNbt(stack);
         if (tag == null) {
-            tag = new NbtCompound();
+            tag = NbtUtil.create();
         }
-        NbtCompound config = new NbtCompound();
+        NbtCompound config = NbtUtil.create();
         if (slotConfig != null)
             config.put("slot", slotConfig.write());
         if (fluidConfig != null)
             config.put("fluid", fluidConfig.write());
-        if (redstoneConfig != null)
-            config.put("redstone", redstoneConfig.write());
+        if (redstoneConfig != null) {
+            NbtCompound redstone = NbtUtil.create();
+            
+            redstoneConfig.stateMap().forEach((element, state) -> {
+                redstone.putString(element.name(), state.name());
+            });
+            
+            config.put("redstone", redstone);
+        }
         tag.put("configs", config);
-        stack.setNbt(tag);
+        CustomDataUtil.setNbt(stack, tag);
         event.player.sendMessage(TextUtil.literal("Saved Configuration to The Config Wrench."));
         return ActionResult.SUCCESS;
     }

@@ -1,31 +1,37 @@
 package net.pitan76.advancedreborn.items;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.Items;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleArmorMaterial;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import reborncore.api.events.ApplyArmorToDamageCallback;
 import reborncore.api.items.ArmorBlockEntityTicker;
-import reborncore.common.powerSystem.RcEnergyItem;
 import reborncore.common.powerSystem.RcEnergyTier;
 import reborncore.common.util.ItemUtils;
-import techreborn.items.armor.TRArmourItem;
+import techreborn.items.armor.TREnergyArmourItem;
 
-public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker, RcEnergyItem {
+
+public class NanoSuitItem extends TREnergyArmourItem implements ArmorBlockEntityTicker {
+
+    private static final EntityAttributeModifier ENABLED_ARMOR_MODIFIER = new EntityAttributeModifier(IdentifierUtil.id(AdvancedReborn.MOD_ID, "nano_armor") , 6, EntityAttributeModifier.Operation.ADD_VALUE);
+
+    private static final EntityAttributeModifier DISABLED_ARMOR_MODIFIER = new EntityAttributeModifier(IdentifierUtil.id(AdvancedReborn.MOD_ID, "nano_armor"), -1, EntityAttributeModifier.Operation.ADD_VALUE);
+
+
     public NanoSuitItem(CompatibleArmorMaterial material, ArmorEquipmentType slot, CompatibleItemSettings settings) {
-        super(material.build(), slot.getType(), settings.build());
+        super(material.build(), slot.getType(), 1_000_000, RcEnergyTier.EXTREME);//, settings.build());
 
         ApplyArmorToDamageCallback.EVENT.register(((player, source, amount) -> {
             for (ItemStack stack : player.getArmorItems()) {
@@ -81,29 +87,17 @@ public class NanoSuitItem extends TRArmourItem implements ArmorBlockEntityTicker
     }
 
     @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot equipmentSlot) {
-        ArrayListMultimap<EntityAttribute, EntityAttributeModifier> attributes = ArrayListMultimap.create(super.getAttributeModifiers(stack, getSlotType()));
-
-        if (equipmentSlot == this.getSlotType() && getStoredEnergy(stack) > 0) {
-            attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MODIFIERS[getSlotType().getEntitySlotId()], "Armor modifier", 6, EntityAttributeModifier.Operation.ADDITION));
-        } else if (equipmentSlot == this.getSlotType()) {
-            attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(MODIFIERS[getSlotType().getEntitySlotId()], "Armor modifier", -1, EntityAttributeModifier.Operation.ADDITION));
-        }
-
-        return ImmutableMultimap.copyOf(attributes);
-    }
-
-    @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
-        return HashMultimap.create();
-    }
-
-    @Override
     public void tickArmor(ItemStack stack, PlayerEntity player) {
         if (stack.getItem().equals(Items.NANO_SUIT_HELMET)) {
             if (getStoredEnergy(stack) > 0) {
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 300, 3));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 300, 3, false, false));
             }
         }
+
+        final EquipmentSlot slotType = this.getSlotType();
+        AttributeModifiersComponent attributes = stack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
+
+        attributes = attributes.with(EntityAttributes.GENERIC_ARMOR, getStoredEnergy(stack) > 0 ? ENABLED_ARMOR_MODIFIER : DISABLED_ARMOR_MODIFIER, AttributeModifierSlot.forEquipmentSlot(slotType));
+        stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, attributes);
     }
 }

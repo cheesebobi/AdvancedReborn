@@ -13,6 +13,7 @@ import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 
 public class EntitySpawnPacket {
 
+    /*
     public static Packet<ClientCommonPacketListener> create(Entity entity, Identifier packetID) {
         if (entity.getEntityWorld().isClient)
             throw new IllegalStateException("SpawnPacketUtil.create called on the logical client!");
@@ -24,8 +25,13 @@ public class EntitySpawnPacket {
         PacketBufUtil.writeVec3d(byteBuf, entity.getPos());
         PacketBufUtil.writeAngle(byteBuf, entity.getPitch());
         PacketBufUtil.writeAngle(byteBuf, entity.getYaw());
+
+
+
         return ServerPlayNetworking.createS2CPacket(packetID, byteBuf);
     }
+
+     */
 
     public static final class PacketBufUtil {
 

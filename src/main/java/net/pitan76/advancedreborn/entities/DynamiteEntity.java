@@ -12,14 +12,18 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import net.pitan76.advancedreborn.Entities;
+import net.pitan76.advancedreborn.Items;
 import net.pitan76.advancedreborn.entities.itnt.IndustrialExplosion;
+import net.pitan76.mcpitanlib.api.entity.CompatThrownItemEntity;
+import net.pitan76.mcpitanlib.api.event.entity.CollisionEvent;
+import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
-public class DynamiteEntity extends ThrownItemEntity {
+public class DynamiteEntity extends CompatThrownItemEntity {
 
     public static TrackedData<Integer> FUSE = DataTracker.registerData(DynamiteEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
@@ -52,13 +56,18 @@ public class DynamiteEntity extends ThrownItemEntity {
         isIndustrial = industrial;
     }
 
-    public Item getDefaultItem() {
-        return getItem().getItem();
+    @Override
+    public Item getDefaultItemOverride() {
+        if (callGetItem() == null || callGetItem().isEmpty())
+            return Items.DYNAMITE;
+
+        return callGetItem().getItem();
     }
 
-    public void initDataTracker() {
-        super.initDataTracker();
-        dataTracker.startTracking(FUSE, fuseTimerInit);
+    @Override
+    public void initDataTracker(InitDataTrackerArgs args) {
+        super.initDataTracker(args);
+        args.add(FUSE, fuseTimerInit);
     }
 
     public void setFuse(int fuse) {
@@ -82,7 +91,6 @@ public class DynamiteEntity extends ThrownItemEntity {
     }
 
     public void onBlockHit(BlockHitResult blockHitResult) {
-        //super.onBlockHit(blockHitResult);
         Vec3d distance = blockHitResult.getPos().subtract(getX(), getY(), getZ());
         setVelocity(distance);
         Vec3d pos = distance.normalize().multiply(0.05000000074505806D);
@@ -91,10 +99,11 @@ public class DynamiteEntity extends ThrownItemEntity {
         stopped = true;
     }
 
-    public void onCollision(HitResult hitResult) {
-        super.onCollision(hitResult);
+    @Override
+    public void onCollision(CollisionEvent e) {
+        super.onCollision(e);
         if (isSticky) {
-            Vec3d distance = hitResult.getPos().subtract(getX(), getY(), getZ());
+            Vec3d distance = e.getPos().subtract(getX(), getY(), getZ());
             setVelocity(distance);
             Vec3d pos = distance.normalize().multiply(0.05000000074505806D);
             setPos(getX() - pos.x, getY() - pos.y, getZ() - pos.z);
@@ -118,7 +127,7 @@ public class DynamiteEntity extends ThrownItemEntity {
             }
         }
         if (getEntityWorld().isClient()) {
-            getEntityWorld().addParticle(ParticleTypes.SMOKE, getX(), getY() + 0.5D, getZ(), 0.0D, 0.0D, 0.0D);
+            WorldUtil.addParticle(getEntityWorld(), ParticleTypes.FLAME, getX(), getY(), getZ(), 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -127,7 +136,7 @@ public class DynamiteEntity extends ThrownItemEntity {
             Explosion explosion = new IndustrialExplosion(getEntityWorld(), this, null, null, getX(), getBodyY(0.0625D), getZ(),2.5F,false, Explosion.DestructionType.DESTROY);
             explosion.collectBlocksAndDamageEntities();
             explosion.affectWorld(true);
-            getEntityWorld().playSound(null, getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (getEntityWorld().random.nextFloat() - getEntityWorld().random.nextFloat()) * 0.2F) * 0.7F);
+            WorldUtil.playSound(getEntityWorld(), null, getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.BLOCKS, 4.0F, (1.0F + (getEntityWorld().random.nextFloat() - getEntityWorld().random.nextFloat()) * 0.2F) * 0.7F);
             ((ServerWorld)getEntityWorld()).spawnParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
             return;
         }

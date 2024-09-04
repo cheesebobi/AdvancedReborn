@@ -9,6 +9,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Position;
 import net.minecraft.world.World;
+import net.pitan76.advancedreborn.Items;
 import net.pitan76.advancedreborn.entities.DynamiteEntity;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
@@ -21,10 +22,10 @@ public class Dynamite extends ExtendItem {
 
     public Dynamite(CompatibleItemSettings settings) {
         super(settings);
-        DispenserBlock.registerBehavior(this, new ProjectileDispenserBehavior() {
+        DispenserBlock.registerBehavior(this, new ProjectileDispenserBehavior(Items.DYNAMITE) {
             public ProjectileEntity createProjectile(World world, Position pos, ItemStack stack) {
                 DynamiteEntity dynamiteEntity = new DynamiteEntity(world, pos.getX(), pos.getY(), pos.getZ());
-                dynamiteEntity.setItem(stack);
+                dynamiteEntity.callSetItem(stack);
                 dynamiteEntity.setSticky(isSticky);
                 dynamiteEntity.setIndustrial(isIndustrial);
                 return dynamiteEntity;

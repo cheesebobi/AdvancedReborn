@@ -1,14 +1,14 @@
 package net.pitan76.advancedreborn;
 
-import net.minecraft.item.FoodComponent;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
-import net.minecraft.util.Identifier;
 import net.pitan76.advancedreborn.armormaterials.BBArmorMaterial;
 import net.pitan76.advancedreborn.armormaterials.NanoArmorMaterial;
 import net.pitan76.advancedreborn.items.*;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import reborncore.common.powerSystem.RcEnergyTier;
 import techreborn.config.TechRebornConfig;
@@ -93,7 +93,9 @@ public class Items {
     // 缶
     public static Item EMPTY_CAN = new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
     public static Item FUEL_CAN = new FuelCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64).recipeRemainder(EMPTY_CAN));
-    public static Item FOOD_CAN = new FoodCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64).recipeRemainder(EMPTY_CAN).food(new FoodComponent.Builder().snack().hunger(2).saturationModifier(2).build()));
+
+    public static FoodComponent CAN_FOOD_COMPONENT = new FoodComponent.Builder().snack().nutrition(2).saturationModifier(2).build();
+    public static Item FOOD_CAN = new FoodCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64).recipeRemainder(EMPTY_CAN).food(CAN_FOOD_COMPONENT));
 
     // Better Batpack
     public static Item BATPACK_4 = new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 4, new BBArmorMaterial("batpack4"), RcEnergyTier.MEDIUM);
@@ -175,10 +177,10 @@ public class Items {
         registry.registerItem(AdvancedReborn.id("cardboard_sheet"), () -> CARDBOARD_SHEET);
         registry.registerItem(AdvancedReborn.id("duct_tape"), () -> DUCT_TAPE);
 
-        registry.registerItem(new Identifier("better_batpack:batpack4"), () -> BATPACK_4);
-        registry.registerItem(new Identifier("better_batpack:batpack16"), () -> BATPACK_16);
-        registry.registerItem(new Identifier("better_batpack:batpack64"), () -> BATPACK_64);
-        registry.registerItem(new Identifier("better_batpack:batpack128"), () -> BATPACK_128);
+        registry.registerItem(IdentifierUtil.id("better_batpack:batpack4"), () -> BATPACK_4);
+        registry.registerItem(IdentifierUtil.id("better_batpack:batpack16"), () -> BATPACK_16);
+        registry.registerItem(IdentifierUtil.id("better_batpack:batpack64"), () -> BATPACK_64);
+        registry.registerItem(IdentifierUtil.id("better_batpack:batpack128"), () -> BATPACK_128);
 
         //registry.registerItem(AdvancedReborn.id("z_add_items"), () -> ADD_ITEMS);
     }

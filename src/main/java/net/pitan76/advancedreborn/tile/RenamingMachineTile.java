@@ -3,10 +3,13 @@ package net.pitan76.advancedreborn.tile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -57,7 +60,7 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
     public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
         return new ScreenHandlerBuilder(AdvancedReborn.MOD_ID + "__renaming_machine").player(player.getInventory()).inventory().hotbar().addInventory()
                 .blockEntity(this).slot(0, 55, 45).outputSlot(1, 101, 45).energySlot(2, 8, 72).syncEnergyValue()
-                .sync(this::getName, this::setName).sync(this::getCoolDown, this::setCoolDown).sync(this::getCoolDownDefault, this::setCoolDownDefault).addInventory().create(this, syncID);
+            .sync(PacketCodecs.STRING, this::getName, this::setName).sync(PacketCodecs.INTEGER, this::getCoolDown, this::setCoolDown).sync(PacketCodecs.INTEGER, this::getCoolDownDefault, this::setCoolDownDefault).addInventory().create(this, syncID);
     }
 
 
@@ -140,8 +143,8 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
                     setCoolDown(getCoolDownDefault());
                     ItemStack stack = getStack(0).copy();
                     getInventory().setStack(0, ItemStack.EMPTY);
-                    if (getName().isEmpty()) stack.removeCustomName();
-                    else stack.setCustomName(TextUtil.literal(getName()));
+                    if (getName().isEmpty()) stack.remove(DataComponentTypes.CUSTOM_NAME);
+                    else stack.set(DataComponentTypes.CUSTOM_NAME, TextUtil.literal(getName()));
                     getInventory().setStack(1, stack);
                     world.playSound(null, getPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 0.75F, 1.5F);
                     return;
@@ -161,14 +164,14 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
         return inventory;
     }
 
-    public void writeNbt(NbtCompound tag) {
+    public void writeNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         if (getName() != null) tag.putString("option_name", getName());
         tag.putInt("option_time", coolDown);
-        super.writeNbt(tag);
+        super.writeNbt(tag, registryLookup);
     }
 
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
+    public void readNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(tag, registryLookup);
         if (tag.contains("option_name")) setName(tag.getString("option_name"));
         if (tag.contains("option_time")) coolDown = tag.getInt("option_time");
     }

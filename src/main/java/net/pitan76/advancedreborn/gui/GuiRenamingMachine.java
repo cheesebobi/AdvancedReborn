@@ -10,6 +10,7 @@ import net.pitan76.advancedreborn.Defines;
 import net.pitan76.advancedreborn.tile.RenamingMachineTile;
 import net.pitan76.mcpitanlib.api.network.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 import reborncore.client.gui.GuiBase;
@@ -62,7 +63,7 @@ public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
 
     public void sendPacket() {
         PacketByteBuf buf = PacketByteUtil.create();
-        NbtCompound data = new NbtCompound();
+        NbtCompound data = NbtUtil.create();
         data.putString("name", getFieldBox().getText());
         data.putDouble("x", tile.getPos().getX());
         data.putDouble("y", tile.getPos().getY());

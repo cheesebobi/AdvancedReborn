@@ -5,11 +5,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.PiglinBrain;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -18,14 +18,12 @@ import net.minecraft.stat.Stats;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.pitan76.advancedreborn.tile.CardboardBoxTile;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
@@ -33,14 +31,15 @@ import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockEntityProvider;
 import net.pitan76.mcpitanlib.api.event.block.*;
 import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
-import net.pitan76.mcpitanlib.api.util.TextUtil;
-import org.jetbrains.annotations.Nullable;
+import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
+import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
+import net.pitan76.mcpitanlib.api.util.*;
 
 import java.util.List;
 
 public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvider {
 
-    public static Identifier CONTENTS = new Identifier("contents");
+    public static Identifier CONTENTS = IdentifierUtil.id("contents");
     public static DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
     public CardboardBox(CompatibleBlockSettings settings) {
@@ -74,21 +73,15 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
         if (blockEntity instanceof CardboardBoxTile) {
             CardboardBoxTile tile = (CardboardBoxTile) blockEntity;
             if (!world.isClient() && e.player.isCreative() && !tile.isEmpty()) {
-                ItemStack itemStack = new ItemStack(this);
-                NbtCompound nbtCompound = tile.writeInventoryNbt(new NbtCompound());
-                if (tile.hasNote()) {
-                    nbtCompound.putString("note" ,tile.getNote());
-                }
-                if (!nbtCompound.isEmpty()) {
-                    itemStack.setSubNbt("BlockEntityTag", nbtCompound);
-                }
-                if (tile.hasCustomName()) {
-                    itemStack.setCustomName(tile.getCustomName());
-                }
+                ItemStack stack = ItemStackUtil.create(this.asItem());
+                NbtCompound nbt = tile.writeInventoryNbt(NbtUtil.create());
+                if (tile.hasNote()) NbtUtil.set(nbt, "note" ,tile.getNote());
+                if (!nbt.isEmpty()) stack.set(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.of(nbt));
+                if (tile.hasCustomName()) stack.set(DataComponentTypes.CUSTOM_NAME, tile.getCustomName());
 
-                ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, itemStack);
+                ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, stack);
                 itemEntity.setToDefaultPickupDelay();
-                world.spawnEntity(itemEntity);
+                WorldUtil.spawnEntity(world, itemEntity);
             }
         }
         return super.onBreak(e);
@@ -113,10 +106,10 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
         BlockPos pos = e.pos;
         ItemStack stack = e.stack;
 
-        if(placer != null) {
+        if (placer != null)
             setFacing(placer.getHorizontalFacing().getOpposite(), world, pos);
-        }
-        if (stack.hasCustomName()) {
+
+        if (stack.contains(DataComponentTypes.CUSTOM_NAME)) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof CardboardBoxTile) {
                 ((CardboardBoxTile)blockEntity).setCustomName(stack.getName());
@@ -126,23 +119,22 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     }
 
     @Override
-    public ActionResult onRightClick(BlockUseEvent event) {
-        if (event.world.isClient) {
-            return ActionResult.SUCCESS;
-        } else if (event.player.getPlayerEntity().isSpectator()) {
+    public ActionResult onRightClick(BlockUseEvent e) {
+        if (e.isClient()) return ActionResult.SUCCESS;
+
+        if (e.player.getPlayerEntity().isSpectator()) {
             return ActionResult.CONSUME;
-        } else {
-            BlockEntity blockEntity = event.world.getBlockEntity(event.pos);
-            if (blockEntity instanceof CardboardBoxTile) {
-                CardboardBoxTile tile = (CardboardBoxTile)blockEntity;
-                event.player.openGuiScreen(tile);
-                event.player.getPlayerEntity().incrementStat(Stats.OPEN_SHULKER_BOX);
-                PiglinBrain.onGuardedBlockInteracted(event.player.getPlayerEntity(), true);
-                return ActionResult.CONSUME;
-            } else {
-                return ActionResult.PASS;
-            }
         }
+
+        BlockEntity blockEntity = e.getBlockEntity();
+        if (blockEntity instanceof CardboardBoxTile) {
+            CardboardBoxTile tile = (CardboardBoxTile) blockEntity;
+            e.player.openGuiScreen(tile);
+            e.player.getPlayerEntity().incrementStat(Stats.OPEN_SHULKER_BOX);
+            PiglinBrain.onGuardedBlockInteracted(e.player.getPlayerEntity(), true);
+            return ActionResult.CONSUME;
+        }
+        return ActionResult.PASS;
     }
 
     @Override
@@ -150,25 +142,30 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
         ItemStack itemStack = super.getPickStack(e);
         BlockEntity blockEntity = e.getBlockEntity();
         if (blockEntity instanceof CardboardBoxTile)
-            blockEntity.setStackNbt(itemStack);
+            blockEntity.setStackNbt(itemStack, e.worldView.getRegistryManager());
 
         return itemStack;
     }
 
+    @Override
     @Environment(EnvType.CLIENT)
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        super.appendTooltip(stack, world, tooltip, options);
-        NbtCompound nbtCompound = stack.getSubNbt("BlockEntityTag");
-        if (nbtCompound != null) {
-            if (nbtCompound.contains("note")) {
-                tooltip.add(TextUtil.literal(nbtCompound.getString("note")));
+    public void appendTooltip(ItemAppendTooltipEvent e) {
+        super.appendTooltip(e);
+
+        if (!e.stack.contains(DataComponentTypes.BLOCK_ENTITY_DATA)) return;
+
+        NbtCompound nbt = e.stack.get(DataComponentTypes.BLOCK_ENTITY_DATA).copyNbt();
+        if (nbt != null) {
+            if (nbt.contains("note")) {
+                e.addTooltip(TextUtil.literal(nbt.getString("note")));
             }
-            if (nbtCompound.contains("LootTable", 8)) {
-                tooltip.add(TextUtil.literal("???????"));
+            if (nbt.contains("LootTable", 8)) {
+                e.addTooltip(TextUtil.literal("???????"));
             }
-            if (nbtCompound.contains("Items", 9)) {
+            if (nbt.contains("Items", 9)) {
                 DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(27, ItemStack.EMPTY);
-                Inventories.readNbt(nbtCompound, defaultedList);
+                NbtRWArgs args = new NbtRWArgs(nbt, e.context.getRegistryLookup());
+                InventoryUtil.readNbt(args, defaultedList);
                 int i = 0;
                 int j = 0;
 
@@ -179,12 +176,12 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
                             ++i;
                             MutableText mutableText = itemStack.getName().copy();
                             mutableText.append(" x").append(String.valueOf(itemStack.getCount()));
-                            tooltip.add(mutableText);
+                            e.addTooltip(mutableText);
                         }
                     }
                 }
                 if (j - i > 0) {
-                    tooltip.add((TextUtil.translatable("container.advanced_reborn.cardboard_box.more", new Object[]{j - i})).copy().formatted(Formatting.ITALIC));
+                    e.addTooltip((TextUtil.translatable("container.advanced_reborn.cardboard_box.more", new Object[]{j - i})).copy().formatted(Formatting.ITALIC));
                 }
             }
         }

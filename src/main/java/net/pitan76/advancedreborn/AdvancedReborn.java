@@ -10,6 +10,7 @@ import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,6 +68,6 @@ public class AdvancedReborn implements ModInitializer {
     }
 
     public static Identifier id(String id) {
-        return new Identifier(MOD_ID, id);
+        return IdentifierUtil.id(MOD_ID, id);
     }
 }

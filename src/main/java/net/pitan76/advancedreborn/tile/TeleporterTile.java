@@ -7,6 +7,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -49,7 +50,7 @@ public class TeleporterTile extends BlockEntity implements BlockEntityTicker<Tel
         if (!world.isReceivingRedstonePower(getPos())) return;
         if (use()) {
             for (Entity entity : entities) {
-                entity.teleport(getTeleportPos().getX() - 0.5D, getTeleportPos().getY() - 0.5D, getTeleportPos().getZ() - 0.5D);
+                entity.requestTeleport(getTeleportPos().getX() - 0.5D, getTeleportPos().getY() - 0.5D, getTeleportPos().getZ() - 0.5D);
                 return;
             }
         }
@@ -122,17 +123,17 @@ public class TeleporterTile extends BlockEntity implements BlockEntityTicker<Tel
         return getPos().getZ();
     }
 
-    public void writeNbt(NbtCompound nbt) {
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         if (getTeleportPos() != null) {
             nbt.putDouble("tpX", getTeleportPos().getX());
             nbt.putDouble("tpY", getTeleportPos().getY());
             nbt.putDouble("tpZ", getTeleportPos().getZ());
         }
-        super.writeNbt(nbt);
+        super.writeNbt(nbt, registryLookup);
     }
 
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
+    public void readNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(tag, registryLookup);
         if (tag.contains("tpX") && tag.contains("tpY") && tag.contains("tpZ")) teleportPos = PosUtil.flooredBlockPos(tag.getDouble("tpX"), tag.getDouble("tpY"), tag.getDouble("tpZ"));
     }
 }
