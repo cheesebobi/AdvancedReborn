@@ -62,44 +62,6 @@ public class Blocks {
     public static Block INDUSTRIAL_TNT = new IndustrialTNT(CompatibleBlockSettings.copy(net.minecraft.block.Blocks.TNT));
 
     public static void init() {
-        registry.registerBlock(INSTANCE.compatId("charge_pad"), () -> CHARGE_PAD_MK_1);
-        registry.registerBlock(INSTANCE.compatId("charge_pad_2"), () -> CHARGE_PAD_MK_2);
-        registry.registerBlock(INSTANCE.compatId("charge_pad_3"), () -> CHARGE_PAD_MK_3);
-        registry.registerBlock(INSTANCE.compatId("charge_pad_4"), () -> CHARGE_PAD_MK_4);
-        registry.registerBlock(INSTANCE.compatId("charge_pad_final"), () -> CHARGE_PAD_MK_FINAL);
 
-        registry.registerBlock(INSTANCE.compatId("ray_solar_panel"), () -> RAY_SOLAR_1);
-        registry.registerBlock(INSTANCE.compatId("ray_solar_panel_2"), () -> RAY_SOLAR_2);
-        registry.registerBlock(INSTANCE.compatId("ray_solar_panel_3"), () -> RAY_SOLAR_3);
-        registry.registerBlock(INSTANCE.compatId("ray_solar_panel_4"), () -> RAY_SOLAR_4);
-        registry.registerBlock(INSTANCE.compatId("ray_generator"), () -> RAY_GENERATOR_1);
-        registry.registerBlock(INSTANCE.compatId("ray_generator_2"), () -> RAY_GENERATOR_2);
-        registry.registerBlock(INSTANCE.compatId("ray_generator_3"), () -> RAY_GENERATOR_3);
-        registry.registerBlock(INSTANCE.compatId("ray_generator_4"), () -> RAY_GENERATOR_4);
-        registry.registerBlock(INSTANCE.compatId("ray_generator_5"), () -> RAY_GENERATOR_5);
-        registry.registerBlock(INSTANCE.compatId("ray_generator_6"), () -> RAY_GENERATOR_6);
-        registry.registerBlock(INSTANCE.compatId("ray_generator_7"), () -> RAY_GENERATOR_7);
-        registry.registerBlock(INSTANCE.compatId("ray_generator_8"), () -> RAY_GENERATOR_8);
-        registry.registerBlock(INSTANCE.compatId("ray_generator_9"), () -> RAY_GENERATOR_9);
-        registry.registerBlock(INSTANCE.compatId("ray_generator_10"), () -> RAY_GENERATOR_10);
-
-        registry.registerBlock(INSTANCE.compatId("induction_furnace"), () -> INDUCTION_FURNACE);
-        registry.registerBlock(INSTANCE.compatId("rotary_grinder"), () -> ROTARY_GRINDER);
-        registry.registerBlock(INSTANCE.compatId("centrifugal_extractor"), () -> CENTRIFUGAL_EXTRACTOR);
-        registry.registerBlock(INSTANCE.compatId("singularity_compressor"), () -> SINGULARITY_COMPRESSOR);
-        registry.registerBlock(INSTANCE.compatId("canning_machine"), () -> CANNING_MACHINE);
-        registry.registerBlock(INSTANCE.compatId("renaming_machine"), () -> RENAMING_MACHINE);
-        registry.registerBlock(INSTANCE.compatId("teleporter"), () -> TELEPORTER);
-        registry.registerBlock(INSTANCE.compatId("farming_machine"), () -> FARMING_MACHINE);
-        registry.registerBlock(INSTANCE.compatId("logging_machine"), () -> LOGGING_MACHINE);
-        registry.registerBlock(INSTANCE.compatId("fertilizer_spreader"), () -> FERTILIZER_SPREADER);
-        registry.registerBlock(INSTANCE.compatId("enchantment_extractor"), () -> ENCHANTMENT_EXTRACTOR);
-
-        registry.registerBlock(INSTANCE.compatId("industrial_tnt"), () -> INDUSTRIAL_TNT);
-        registry.registerBlock(INSTANCE.compatId("light"), () -> LIGHT);
-        registry.registerBlock(INSTANCE.compatId("cardboard_box"), () -> CARDBOARD_BOX);
-        registry.registerBlock(INSTANCE.compatId("cardboard_box_minetaro"), () -> CARDBOARD_BOX_MINETARO);
-        registry.registerBlock(INSTANCE.compatId("cardboard_box_minezon"), () -> CARDBOARD_BOX_MINEZON);
-        registry.registerBlock(INSTANCE.compatId("cardboard_box_nothing_logo"), () -> CARDBOARD_BOX_NOTHING);
     }
 }

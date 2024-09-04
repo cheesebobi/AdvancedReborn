@@ -7,10 +7,10 @@ import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
 import static net.pitan76.advancedreborn.AdvancedReborn.registry;
 
 public class Particles {
-    public static SimpleParticleType ENERGY = FabricParticleTypes.simple();
+    public static SimpleParticleType ENERGY;
 
 
     public static void init() {
-        registry.registerParticleType(INSTANCE.compatId("energy"), () -> ENERGY);
+        registry.registerParticleType(INSTANCE.compatId("energy"), FabricParticleTypes::simple);
     }
 }
