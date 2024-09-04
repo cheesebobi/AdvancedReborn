@@ -33,7 +33,7 @@ public class TeleporterTile extends BlockEntity implements BlockEntityTicker<Tel
     }
 
     public TeleporterTile(BlockPos pos, BlockState state) {
-        this(Tiles.TELEPORTER_TILE, pos, state);
+        this(Tiles.TELEPORTER_TILE.getOrNull(), pos, state);
     }
 
     public TeleporterTile(TileCreateEvent event) {

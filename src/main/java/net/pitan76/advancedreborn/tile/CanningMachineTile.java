@@ -15,6 +15,7 @@ import net.pitan76.advancedreborn.Recipes;
 import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.api.recipe.IRecipeCrafterProvider;
@@ -44,7 +45,7 @@ public class CanningMachineTile extends PowerAcceptorBlockEntity implements IToo
     }
 
     public CanningMachineTile(BlockPos pos, BlockState state) {
-        this(Tiles.CANNING_MACHINE_TILE, pos, state);
+        this(Tiles.CANNING_MACHINE_TILE.getOrNull(), pos, state);
     }
 
     public CanningMachineTile(TileCreateEvent event) {
@@ -85,7 +86,7 @@ public class CanningMachineTile extends PowerAcceptorBlockEntity implements IToo
     }
 
     public ItemStack getToolDrop(PlayerEntity p0) {
-        return new ItemStack(toolDrop, 1);
+        return ItemStackUtil.create(toolDrop.asItem(), 1);
     }
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {

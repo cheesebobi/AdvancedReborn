@@ -15,6 +15,7 @@ import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.advancedreborn.tile.base.HeatMachineTile;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.api.recipe.IRecipeCrafterProvider;
@@ -43,7 +44,7 @@ public class RotaryGrinderTile extends HeatMachineTile implements IToolDrop, Inv
     }
 
     public RotaryGrinderTile(BlockPos pos, BlockState state) {
-        this(Tiles.ROTARY_GRINDER_TILE, pos, state);
+        this(Tiles.ROTARY_GRINDER_TILE.getOrNull(), pos, state);
     }
 
     public RotaryGrinderTile(TileCreateEvent event) {
@@ -84,7 +85,7 @@ public class RotaryGrinderTile extends HeatMachineTile implements IToolDrop, Inv
     }
 
     public ItemStack getToolDrop(PlayerEntity p0) {
-        return new ItemStack(toolDrop, 1);
+        return ItemStackUtil.create(toolDrop.asItem(), 1);
     }
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
@@ -99,7 +100,7 @@ public class RotaryGrinderTile extends HeatMachineTile implements IToolDrop, Inv
                 getStack(2).increment(1);
                 getStack(1).decrement(1);
             } else if (getStack(2).isEmpty()) {
-                setStack(2, new ItemStack(getStack(1).getItem(), 1));
+                setStack(2, ItemStackUtil.create(getStack(1).getItem(), 1));
                 getStack(1).decrement(1);
             }
         }

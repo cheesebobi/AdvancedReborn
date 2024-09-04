@@ -18,6 +18,7 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
@@ -49,7 +50,7 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
     }
 
     public FertilizerSpreaderTile(BlockPos pos, BlockState state) {
-        this(Tiles.FERTILIZER_SPREADER_TILE, pos, state);
+        this(Tiles.FERTILIZER_SPREADER_TILE.getOrNull(), pos, state);
     }
 
     public FertilizerSpreaderTile(TileCreateEvent event) {
@@ -82,7 +83,7 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
     }
 
     public ItemStack getToolDrop(PlayerEntity p0) {
-        return new ItemStack(toolDrop, 1);
+        return ItemStackUtil.create(toolDrop.asItem(), 1);
     }
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {

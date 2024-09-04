@@ -15,6 +15,7 @@ import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.advancedreborn.tile.base.HeatMachineTile;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.api.recipe.IRecipeCrafterProvider;
@@ -43,7 +44,7 @@ public class SingularityCompressorTile extends HeatMachineTile implements IToolD
     }
 
     public SingularityCompressorTile(BlockPos pos, BlockState state) {
-        this(Tiles.SINGULARITY_COMPRESSOR_TILE, pos, state);
+        this(Tiles.SINGULARITY_COMPRESSOR_TILE.getOrNull(), pos, state);
     }
 
     public SingularityCompressorTile(TileCreateEvent event) {
@@ -84,7 +85,7 @@ public class SingularityCompressorTile extends HeatMachineTile implements IToolD
     }
 
     public ItemStack getToolDrop(PlayerEntity p0) {
-        return new ItemStack(toolDrop, 1);
+        return ItemStackUtil.create(toolDrop.asItem(), 1);
     }
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {

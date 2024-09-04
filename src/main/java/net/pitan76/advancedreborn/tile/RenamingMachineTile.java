@@ -20,6 +20,7 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
@@ -50,7 +51,7 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
     }
 
     public RenamingMachineTile(BlockPos pos, BlockState state) {
-        this(Tiles.RENAMING_MACHINE_TILE, pos, state);
+        this(Tiles.RENAMING_MACHINE_TILE.getOrNull(), pos, state);
     }
 
     public RenamingMachineTile(TileCreateEvent event) {
@@ -119,7 +120,7 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
     }
 
     public ItemStack getToolDrop(PlayerEntity p0) {
-        return new ItemStack(toolDrop, 1);
+        return ItemStackUtil.create(toolDrop.asItem(), 1);
     }
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {

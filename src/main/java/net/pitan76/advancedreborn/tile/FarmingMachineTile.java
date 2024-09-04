@@ -21,6 +21,7 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
@@ -57,7 +58,7 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
     }
 
     public FarmingMachineTile(BlockPos pos, BlockState state) {
-        this(Tiles.FARMING_MACHINE_TILE, pos, state);
+        this(Tiles.FARMING_MACHINE_TILE.getOrNull(), pos, state);
     }
 
     public FarmingMachineTile(TileCreateEvent event) {
@@ -90,7 +91,7 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
     }
 
     public ItemStack getToolDrop(PlayerEntity p0) {
-        return new ItemStack(toolDrop, 1);
+        return ItemStackUtil.create(toolDrop.asItem(), 1);
     }
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
@@ -159,7 +160,7 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
                 return;
             }
             if (slotStack.getItem() == stack.getItem() && slotStack.getCount() + stack.getCount() < 64) {
-                inventory.setStack(i, new ItemStack(stack.getItem(), stack.getCount() + inventory.getStack(i).getCount()));
+                inventory.setStack(i, ItemStackUtil.create(stack.getItem(), stack.getCount() + inventory.getStack(i).getCount()));
                 markDirty();
                 return;
             }

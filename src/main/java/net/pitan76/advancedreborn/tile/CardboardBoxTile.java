@@ -39,7 +39,7 @@ public class CardboardBoxTile extends CompatBlockEntity implements IInventory, S
     }
 
     public CardboardBoxTile(BlockPos pos, BlockState state) {
-        this(Tiles.CARDBOARD_BOX_TILE, pos, state);
+        this(Tiles.CARDBOARD_BOX_TILE.getOrNull(), pos, state);
     }
 
     public CardboardBoxTile(TileCreateEvent event) {

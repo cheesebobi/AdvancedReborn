@@ -11,6 +11,7 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.blocks.RaySolar;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
@@ -34,7 +35,7 @@ public class RaySolarTile extends PowerAcceptorBlockEntity implements IToolDrop 
     }
 
     public RaySolarTile(TileCreateEvent event) {
-        this(Tiles.RAY_SOLAR_TILE, event.getBlockPos(), event.getBlockState());
+        this(Tiles.RAY_SOLAR_TILE.getOrNull(), event.getBlockPos(), event.getBlockState());
     }
 
     // 1.17
@@ -74,6 +75,6 @@ public class RaySolarTile extends PowerAcceptorBlockEntity implements IToolDrop 
     }
 
     public ItemStack getToolDrop(PlayerEntity p0) {
-        return new ItemStack(solar);
+        return ItemStackUtil.create(solar.asItem());
     }
 }

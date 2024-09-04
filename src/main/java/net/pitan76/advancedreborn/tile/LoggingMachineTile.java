@@ -57,7 +57,7 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
     }
 
     public LoggingMachineTile(BlockPos pos, BlockState state) {
-        this(Tiles.LOGGING_MACHINE_TILE, pos, state);
+        this(Tiles.LOGGING_MACHINE_TILE.getOrNull(), pos, state);
     }
 
     public LoggingMachineTile(TileCreateEvent event) {
@@ -90,7 +90,7 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
     }
 
     public ItemStack getToolDrop(PlayerEntity p0) {
-        return new ItemStack(toolDrop, 1);
+        return ItemStackUtil.create(toolDrop, 1);
     }
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
@@ -148,7 +148,7 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
                 return;
             }
             if (slotStack.getItem() == stack.getItem() && slotStack.getCount() + stack.getCount() < 64) {
-                inventory.setStack(i, new ItemStack(stack.getItem(), stack.getCount() + inventory.getStack(i).getCount()));
+                inventory.setStack(i, ItemStackUtil.create(stack.getItem(), stack.getCount() + inventory.getStack(i).getCount()));
                 markDirty();
                 return;
             }

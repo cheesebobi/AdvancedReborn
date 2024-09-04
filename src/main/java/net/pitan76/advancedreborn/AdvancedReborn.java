@@ -10,6 +10,7 @@ import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.fabric.ExtendModInitializer;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class AdvancedReborn extends ExtendModInitializer {
 
         AR_GROUP = CreativeTabBuilder.create(
                         INSTANCE.compatId("item_group")).
-                setIcon(() -> new ItemStack(Items.CHARGE_PAD_MK_FINAL, 1));
+                setIcon(() -> ItemStackUtil.create(Items.CHARGE_PAD_MK_FINAL, 1));
         RegistryResult<ItemGroup> result = registry.registerItemGroup(compatId("item_group"), AR_GROUP);
 
         ModManager.beforeInit();

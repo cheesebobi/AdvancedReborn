@@ -51,7 +51,7 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
     }
 
     public EnchantmentExtractorTile(BlockPos pos, BlockState state) {
-        this(Tiles.ENCHANTMENT_EXTRACTOR_TILE, pos, state);
+        this(Tiles.ENCHANTMENT_EXTRACTOR_TILE.getOrNull(), pos, state);
     }
 
     public EnchantmentExtractorTile(TileCreateEvent event) {
@@ -113,7 +113,7 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
     }
 
     public ItemStack getToolDrop(PlayerEntity p0) {
-        return new ItemStack(toolDrop, 1);
+        return ItemStackUtil.create(toolDrop.asItem(), 1);
     }
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
@@ -141,7 +141,7 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
                         Map<CompatEnchantment, Integer> enchantments = EnchantmentUtil.getEnchantment(inputStack, world);
                         if (bookStack.getCount() >= enchantments.size()) {
                             for (Map.Entry<CompatEnchantment, Integer> entry : enchantments.entrySet()) {
-                                ItemStack itemStack = new ItemStack(Items.ENCHANTED_BOOK, 1);
+                                ItemStack itemStack = ItemStackUtil.create(Items.ENCHANTED_BOOK, 1);
                                 Map<CompatEnchantment, Integer> map = new HashMap<>();
                                 map.put(entry.getKey(), entry.getValue());
 

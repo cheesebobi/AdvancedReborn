@@ -14,6 +14,7 @@ import net.pitan76.mcpitanlib.api.event.item.ItemFinishUsingEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 
 import static net.pitan76.advancedreborn.Items.CAN_FOOD_COMPONENT;
 
@@ -51,11 +52,11 @@ public class FoodCanItem extends ExtendItem {
 
         if (playerEntity == null || !playerEntity.getAbilities().creativeMode) {
             if (stack.isEmpty()) {
-                return new ItemStack(Items.EMPTY_CAN);
+                return ItemStackUtil.create(Items.EMPTY_CAN);
             }
 
             if (playerEntity != null) {
-                ItemStack emptyCan = new ItemStack(Items.EMPTY_CAN);
+                ItemStack emptyCan = ItemStackUtil.create(Items.EMPTY_CAN);
                 boolean inserted = playerEntity.getInventory().insertStack(emptyCan);
                 if (!inserted) {
                     playerEntity.dropItem(emptyCan, false);
