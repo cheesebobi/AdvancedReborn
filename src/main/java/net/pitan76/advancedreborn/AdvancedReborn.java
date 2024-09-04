@@ -1,6 +1,5 @@
 package net.pitan76.advancedreborn;
 
-import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -8,36 +7,39 @@ import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.advancedreborn.blocks.RaySolar;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
 import net.pitan76.mcpitanlib.api.item.CreativeTabManager;
-import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.pitan76.mcpitanlib.fabric.ExtendModInitializer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdvancedReborn implements ModInitializer {
+public class AdvancedReborn extends ExtendModInitializer {
     public static final String MOD_ID = "advanced_reborn";
     public static final String MOD_NAME = "Advanced Reborn";
-    public static Logger LOGGER = LogManager.getLogger();
-    public static void log(Level level, String message){
-        LOGGER.log(level, "[" + MOD_NAME + "] " + message);
-    }
 
-    public static CompatRegistry registry = CompatRegistry.createRegistry(MOD_ID);
+    public static AdvancedReborn INSTANCE;
+    public static CompatRegistryV2 registry;
+
+    public static void log(String message) {
+        INSTANCE.logger.info("[" + MOD_NAME + "] " + message);
+    }
 
     // Add ItemGroup
     public static DefaultedList<ItemStack> addStacksIG = DefaultedList.of();
 
-    public static CreativeTabBuilder AR_GROUP = CreativeTabBuilder.create(
-            id("item_group")).
-            setIcon(() -> new ItemStack(Items.CHARGE_PAD_MK_FINAL, 1));
+    public static CreativeTabBuilder AR_GROUP;
 
     @Override
-    public void onInitialize() {
-        RegistryResult<ItemGroup> result = registry.registerItemGroup(id("item_group"), AR_GROUP);
+    public void init() {
+        INSTANCE = this;
+        registry = super.registry;
+
+        AR_GROUP = CreativeTabBuilder.create(
+                        INSTANCE.compatId("item_group")).
+                setIcon(() -> new ItemStack(Items.CHARGE_PAD_MK_FINAL, 1));
+        RegistryResult<ItemGroup> result = registry.registerItemGroup(compatId("item_group"), AR_GROUP);
 
         ModManager.beforeInit();
         Items.init();
@@ -54,11 +56,9 @@ public class AdvancedReborn implements ModInitializer {
 
         if (!addStacksIG.isEmpty()) {
             for (ItemStack stack : addStacksIG) {
-                CreativeTabManager.addStack(() -> result.getOrNull(), stack);
+                CreativeTabManager.addStack(result::getOrNull, stack);
             }
         }
-
-        registry.allRegister();
     }
 
     public static List<RaySolar> solars = new ArrayList<>();
@@ -67,7 +67,17 @@ public class AdvancedReborn implements ModInitializer {
         solars.add((RaySolar) Blocks.RAY_SOLAR_1);
     }
 
-    public static Identifier id(String id) {
+    public static Identifier _id(String id) {
         return IdentifierUtil.id(MOD_ID, id);
+    }
+
+    @Override
+    public String getId() {
+        return MOD_ID;
+    }
+
+    @Override
+    public String getName() {
+        return MOD_NAME;
     }
 }

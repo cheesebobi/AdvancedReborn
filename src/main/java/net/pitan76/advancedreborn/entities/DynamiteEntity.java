@@ -39,12 +39,12 @@ public class DynamiteEntity extends CompatThrownItemEntity {
     }
 
     public DynamiteEntity(World world, LivingEntity owner) {
-        super(Entities.DYNAMITE, owner, world);
+        super((EntityType<? extends ThrownItemEntity>) Entities.DYNAMITE.getOrNull(), owner, world);
         setFuse(fuseTimerInit);
     }
 
     public DynamiteEntity(World world, double x, double y, double z) {
-        super(Entities.DYNAMITE, x, y, z, world);
+        super((EntityType<? extends ThrownItemEntity>) Entities.DYNAMITE.getOrNull(), x, y, z, world);
         setFuse(fuseTimerInit);
     }
 

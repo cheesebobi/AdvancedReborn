@@ -55,7 +55,10 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 
-	modImplementation "net.pitan76:mcpitanlib-fabric${rootProject.mcpitanlib_version}"
+	modImplementation "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+	modImplementation("net.pitan76:mcpitanlib-fabric${rootProject.mcpitanlib_version}") {
+		exclude(group: "dev.architectury")
+	}
 }
 
 processResources {

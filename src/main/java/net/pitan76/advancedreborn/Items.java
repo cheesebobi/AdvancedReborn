@@ -8,11 +8,12 @@ import net.pitan76.advancedreborn.items.*;
 import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
-import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import reborncore.common.powerSystem.RcEnergyTier;
 import techreborn.config.TechRebornConfig;
 
+import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
 import static net.pitan76.advancedreborn.AdvancedReborn.registry;
 
 public class Items {
@@ -112,76 +113,76 @@ public class Items {
     //public static Item ADD_ITEMS = new AddItems(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64));
 
     public static void init() {
-        registry.registerItem(AdvancedReborn.id("charge_pad"), () -> CHARGE_PAD_MK_1);
-        registry.registerItem(AdvancedReborn.id("charge_pad_2"), () -> CHARGE_PAD_MK_2);
-        registry.registerItem(AdvancedReborn.id("charge_pad_3"), () -> CHARGE_PAD_MK_3);
-        registry.registerItem(AdvancedReborn.id("charge_pad_4"), () -> CHARGE_PAD_MK_4);
-        registry.registerItem(AdvancedReborn.id("charge_pad_final"), () -> CHARGE_PAD_MK_FINAL);
+        registry.registerItem(INSTANCE.compatId("charge_pad"), () -> CHARGE_PAD_MK_1);
+        registry.registerItem(INSTANCE.compatId("charge_pad_2"), () -> CHARGE_PAD_MK_2);
+        registry.registerItem(INSTANCE.compatId("charge_pad_3"), () -> CHARGE_PAD_MK_3);
+        registry.registerItem(INSTANCE.compatId("charge_pad_4"), () -> CHARGE_PAD_MK_4);
+        registry.registerItem(INSTANCE.compatId("charge_pad_final"), () -> CHARGE_PAD_MK_FINAL);
 
-        registry.registerItem(AdvancedReborn.id("ray_solar_panel"), () -> RAY_SOLAR_1);
-        registry.registerItem(AdvancedReborn.id("ray_solar_panel_2"), () -> RAY_SOLAR_2);
-        registry.registerItem(AdvancedReborn.id("ray_solar_panel_3"), () -> RAY_SOLAR_3);
-        registry.registerItem(AdvancedReborn.id("ray_solar_panel_4"), () -> RAY_SOLAR_4);
-        registry.registerItem(AdvancedReborn.id("ray_generator"), () -> RAY_GENERATOR_1);
-        registry.registerItem(AdvancedReborn.id("ray_generator_2"), () -> RAY_GENERATOR_2);
-        registry.registerItem(AdvancedReborn.id("ray_generator_3"), () -> RAY_GENERATOR_3);
-        registry.registerItem(AdvancedReborn.id("ray_generator_4"), () -> RAY_GENERATOR_4);
-        registry.registerItem(AdvancedReborn.id("ray_generator_5"), () -> RAY_GENERATOR_5);
-        registry.registerItem(AdvancedReborn.id("ray_generator_6"), () -> RAY_GENERATOR_6);
-        registry.registerItem(AdvancedReborn.id("ray_generator_7"), () -> RAY_GENERATOR_7);
-        registry.registerItem(AdvancedReborn.id("ray_generator_8"), () -> RAY_GENERATOR_8);
-        registry.registerItem(AdvancedReborn.id("ray_generator_9"), () -> RAY_GENERATOR_9);
-        registry.registerItem(AdvancedReborn.id("ray_generator_10"), () -> RAY_GENERATOR_10);
+        registry.registerItem(INSTANCE.compatId("ray_solar_panel"), () -> RAY_SOLAR_1);
+        registry.registerItem(INSTANCE.compatId("ray_solar_panel_2"), () -> RAY_SOLAR_2);
+        registry.registerItem(INSTANCE.compatId("ray_solar_panel_3"), () -> RAY_SOLAR_3);
+        registry.registerItem(INSTANCE.compatId("ray_solar_panel_4"), () -> RAY_SOLAR_4);
+        registry.registerItem(INSTANCE.compatId("ray_generator"), () -> RAY_GENERATOR_1);
+        registry.registerItem(INSTANCE.compatId("ray_generator_2"), () -> RAY_GENERATOR_2);
+        registry.registerItem(INSTANCE.compatId("ray_generator_3"), () -> RAY_GENERATOR_3);
+        registry.registerItem(INSTANCE.compatId("ray_generator_4"), () -> RAY_GENERATOR_4);
+        registry.registerItem(INSTANCE.compatId("ray_generator_5"), () -> RAY_GENERATOR_5);
+        registry.registerItem(INSTANCE.compatId("ray_generator_6"), () -> RAY_GENERATOR_6);
+        registry.registerItem(INSTANCE.compatId("ray_generator_7"), () -> RAY_GENERATOR_7);
+        registry.registerItem(INSTANCE.compatId("ray_generator_8"), () -> RAY_GENERATOR_8);
+        registry.registerItem(INSTANCE.compatId("ray_generator_9"), () -> RAY_GENERATOR_9);
+        registry.registerItem(INSTANCE.compatId("ray_generator_10"), () -> RAY_GENERATOR_10);
 
-        registry.registerItem(AdvancedReborn.id("induction_furnace"), () -> INDUCTION_FURNACE);
-        registry.registerItem(AdvancedReborn.id("rotary_grinder"), () -> ROTARY_GRINDER);
-        registry.registerItem(AdvancedReborn.id("centrifugal_extractor"), () -> CENTRIFUGAL_EXTRACTOR);
-        registry.registerItem(AdvancedReborn.id("singularity_compressor"), () -> SINGULARITY_COMPRESSOR);
-        registry.registerItem(AdvancedReborn.id("canning_machine"), () -> CANNING_MACHINE);
-        registry.registerItem(AdvancedReborn.id("renaming_machine"), () -> RENAMING_MACHINE);
-        registry.registerItem(AdvancedReborn.id("teleporter"), () -> TELEPORTER);
-        registry.registerItem(AdvancedReborn.id("farming_machine"), () -> FARMING_MACHINE);
-        registry.registerItem(AdvancedReborn.id("logging_machine"), () -> LOGGING_MACHINE);
-        registry.registerItem(AdvancedReborn.id("fertilizer_spreader"), () -> FERTILIZER_SPREADER);
-        registry.registerItem(AdvancedReborn.id("enchantment_extractor"), () -> ENCHANTMENT_EXTRACTOR);
+        registry.registerItem(INSTANCE.compatId("induction_furnace"), () -> INDUCTION_FURNACE);
+        registry.registerItem(INSTANCE.compatId("rotary_grinder"), () -> ROTARY_GRINDER);
+        registry.registerItem(INSTANCE.compatId("centrifugal_extractor"), () -> CENTRIFUGAL_EXTRACTOR);
+        registry.registerItem(INSTANCE.compatId("singularity_compressor"), () -> SINGULARITY_COMPRESSOR);
+        registry.registerItem(INSTANCE.compatId("canning_machine"), () -> CANNING_MACHINE);
+        registry.registerItem(INSTANCE.compatId("renaming_machine"), () -> RENAMING_MACHINE);
+        registry.registerItem(INSTANCE.compatId("teleporter"), () -> TELEPORTER);
+        registry.registerItem(INSTANCE.compatId("farming_machine"), () -> FARMING_MACHINE);
+        registry.registerItem(INSTANCE.compatId("logging_machine"), () -> LOGGING_MACHINE);
+        registry.registerItem(INSTANCE.compatId("fertilizer_spreader"), () -> FERTILIZER_SPREADER);
+        registry.registerItem(INSTANCE.compatId("enchantment_extractor"), () -> ENCHANTMENT_EXTRACTOR);
 
-        registry.registerItem(AdvancedReborn.id("freq_trans"), () -> FREQ_TRANS);
-        registry.registerItem(AdvancedReborn.id("config_wrench"), () -> CONFIG_WRENCH);
-        registry.registerItem(AdvancedReborn.id("forge_hammer"), () -> FORGE_HAMMER);
-        registry.registerItem(AdvancedReborn.id("advanced_forge_hammer"), () -> ADVANCED_FORGE_HAMMER);
-        registry.registerItem(AdvancedReborn.id("dynamite"), () -> DYNAMITE);
-        registry.registerItem(AdvancedReborn.id("sticky_dynamite"), () -> STICKY_DYNAMITE);
-        registry.registerItem(AdvancedReborn.id("industrial_dynamite"), () -> INDUSTRIAL_DYNAMITE);
-        registry.registerItem(AdvancedReborn.id("industrial_sticky_dynamite"), () -> INDUSTRIAL_STICKY_DYNAMITE);
-        registry.registerItem(AdvancedReborn.id("industrial_tnt"), () -> INDUSTRIAL_TNT);
-        registry.registerItem(AdvancedReborn.id("light"), () -> LIGHT);
-        registry.registerItem(AdvancedReborn.id("cardboard_box"), () -> CARDBOARD_BOX);
-        registry.registerItem(AdvancedReborn.id("cardboard_box_minetaro"), () -> CARDBOARD_BOX_MINETARO);
-        registry.registerItem(AdvancedReborn.id("cardboard_box_minezon"), () -> CARDBOARD_BOX_MINEZON);
-        registry.registerItem(AdvancedReborn.id("cardboard_box_nothing_logo"), () -> CARDBOARD_BOX_NOTHING);
+        registry.registerItem(INSTANCE.compatId("freq_trans"), () -> FREQ_TRANS);
+        registry.registerItem(INSTANCE.compatId("config_wrench"), () -> CONFIG_WRENCH);
+        registry.registerItem(INSTANCE.compatId("forge_hammer"), () -> FORGE_HAMMER);
+        registry.registerItem(INSTANCE.compatId("advanced_forge_hammer"), () -> ADVANCED_FORGE_HAMMER);
+        registry.registerItem(INSTANCE.compatId("dynamite"), () -> DYNAMITE);
+        registry.registerItem(INSTANCE.compatId("sticky_dynamite"), () -> STICKY_DYNAMITE);
+        registry.registerItem(INSTANCE.compatId("industrial_dynamite"), () -> INDUSTRIAL_DYNAMITE);
+        registry.registerItem(INSTANCE.compatId("industrial_sticky_dynamite"), () -> INDUSTRIAL_STICKY_DYNAMITE);
+        registry.registerItem(INSTANCE.compatId("industrial_tnt"), () -> INDUSTRIAL_TNT);
+        registry.registerItem(INSTANCE.compatId("light"), () -> LIGHT);
+        registry.registerItem(INSTANCE.compatId("cardboard_box"), () -> CARDBOARD_BOX);
+        registry.registerItem(INSTANCE.compatId("cardboard_box_minetaro"), () -> CARDBOARD_BOX_MINETARO);
+        registry.registerItem(INSTANCE.compatId("cardboard_box_minezon"), () -> CARDBOARD_BOX_MINEZON);
+        registry.registerItem(INSTANCE.compatId("cardboard_box_nothing_logo"), () -> CARDBOARD_BOX_NOTHING);
 
-        registry.registerItem(AdvancedReborn.id("advanced_battery"), () -> ADVANCED_BATTERY);
-        registry.registerItem(AdvancedReborn.id("advanced_battery_2"), () -> ADVANCED_BATTERY_2);
-        registry.registerItem(AdvancedReborn.id("advanced_battery_3"), () -> ADVANCED_BATTERY_3);
-        registry.registerItem(AdvancedReborn.id("advanced_battery_4"), () -> ADVANCED_BATTERY_4);
-        registry.registerItem(AdvancedReborn.id("advanced_battery_5"), () -> ADVANCED_BATTERY_5);
+        registry.registerItem(INSTANCE.compatId("advanced_battery"), () -> ADVANCED_BATTERY);
+        registry.registerItem(INSTANCE.compatId("advanced_battery_2"), () -> ADVANCED_BATTERY_2);
+        registry.registerItem(INSTANCE.compatId("advanced_battery_3"), () -> ADVANCED_BATTERY_3);
+        registry.registerItem(INSTANCE.compatId("advanced_battery_4"), () -> ADVANCED_BATTERY_4);
+        registry.registerItem(INSTANCE.compatId("advanced_battery_5"), () -> ADVANCED_BATTERY_5);
 
-        //registry.registerItem(AdvancedReborn.id("nano_helmet"), () -> NANO_SUIT_HELMET);
-        //registry.registerItem(AdvancedReborn.id("nano_chestplate"), () -> NANO_SUIT_BODY_ARMOR);
-        //registry.registerItem(AdvancedReborn.id("nano_leggings"), () -> NANO_SUIT_LEGGINGS);
-        //registry.registerItem(AdvancedReborn.id("nano_boots"), () -> NANO_SUIT_BOOTS);
+        //registry.registerItem(INSTANCE.compatId("nano_helmet"), () -> NANO_SUIT_HELMET);
+        //registry.registerItem(INSTANCE.compatId("nano_chestplate"), () -> NANO_SUIT_BODY_ARMOR);
+        //registry.registerItem(INSTANCE.compatId("nano_leggings"), () -> NANO_SUIT_LEGGINGS);
+        //registry.registerItem(INSTANCE.compatId("nano_boots"), () -> NANO_SUIT_BOOTS);
 
-        registry.registerItem(AdvancedReborn.id("empty_can"), () -> EMPTY_CAN);
-        registry.registerItem(AdvancedReborn.id("fuel_can"), () -> FUEL_CAN);
-        registry.registerItem(AdvancedReborn.id("food_can"), () -> FOOD_CAN);
-        registry.registerItem(AdvancedReborn.id("cardboard_sheet"), () -> CARDBOARD_SHEET);
-        registry.registerItem(AdvancedReborn.id("duct_tape"), () -> DUCT_TAPE);
+        registry.registerItem(INSTANCE.compatId("empty_can"), () -> EMPTY_CAN);
+        registry.registerItem(INSTANCE.compatId("fuel_can"), () -> FUEL_CAN);
+        registry.registerItem(INSTANCE.compatId("food_can"), () -> FOOD_CAN);
+        registry.registerItem(INSTANCE.compatId("cardboard_sheet"), () -> CARDBOARD_SHEET);
+        registry.registerItem(INSTANCE.compatId("duct_tape"), () -> DUCT_TAPE);
 
-        registry.registerItem(IdentifierUtil.id("better_batpack:batpack4"), () -> BATPACK_4);
-        registry.registerItem(IdentifierUtil.id("better_batpack:batpack16"), () -> BATPACK_16);
-        registry.registerItem(IdentifierUtil.id("better_batpack:batpack64"), () -> BATPACK_64);
-        registry.registerItem(IdentifierUtil.id("better_batpack:batpack128"), () -> BATPACK_128);
+        registry.registerItem(CompatIdentifier.of("better_batpack:batpack4"), () -> BATPACK_4);
+        registry.registerItem(CompatIdentifier.of("better_batpack:batpack16"), () -> BATPACK_16);
+        registry.registerItem(CompatIdentifier.of("better_batpack:batpack64"), () -> BATPACK_64);
+        registry.registerItem(CompatIdentifier.of("better_batpack:batpack128"), () -> BATPACK_128);
 
-        //registry.registerItem(AdvancedReborn.id("z_add_items"), () -> ADD_ITEMS);
+        //registry.registerItem(INSTANCE.compatId("z_add_items"), () -> ADD_ITEMS);
     }
 }

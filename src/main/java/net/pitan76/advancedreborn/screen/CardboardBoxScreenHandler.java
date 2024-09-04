@@ -12,6 +12,7 @@ import net.pitan76.advancedreborn.ScreenHandlers;
 import net.pitan76.advancedreborn.tile.CardboardBoxTile;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.ExtendedScreenHandler;
+import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.util.InventoryUtil;
 import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +25,8 @@ public class CardboardBoxScreenHandler extends ExtendedScreenHandler {
 
     public CardboardBoxScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
         this(syncId, playerInventory, InventoryUtil.createSimpleInventory(9), "", null);
-        NbtCompound data = buf.readNbt();
+        NbtCompound data = PacketByteUtil.readNbt(buf);
+
         if (data == null) return;
         if (data.contains("x") && data.contains("y") && data.contains("z")) {
             pos = PosUtil.flooredBlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z"));

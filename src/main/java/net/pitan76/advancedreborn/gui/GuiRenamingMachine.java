@@ -69,7 +69,7 @@ public class GuiRenamingMachine extends GuiBase<BuiltScreenHandler> {
         data.putDouble("y", tile.getPos().getY());
         data.putDouble("z", tile.getPos().getZ());
         buf.writeNbt(data);
-        ClientNetworking.send(Defines.RENAMING_PACKET_ID, buf);
+        ClientNetworking.send(Defines.RENAMING_PACKET_ID.toMinecraft(), buf);
     }
 
     public void removed() {

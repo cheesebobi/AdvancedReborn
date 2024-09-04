@@ -17,6 +17,7 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Recipes;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.advancedreborn.addons.rei.machine.TwoInputRightOutputCategory;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import reborncore.common.crafting.RebornRecipe;
 import reborncore.common.crafting.RecipeManager;
 import techreborn.client.compat.rei.MachineRecipeDisplay;
@@ -30,9 +31,11 @@ import techreborn.recipe.recipes.RollingMachineRecipe;
 
 import java.util.function.Function;
 
+import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
+
 public class REIAddon implements REIClientPlugin {
 
-    public static Identifier PLUGIN = AdvancedReborn.id("advanced_plugin");
+    public static CompatIdentifier PLUGIN = INSTANCE.compatId("advanced_plugin");
 
     //public static Map<RecipeType<?>, ItemConvertible> iconMap = new HashMap<>();
 
@@ -44,7 +47,7 @@ public class REIAddon implements REIClientPlugin {
     }
 
     public Identifier getPluginIdentifier() {
-        return PLUGIN;
+        return PLUGIN.toMinecraft();
     }
 
     public void registerCategories(CategoryRegistry recipeHelper) {

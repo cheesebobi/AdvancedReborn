@@ -6,21 +6,22 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.Defines;
-import net.pitan76.mcpitanlib.api.client.SimpleInventoryScreen;
+import net.pitan76.mcpitanlib.api.client.CompatInventoryScreen;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.DrawBackgroundArgs;
 import net.pitan76.mcpitanlib.api.client.render.handledscreen.KeyEventArgs;
 import net.pitan76.mcpitanlib.api.network.ClientNetworking;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.api.util.client.RenderUtil;
 import net.pitan76.mcpitanlib.api.util.client.ScreenUtil;
 
-public class CardboardBoxScreen extends SimpleInventoryScreen {
-    private static final Identifier TEXTURE = AdvancedReborn.id("textures/gui/cardboard_box.png");
+import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
+
+public class CardboardBoxScreen extends CompatInventoryScreen {
+    private static final CompatIdentifier TEXTURE = INSTANCE.compatId("textures/gui/cardboard_box.png");
     private TextFieldWidget noteBox;
 
     private final CardboardBoxScreenHandler handler;
@@ -33,7 +34,7 @@ public class CardboardBoxScreen extends SimpleInventoryScreen {
     }
 
     @Override
-    public Identifier getTexture() {
+    public CompatIdentifier getCompatTexture() {
         return TEXTURE;
     }
 
@@ -70,7 +71,7 @@ public class CardboardBoxScreen extends SimpleInventoryScreen {
         data.putDouble("z", handler.pos.getZ());
         //AdvancedReborn.LOGGER.info("nbt: " + data);
         buf.writeNbt(data);
-        ClientNetworking.send(Defines.CARDBOARD_BOX_CLOSE_PACKET_ID, buf);
+        ClientNetworking.send(Defines.CARDBOARD_BOX_CLOSE_PACKET_ID.toMinecraft(), buf);
     }
 
     public boolean keyPressed(KeyEventArgs args) {

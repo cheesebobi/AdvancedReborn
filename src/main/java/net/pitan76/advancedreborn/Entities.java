@@ -1,19 +1,22 @@
 package net.pitan76.advancedreborn;
 
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.pitan76.advancedreborn.entities.DynamiteEntity;
 import net.pitan76.advancedreborn.entities.IndustrialTNTEntity;
+import net.pitan76.mcpitanlib.api.entity.EntityTypeBuilder;
+import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+
+import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
+import static net.pitan76.advancedreborn.AdvancedReborn.registry;
 
 public class Entities {
-    public static EntityType<DynamiteEntity> DYNAMITE = Registry.register(Registries.ENTITY_TYPE, AdvancedReborn.id("dynamite"), (FabricEntityTypeBuilder.<DynamiteEntity>create(SpawnGroup.MISC, DynamiteEntity::new)).dimensions(EntityDimensions.fixed(0.25f,0.25f)).trackRangeBlocks(10).trackedUpdateRate(10).build());
-    public static EntityType<IndustrialTNTEntity> I_TNT = Registry.register(Registries.ENTITY_TYPE, AdvancedReborn.id("industrial_tnt"), (FabricEntityTypeBuilder.<IndustrialTNTEntity>create(SpawnGroup.MISC, IndustrialTNTEntity::new)).dimensions(EntityDimensions.fixed(0.98f,0.98f)).trackRangeBlocks(10).trackedUpdateRate(10).build());
+    public static RegistryResult<EntityType<?>> DYNAMITE;
+    public static RegistryResult<EntityType<?>> I_TNT;
 
     public static void init() {
-
+        DYNAMITE = registry.registerEntity(INSTANCE.compatId("dynamite"),  () -> (EntityTypeBuilder.<DynamiteEntity>create(SpawnGroup.MISC, DynamiteEntity::new)).setDimensions(EntityDimensions.fixed(0.25f,0.25f)).setMaxTrackDistance(10).setTrackTickInterval(10).build());
+        I_TNT = registry.registerEntity(INSTANCE.compatId("industrial_tnt"), () -> (EntityTypeBuilder.<IndustrialTNTEntity>create(SpawnGroup.MISC, IndustrialTNTEntity::new)).setDimensions(EntityDimensions.fixed(0.98f,0.98f)).setMaxTrackDistance(10).setTrackTickInterval(10).build());
     }
 }

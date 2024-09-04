@@ -3,16 +3,17 @@ package net.pitan76.advancedreborn.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
-import net.pitan76.advancedreborn.AdvancedReborn;
 import net.pitan76.advancedreborn.tile.EnchantmentExtractorTile;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import reborncore.client.gui.GuiBase;
 import reborncore.client.gui.GuiBuilder;
 import reborncore.common.screen.BuiltScreenHandler;
 
+import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
+
 public class GuiEnchantmentExtractor extends GuiBase<BuiltScreenHandler> {
 
-    public static final Identifier GUI = AdvancedReborn.id("textures/gui/slot_texture.png");
+    public static final CompatIdentifier GUI = INSTANCE.compatId("textures/gui/slot_texture.png");
 
     public EnchantmentExtractorTile tile;
     public GuiEnchantmentExtractor(int syncId, PlayerEntity player, EnchantmentExtractorTile tile) {
@@ -49,7 +50,7 @@ public class GuiEnchantmentExtractor extends GuiBase<BuiltScreenHandler> {
 
         //RenderSystem.setShaderTexture(0, GUI);
         // Book slot
-        context.drawTexture(GUI, 60 + this.x - 1, 25 + this.y - 1, 0, 0, 18, 18);
+        context.drawTexture(GUI.toMinecraft(), 60 + this.x - 1, 25 + this.y - 1, 0, 0, 18, 18);
     }
 
     public void drawForeground(DrawContext context, int mouseX, int mouseY) {
