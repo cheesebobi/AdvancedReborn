@@ -3,25 +3,13 @@ package net.pitan76.advancedreborn;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.EmotionParticle;
-import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.math.Vec3d;
-import net.pitan76.advancedreborn.addons.rei.REIAddon;
 import net.pitan76.advancedreborn.entities.IndustrialTNTEntity;
-import net.pitan76.advancedreborn.packet.EntitySpawnPacket;
 import net.pitan76.advancedreborn.renderer.IndustrialTNTEntityRenderer;
 import net.pitan76.advancedreborn.screen.CardboardBoxScreen;
-import net.pitan76.mcpitanlib.MCPitanLib;
 import net.pitan76.mcpitanlib.api.client.registry.CompatRegistryClient;
 import net.pitan76.mcpitanlib.api.client.registry.EntityRendererRegistry;
-import net.pitan76.mcpitanlib.api.event.v0.ClientTickEventRegistry;
-import net.pitan76.mcpitanlib.api.network.ClientNetworking;
-import techreborn.client.compat.rei.ReiPlugin;
-
-import java.util.UUID;
 
 import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
 
@@ -64,16 +52,6 @@ public class AdvancedRebornClient implements ClientModInitializer {
             entity.setId(entityId);
             entity.setUuid(uuid);
             client.world.addEntity(entity);
-        });
-
-         */
-
-        /*
-        ClientTickEventRegistry.registerPost((client) -> {
-            if (isCopiedIconMap) return;
-
-            isCopiedIconMap = true;
-            REIAddon.iconMap.forEach((recipeType, block) -> ReiPlugin.iconMap.put(recipeType, block.getOrNull()));
         });
 
          */

@@ -6,9 +6,10 @@ import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryStack;
-import me.shedaniel.rei.api.common.util.EntryStacks;
+import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.plugin.common.BuiltinPlugin;
-import net.minecraft.block.Block;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
@@ -18,7 +19,6 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Recipes;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.advancedreborn.addons.rei.machine.TwoInputRightOutputCategory;
-import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import reborncore.common.crafting.RebornRecipe;
 import reborncore.common.crafting.RecipeManager;
@@ -31,8 +31,6 @@ import techreborn.init.TRContent;
 import techreborn.recipe.recipes.FluidReplicatorRecipe;
 import techreborn.recipe.recipes.RollingMachineRecipe;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
@@ -41,13 +39,11 @@ public class REIAddon implements REIClientPlugin {
 
     public static CompatIdentifier PLUGIN = INSTANCE.compatId("advanced_plugin");
 
-    public static Map<RecipeType<?>, RegistryResult<Block>> iconMap = new HashMap<>();
-
     public REIAddon() {
-        iconMap.put(Recipes.CANNING_MACHINE, Blocks.CANNING_MACHINE);
-        iconMap.put(ModRecipes.GRINDER, Blocks.ROTARY_GRINDER);
-        iconMap.put(ModRecipes.EXTRACTOR, Blocks.CENTRIFUGAL_EXTRACTOR);
-        iconMap.put(ModRecipes.COMPRESSOR, Blocks.SINGULARITY_COMPRESSOR);
+        ReiPlugin.iconMap.put(Recipes.CANNING_MACHINE, Blocks.CANNING_MACHINE.getOrNull());
+        ReiPlugin.iconMap.put(ModRecipes.GRINDER, Blocks.ROTARY_GRINDER.getOrNull());
+        ReiPlugin.iconMap.put(ModRecipes.EXTRACTOR, Blocks.CENTRIFUGAL_EXTRACTOR.getOrNull());
+        ReiPlugin.iconMap.put(ModRecipes.COMPRESSOR, Blocks.SINGULARITY_COMPRESSOR.getOrNull());
     }
 
     public Identifier getPluginIdentifier() {
@@ -95,16 +91,20 @@ public class REIAddon implements REIClientPlugin {
     public void registerOthers() {
         if (AutoConfigAddon.getConfig().linkReiWithTR) registerOthersTR();
         if (AutoConfigAddon.getConfig().linkReiWithAR) {
-            addWorkstations(Registries.RECIPE_TYPE.getId(Recipes.CANNING_MACHINE), EntryStacks.of(Blocks.CANNING_MACHINE.get()));
-            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.GRINDER), EntryStacks.of(Blocks.ROTARY_GRINDER.get()));
-            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.EXTRACTOR), EntryStacks.of(Blocks.CENTRIFUGAL_EXTRACTOR.get()));
-            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.COMPRESSOR), EntryStacks.of(Blocks.SINGULARITY_COMPRESSOR.get()));
-            addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), EntryStacks.of(Blocks.INDUCTION_FURNACE.get()));
+            addWorkstations(Registries.RECIPE_TYPE.getId(Recipes.CANNING_MACHINE), of(Blocks.CANNING_MACHINE.get()));
+            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.GRINDER), of(Blocks.ROTARY_GRINDER.get()));
+            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.EXTRACTOR), of(Blocks.CENTRIFUGAL_EXTRACTOR.get()));
+            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.COMPRESSOR), of(Blocks.SINGULARITY_COMPRESSOR.get()));
+            addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), of(Blocks.INDUCTION_FURNACE.get()));
         }
     }
 
     public void registerOthersTR() {
-        addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), EntryStacks.of(TRContent.Machine.IRON_FURNACE));
-        addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), EntryStacks.of(TRContent.Machine.ELECTRIC_FURNACE));
+        addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), of(TRContent.Machine.IRON_FURNACE));
+        addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), of(TRContent.Machine.ELECTRIC_FURNACE));
+    }
+
+    public static EntryStack<ItemStack> of(ItemConvertible item) {
+        return EntryStack.of(VanillaEntryTypes.ITEM, new ItemStack(item));
     }
 }

@@ -41,7 +41,9 @@ dependencies {
 	modImplementation 'RebornCore:RebornCore-1.21:5.11.10'
 	modImplementation 'TechReborn:TechReborn-1.21:5.11.10'
 
-	modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:16.0.754"
+	//modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:16.0.754"
+	modApi "me.shedaniel:RoughlyEnoughItems-api-fabric:16.0.754"
+	modApi "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:16.0.754"
 
 	// CC: Tweaked
 	//modImplementation("cc.tweaked:cc-tweaked-1.21-fabric-api:${project.cc_version}")
