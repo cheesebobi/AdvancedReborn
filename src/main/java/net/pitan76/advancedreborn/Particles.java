@@ -10,7 +10,6 @@ import static net.pitan76.advancedreborn.AdvancedReborn.registry;
 public class Particles {
     public static RegistryResult<ParticleType<?>> ENERGY;
 
-
     public static void init() {
         ENERGY = registry.registerParticleType(INSTANCE.compatId("energy"), FabricParticleTypes::simple);
     }

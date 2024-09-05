@@ -6,6 +6,7 @@ import net.pitan76.advancedreborn.tile.CardboardBoxTile;
 import net.pitan76.advancedreborn.tile.RenamingMachineTile;
 import net.pitan76.mcpitanlib.api.network.PacketByteUtil;
 import net.pitan76.mcpitanlib.api.network.ServerNetworking;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 
 public class Network {
@@ -18,7 +19,7 @@ public class Network {
                 if (!data.contains("y")) return;
                 if (!data.contains("z")) return;
                 if (!data.contains("note")) return;
-                BlockEntity blockEntity = player.getWorld().getBlockEntity(PosUtil.flooredBlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z")));
+                BlockEntity blockEntity = WorldUtil.getBlockEntity(player.getWorld(), PosUtil.flooredBlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z")));
                 if (!(blockEntity instanceof CardboardBoxTile)) return;
 
                 CardboardBoxTile tile = (CardboardBoxTile) blockEntity;
@@ -33,7 +34,7 @@ public class Network {
                 if (!data.contains("y")) return;
                 if (!data.contains("z")) return;
                 if (!data.contains("name")) return;
-                BlockEntity blockEntity = player.getWorld().getBlockEntity(PosUtil.flooredBlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z")));
+                BlockEntity blockEntity = WorldUtil.getBlockEntity(player.getWorld(), PosUtil.flooredBlockPos(data.getDouble("x"), data.getDouble("y"), data.getDouble("z")));
                 if (!(blockEntity instanceof RenamingMachineTile)) return;
 
                 RenamingMachineTile tile = (RenamingMachineTile) blockEntity;

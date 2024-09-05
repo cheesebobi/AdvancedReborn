@@ -32,13 +32,19 @@ public class AdvancedRebornClient implements ClientModInitializer {
 
     public void onInitializeClient() {
         CompatRegistryClient.registryClientSpriteAtlasTexture(INSTANCE.id("particle/energy"));
+        INSTANCE.info("Registered particle texture");
 
         CompatRegistryClient.registerParticle((SimpleParticleType) Particles.ENERGY.getOrNull(), EmotionParticle.HeartFactory::new);
+        INSTANCE.info("Registered particle type");
 
         EntityRendererRegistry.registerEntityRendererAsFlyingItem(() -> Entities.DYNAMITE.getOrNull());
+        INSTANCE.info("Registered entity renderer");
+
         CompatRegistryClient.registerEntityRenderer(() -> (EntityType<IndustrialTNTEntity>) Entities.I_TNT.getOrNull(), IndustrialTNTEntityRenderer::new);
+        INSTANCE.info("Registered entity renderer");
 
         CompatRegistryClient.registerScreen(AdvancedReborn.MOD_ID, ScreenHandlers.CARDBOARD_BOX_SCREEN_HANDLER.getOrNull(), CardboardBoxScreen::new);
+        INSTANCE.info("Registered screen");
 
         /*
         ClientNetworking.registerReceiver(Defines.SPAWN_PACKET_ID.toMinecraft(), (client, player, buf) -> {

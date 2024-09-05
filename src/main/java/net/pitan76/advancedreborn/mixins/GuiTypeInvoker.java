@@ -1,0 +1,14 @@
+package net.pitan76.advancedreborn.mixins;
+
+import net.minecraft.block.entity.BlockEntity;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;
+import techreborn.blockentity.GuiType;
+
+@Mixin(GuiType.class)
+public interface GuiTypeInvoker {
+    @Invoker("register")
+    static <T extends BlockEntity> GuiType<T> register(String path) {
+        throw new AssertionError();
+    }
+}

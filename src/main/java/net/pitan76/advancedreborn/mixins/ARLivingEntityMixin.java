@@ -25,6 +25,7 @@ public abstract class ARLivingEntityMixin extends Entity {
 
     @Inject(method = "handleFallDamage", at = @At("HEAD"))
     public void injectFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> info) {
+        /*
         if (getWorld().isClient()) return;
         if (!((Object)this instanceof PlayerEntity)) return;
 
@@ -46,6 +47,8 @@ public abstract class ARLivingEntityMixin extends Entity {
                 info.cancel();
             }
         }
+
+         */
     }
 
     @Shadow

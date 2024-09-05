@@ -88,11 +88,14 @@ public class NanoSuitItem extends TREnergyArmourItem implements ArmorBlockEntity
 
     @Override
     public void tickArmor(ItemStack stack, PlayerEntity player) {
+        /*
         if (stack.getItem().equals(Items.NANO_SUIT_HELMET)) {
             if (getStoredEnergy(stack) > 0) {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 300, 3, false, false));
             }
         }
+
+         */
 
         final EquipmentSlot slotType = this.getSlotType();
         AttributeModifiersComponent attributes = stack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);

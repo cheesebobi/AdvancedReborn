@@ -3,8 +3,8 @@
   "minVersion": "0.8",
   "package": "net.pitan76.advancedreborn.mixins",
   "mixins": [
-    "ARLivingEntityMixin",
     "ExplosionAccessor",
+    "GuiTypeInvoker",
     "MachineBaseBlockEntityAccessor",
     "TechRebornMixin"
   ],
