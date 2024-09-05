@@ -52,11 +52,10 @@ public class IndustrialTNT extends TntBlock {
     }
 
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        if (world.isReceivingRedstonePower(pos)) {
-            primeITnt(world, pos);
-            world.removeBlock(pos, false);
-        }
+        if (!world.isReceivingRedstonePower(pos)) return;
 
+        primeITnt(world, pos);
+        world.removeBlock(pos, false);
     }
 
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
@@ -68,11 +67,11 @@ public class IndustrialTNT extends TntBlock {
     }
 
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
-        if (!world.isClient) {
-            IndustrialTNTEntity tntEntity = new IndustrialTNTEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, explosion.getCausingEntity());
-            tntEntity.setFuse(world.random.nextInt(tntEntity.getFuse() / 4) + tntEntity.getFuse() / 8);
-            world.spawnEntity(tntEntity);
-        }
+        if (world.isClient) return;
+
+        IndustrialTNTEntity tntEntity = new IndustrialTNTEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, explosion.getCausingEntity());
+        tntEntity.setFuse(world.random.nextInt(tntEntity.getFuse() / 4) + tntEntity.getFuse() / 8);
+        world.spawnEntity(tntEntity);
     }
 
     public static void primeITnt(World world, BlockPos pos) {
@@ -80,28 +79,29 @@ public class IndustrialTNT extends TntBlock {
     }
 
     private static void primeITnt(World world, BlockPos pos, @Nullable LivingEntity entity) {
-        if (!world.isClient) {
-            IndustrialTNTEntity tntEntity = new IndustrialTNTEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, entity);
-            world.spawnEntity(tntEntity);
-            world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
-        }
+        if (world.isClient) return;
+
+        IndustrialTNTEntity tntEntity = new IndustrialTNTEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, entity);
+        world.spawnEntity(tntEntity);
+        world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         primeITnt(world, pos, player);
         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);
         return ActionResult.success(world.isClient);
     }
 
+    @Override
     public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
-        if (!world.isClient) {
-            Entity entity = projectile.getOwner();
-            if (projectile.isOnFire()) {
-                BlockPos blockPos = hit.getBlockPos();
-                primeITnt(world, blockPos, entity instanceof LivingEntity ? (LivingEntity)entity : null);
-                world.removeBlock(blockPos, false);
-            }
-        }
+        if (world.isClient) return;
 
+        Entity entity = projectile.getOwner();
+        if (projectile.isOnFire()) {
+            BlockPos blockPos = hit.getBlockPos();
+            primeITnt(world, blockPos, entity instanceof LivingEntity ? (LivingEntity)entity : null);
+            world.removeBlock(blockPos, false);
+        }
     }
 }

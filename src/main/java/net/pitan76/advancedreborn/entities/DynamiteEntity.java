@@ -58,10 +58,7 @@ public class DynamiteEntity extends CompatThrownItemEntity {
 
     @Override
     public Item getDefaultItemOverride() {
-        if (callGetItem() == null || callGetItem().isEmpty())
-            return Items.DYNAMITE.getOrNull();
-
-        return callGetItem().getItem();
+        return Items.DYNAMITE.getOrNull();
     }
 
     @Override
