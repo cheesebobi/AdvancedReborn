@@ -40,10 +40,10 @@ public class REIAddon implements REIClientPlugin {
     //public static Map<RecipeType<?>, ItemConvertible> iconMap = new HashMap<>();
 
     public REIAddon() {
-        ReiPlugin.iconMap.put(Recipes.CANNING_MACHINE, Blocks.CANNING_MACHINE);
-        ReiPlugin.iconMap.put(ModRecipes.GRINDER, Blocks.ROTARY_GRINDER);
-        ReiPlugin.iconMap.put(ModRecipes.EXTRACTOR, Blocks.CENTRIFUGAL_EXTRACTOR);
-        ReiPlugin.iconMap.put(ModRecipes.COMPRESSOR, Blocks.SINGULARITY_COMPRESSOR);
+        ReiPlugin.iconMap.put(Recipes.CANNING_MACHINE, Blocks.CANNING_MACHINE.getOrNull());
+        ReiPlugin.iconMap.put(ModRecipes.GRINDER, Blocks.ROTARY_GRINDER.getOrNull());
+        ReiPlugin.iconMap.put(ModRecipes.EXTRACTOR, Blocks.CENTRIFUGAL_EXTRACTOR.getOrNull());
+        ReiPlugin.iconMap.put(ModRecipes.COMPRESSOR, Blocks.SINGULARITY_COMPRESSOR.getOrNull());
     }
 
     public Identifier getPluginIdentifier() {
@@ -91,11 +91,11 @@ public class REIAddon implements REIClientPlugin {
     public void registerOthers() {
         if (AutoConfigAddon.getConfig().linkReiWithTR) registerOthersTR();
         if (AutoConfigAddon.getConfig().linkReiWithAR) {
-            addWorkstations(Registries.RECIPE_TYPE.getId(Recipes.CANNING_MACHINE), EntryStacks.of(Blocks.CANNING_MACHINE));
-            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.GRINDER), EntryStacks.of(Blocks.ROTARY_GRINDER));
-            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.EXTRACTOR), EntryStacks.of(Blocks.CENTRIFUGAL_EXTRACTOR));
-            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.COMPRESSOR), EntryStacks.of(Blocks.SINGULARITY_COMPRESSOR));
-            addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), EntryStacks.of(Blocks.INDUCTION_FURNACE));
+            addWorkstations(Registries.RECIPE_TYPE.getId(Recipes.CANNING_MACHINE), EntryStacks.of(Blocks.CANNING_MACHINE.get()));
+            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.GRINDER), EntryStacks.of(Blocks.ROTARY_GRINDER.get()));
+            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.EXTRACTOR), EntryStacks.of(Blocks.CENTRIFUGAL_EXTRACTOR.get()));
+            addWorkstations(Registries.RECIPE_TYPE.getId(ModRecipes.COMPRESSOR), EntryStacks.of(Blocks.SINGULARITY_COMPRESSOR.get()));
+            addWorkstations(BuiltinPlugin.SMELTING.getIdentifier(), EntryStacks.of(Blocks.INDUCTION_FURNACE.get()));
         }
     }
 

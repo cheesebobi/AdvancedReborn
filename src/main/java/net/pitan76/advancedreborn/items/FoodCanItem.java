@@ -52,11 +52,11 @@ public class FoodCanItem extends ExtendItem {
 
         if (playerEntity == null || !playerEntity.getAbilities().creativeMode) {
             if (stack.isEmpty()) {
-                return ItemStackUtil.create(Items.EMPTY_CAN);
+                return ItemStackUtil.create(Items.EMPTY_CAN.get());
             }
 
             if (playerEntity != null) {
-                ItemStack emptyCan = ItemStackUtil.create(Items.EMPTY_CAN);
+                ItemStack emptyCan = ItemStackUtil.create(Items.EMPTY_CAN.get());
                 boolean inserted = playerEntity.getInventory().insertStack(emptyCan);
                 if (!inserted) {
                     playerEntity.dropItem(emptyCan, false);

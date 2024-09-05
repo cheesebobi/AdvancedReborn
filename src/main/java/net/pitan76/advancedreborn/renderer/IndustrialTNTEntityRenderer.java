@@ -41,7 +41,7 @@ public class IndustrialTNTEntityRenderer extends EntityRenderer<IndustrialTNTEnt
         matrixStack.translate(-0.5D, -0.5D, 0.5D);
         //matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90.0F));
         MatrixStackUtil.multiply(matrixStack, MathUtil.RotationAxisType.POSITIVE_Y, 90.0F);
-        TntMinecartEntityRenderer.renderFlashingBlock(this.blockRenderManager, Blocks.INDUSTRIAL_TNT.getDefaultState(), matrixStack, vertexConsumerProvider, i, entity.getFuse() / 5 % 2 == 0);
+        TntMinecartEntityRenderer.renderFlashingBlock(this.blockRenderManager, Blocks.INDUSTRIAL_TNT.get().getDefaultState(), matrixStack, vertexConsumerProvider, i, entity.getFuse() / 5 % 2 == 0);
         matrixStack.pop();
         super.render(entity, f, g, matrixStack, vertexConsumerProvider, i);
     }
