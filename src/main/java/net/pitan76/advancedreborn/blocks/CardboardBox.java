@@ -9,12 +9,10 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.stat.Stats;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.MutableText;
@@ -122,16 +120,13 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     public ActionResult onRightClick(BlockUseEvent e) {
         if (e.isClient()) return ActionResult.SUCCESS;
 
-        if (e.player.getPlayerEntity().isSpectator()) {
+        if (e.player.getPlayerEntity().isSpectator())
             return ActionResult.CONSUME;
-        }
 
         BlockEntity blockEntity = e.getBlockEntity();
         if (blockEntity instanceof CardboardBoxTile) {
             CardboardBoxTile tile = (CardboardBoxTile) blockEntity;
-            e.player.openGuiScreen(tile);
-            e.player.getPlayerEntity().incrementStat(Stats.OPEN_SHULKER_BOX);
-            PiglinBrain.onGuardedBlockInteracted(e.player.getPlayerEntity(), true);
+            e.player.openExtendedMenu(tile);
             return ActionResult.CONSUME;
         }
         return ActionResult.PASS;
