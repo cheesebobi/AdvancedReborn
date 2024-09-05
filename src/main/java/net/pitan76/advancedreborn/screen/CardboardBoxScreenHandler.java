@@ -37,7 +37,7 @@ public class CardboardBoxScreenHandler extends ExtendedScreenHandler {
     }
 
     public CardboardBoxScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, String note, @Nullable CardboardBoxTile tile) {
-        super(ScreenHandlers.CARDBOARD_BOX_SCREEN_HANDLER, syncId);
+        super(ScreenHandlers.CARDBOARD_BOX_SCREEN_HANDLER.getOrNull(), syncId);
         checkSize(inventory, 9);
         this.inventory = inventory;
         this.tmpNote = note;

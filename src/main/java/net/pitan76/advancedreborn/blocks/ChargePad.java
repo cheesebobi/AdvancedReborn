@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -122,7 +123,7 @@ public class ChargePad extends ExtendBlock {
             tile.setEnergy(eu - outputEU);
             double rX = random.nextInt(9) * 0.1;
             double rZ = random.nextInt(9) * 0.1;
-            ((ServerWorld)world).spawnParticles(Particles.ENERGY, pos.getX() + 0.1 + rX, pos.getY() + 0.25, pos.getZ() + 0.1 + rZ, 1, 0, 0.3, 0, 0);
+            ((ServerWorld)world).spawnParticles((SimpleParticleType) Particles.ENERGY.getOrNull(), pos.getX() + 0.1 + rX, pos.getY() + 0.25, pos.getZ() + 0.1 + rZ, 1, 0, 0.3, 0, 0);
             world.setBlockState(pos, state.with(USING, true));
             //world.createAndScheduleBlockTick(pos, this, 5);
             world.scheduleBlockTick(pos, this, 5);

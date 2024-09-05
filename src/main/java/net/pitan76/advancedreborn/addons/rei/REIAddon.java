@@ -8,6 +8,7 @@ import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.plugin.common.BuiltinPlugin;
+import net.minecraft.block.Block;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
@@ -17,6 +18,7 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Recipes;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.advancedreborn.addons.rei.machine.TwoInputRightOutputCategory;
+import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import reborncore.common.crafting.RebornRecipe;
 import reborncore.common.crafting.RecipeManager;
@@ -29,6 +31,8 @@ import techreborn.init.TRContent;
 import techreborn.recipe.recipes.FluidReplicatorRecipe;
 import techreborn.recipe.recipes.RollingMachineRecipe;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
@@ -37,13 +41,13 @@ public class REIAddon implements REIClientPlugin {
 
     public static CompatIdentifier PLUGIN = INSTANCE.compatId("advanced_plugin");
 
-    //public static Map<RecipeType<?>, ItemConvertible> iconMap = new HashMap<>();
+    public static Map<RecipeType<?>, RegistryResult<Block>> iconMap = new HashMap<>();
 
     public REIAddon() {
-        ReiPlugin.iconMap.put(Recipes.CANNING_MACHINE, Blocks.CANNING_MACHINE.getOrNull());
-        ReiPlugin.iconMap.put(ModRecipes.GRINDER, Blocks.ROTARY_GRINDER.getOrNull());
-        ReiPlugin.iconMap.put(ModRecipes.EXTRACTOR, Blocks.CENTRIFUGAL_EXTRACTOR.getOrNull());
-        ReiPlugin.iconMap.put(ModRecipes.COMPRESSOR, Blocks.SINGULARITY_COMPRESSOR.getOrNull());
+        iconMap.put(Recipes.CANNING_MACHINE, Blocks.CANNING_MACHINE);
+        iconMap.put(ModRecipes.GRINDER, Blocks.ROTARY_GRINDER);
+        iconMap.put(ModRecipes.EXTRACTOR, Blocks.CENTRIFUGAL_EXTRACTOR);
+        iconMap.put(ModRecipes.COMPRESSOR, Blocks.SINGULARITY_COMPRESSOR);
     }
 
     public Identifier getPluginIdentifier() {

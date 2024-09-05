@@ -29,7 +29,7 @@ public class AdvancedReborn extends ExtendModInitializer {
     }
 
     // Add ItemGroup
-    public static DefaultedList<ItemStack> addStacksIG = DefaultedList.of();
+    //public static DefaultedList<ItemStack> addStacksIG = DefaultedList.of();
 
     public static CreativeTabBuilder AR_GROUP;
 
@@ -52,15 +52,17 @@ public class AdvancedReborn extends ExtendModInitializer {
         Recipes.init();
         Particles.init();
         ScreenHandlers.init();
-        ARDispenserBehavior.init();
         Network.init();
         ModManager.afterInit();
 
+        /*
         if (!addStacksIG.isEmpty()) {
             for (ItemStack stack : addStacksIG) {
                 CreativeTabManager.addStack(result::getOrNull, stack);
             }
         }
+
+         */
     }
 
     public static List<RaySolar> solars = new ArrayList<>();

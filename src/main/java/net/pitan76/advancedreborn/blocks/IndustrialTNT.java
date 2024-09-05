@@ -1,29 +1,45 @@
 package net.pitan76.advancedreborn.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.TntBlock;
+import net.minecraft.block.*;
+import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import net.pitan76.advancedreborn.entities.IndustrialTNTEntity;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class IndustrialTNT extends TntBlock {
 
     public IndustrialTNT(CompatibleBlockSettings settings) {
         super(settings.build());
+        DispenserBlock.registerBehavior(this, new ItemDispenserBehavior() {
+            public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
+                World world = pointer.blockEntity().getWorld();
+                BlockPos pointerPos = pointer.blockEntity().getPos();
+                BlockPos blockPos = pointer.blockEntity().getPos().offset(Objects.requireNonNull(world).getBlockState(pointerPos).get(DispenserBlock.FACING));
+                IndustrialTNTEntity tntEntity = new IndustrialTNTEntity(world, blockPos.getX() + 0.5D, blockPos.getY(), blockPos.getZ() + 0.5D, null);
+                WorldUtil.spawnEntity(world, tntEntity);
+
+                world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                stack.decrement(1);
+                return stack;
+            }
+        });
     }
 
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
