@@ -7,7 +7,7 @@ import techreborn.blockentity.GuiType;
 
 @Mixin(GuiType.class)
 public interface GuiTypeInvoker {
-    @Invoker("register")
+    @Invoker(value = "register", remap = false)
     static <T extends BlockEntity> GuiType<T> register(String path) {
         throw new AssertionError();
     }
