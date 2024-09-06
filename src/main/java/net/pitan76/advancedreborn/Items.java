@@ -9,6 +9,7 @@ import net.pitan76.mcpitanlib.api.item.ArmorEquipmentType;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
+import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import reborncore.common.powerSystem.RcEnergyTier;
 import techreborn.config.TechRebornConfig;
@@ -173,10 +174,10 @@ public class Items {
         EMPTY_CAN = registry.registerItem(INSTANCE.compatId("empty_can"), () -> new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
         FUEL_CAN = registry.registerItem(INSTANCE.compatId("fuel_can"), () -> new FuelCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64).recipeRemainder(EMPTY_CAN.getOrNull())));
         FOOD_CAN = registry.registerItem(INSTANCE.compatId("food_can"), () -> new FoodCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64).recipeRemainder(EMPTY_CAN.getOrNull()).food(CAN_FOOD_COMPONENT)));
-        BATPACK_4 = registry.registerItem(INSTANCE.compatId("batpack_4"), () -> new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 4, new BBArmorMaterial("batpack4"), RcEnergyTier.MEDIUM));
-        BATPACK_16 = registry.registerItem(INSTANCE.compatId("batpack_16"), () -> new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 16, new BBArmorMaterial("batpack16"), RcEnergyTier.HIGH));
-        BATPACK_64 = registry.registerItem(INSTANCE.compatId("batpack_64"), () -> new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 64, new BBArmorMaterial("batpack64"), RcEnergyTier.EXTREME));
-        BATPACK_128 = registry.registerItem(INSTANCE.compatId("batpack_128"), () -> new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 128, new BBArmorMaterial("batpack128"), RcEnergyTier.INSANE));
+        BATPACK_4 = registry.registerItem(CompatIdentifier.of("better_batpack", "batpack_4"), () -> new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 4, new BBArmorMaterial("batpack4"), RcEnergyTier.MEDIUM));
+        BATPACK_16 = registry.registerItem(CompatIdentifier.of("better_batpack", "batpack_16"), () -> new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 16, new BBArmorMaterial("batpack16"), RcEnergyTier.HIGH));
+        BATPACK_64 = registry.registerItem(CompatIdentifier.of("better_batpack", "batpack_64"), () -> new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 64, new BBArmorMaterial("batpack64"), RcEnergyTier.EXTREME));
+        BATPACK_128 = registry.registerItem(CompatIdentifier.of("better_batpack", "batpack_128"), () -> new BetterBatpackItem(TechRebornConfig.lithiumBatpackCharge * 128, new BBArmorMaterial("batpack128"), RcEnergyTier.INSANE));
         DUCT_TAPE = registry.registerItem(INSTANCE.compatId("duct_tape"), () -> new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
         CARDBOARD_SHEET = registry.registerItem(INSTANCE.compatId("cardboard_sheet"), () -> new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
 
