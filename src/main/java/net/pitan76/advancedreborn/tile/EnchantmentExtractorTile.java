@@ -3,7 +3,6 @@ package net.pitan76.advancedreborn.tile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -18,9 +17,11 @@ import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.enchantment.CompatEnchantment;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
 import net.pitan76.mcpitanlib.api.util.EnchantmentUtil;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
@@ -118,7 +119,7 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
         super.tick(world, pos, state, blockEntity2);
-        if (world == null || world.isClient) {
+        if (world == null || WorldUtil.isClient(world)) {
             return;
         }
         charge(energySlot);
@@ -180,12 +181,12 @@ public class EnchantmentExtractorTile extends PowerAcceptorBlockEntity implement
             ItemStack slotStack = inventory.getStack(i);
             if (slotStack.isEmpty()) {
                 inventory.setStack(i, stack);
-                markDirty();
+                BlockEntityUtil.markDirty(this);
                 return;
             }
         }
 
-        WorldUtil.spawnEntity(world, new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+        WorldUtil.spawnEntity(world, ItemEntityUtil.create(world, pos.getX(), pos.getY(), pos.getZ(), stack));
     }
 
     public Inventory getInventory() {

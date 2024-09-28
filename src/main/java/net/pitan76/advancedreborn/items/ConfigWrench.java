@@ -31,8 +31,8 @@ public class ConfigWrench extends ExtendItem {
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
             ItemStack stack = player.getStackInHand(hand);
             if (stack.getItem().equals(Items.CONFIG_WRENCH)) {
-                if (world.isClient()) return ActionResult.PASS;
-                BlockEntity tile = world.getBlockEntity(pos);
+                if (WorldUtil.isClient(world)) return ActionResult.PASS;
+                BlockEntity tile = WorldUtil.getBlockEntity(world, pos);
                 if (tile instanceof MachineBaseBlockEntity) {
                     if (!CustomDataUtil.hasNbt(stack)) return ActionResult.FAIL;
                     NbtCompound tag = CustomDataUtil.getNbt(stack);
@@ -63,10 +63,10 @@ public class ConfigWrench extends ExtendItem {
     public ActionResult onRightClickOnBlock(ItemUseOnBlockEvent event) {
         World world = event.world;
         BlockPos pos = event.hit.getBlockPos();
-        BlockEntity tile = world.getBlockEntity(pos);
+        BlockEntity tile = WorldUtil.getBlockEntity(world, pos);
         if (tile == null) return ActionResult.PASS;
         if (!(tile instanceof MachineBaseBlockEntity)) return ActionResult.PASS;
-        if (world.isClient()) return ActionResult.SUCCESS;
+        if (WorldUtil.isClient(world)) return ActionResult.SUCCESS;
         MachineBaseBlockEntity machine = (MachineBaseBlockEntity) tile;
         MachineBaseBlockEntityAccessor machineAccessor = (MachineBaseBlockEntityAccessor) machine;
         SlotConfiguration slotConfig = null;

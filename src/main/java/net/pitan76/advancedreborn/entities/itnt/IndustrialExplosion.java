@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import net.minecraft.world.explosion.ExplosionBehavior;
 import net.pitan76.advancedreborn.mixins.ExplosionAccessor;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,21 +46,21 @@ public class IndustrialExplosion extends Explosion {
                         d /= g;
                         e /= g;
                         f /= g;
-                        float h = thisAccessor.getPower() * (0.7F + this.world.random.nextFloat() * 0.6F);
+                        float h = thisAccessor.getPower() * (0.7F + WorldUtil.getRandom(world).nextFloat() * 0.6F);
                         double m = thisAccessor.getX();
                         double n = thisAccessor.getY();
                         double o = thisAccessor.getZ();
 
                         for(float var21 = 0.3F; h > 0.0F; h -= 0.22500001F) {
                             BlockPos blockPos = PosUtil.flooredBlockPos(m, n, o);
-                            BlockState blockState = this.world.getBlockState(blockPos);
-                            FluidState fluidState = this.world.getFluidState(blockPos);
-                            Optional<Float> optional = this.behavior.getBlastResistance(this, this.world, blockPos, blockState, fluidState);
+                            BlockState blockState = WorldUtil.getBlockState(world, blockPos);
+                            FluidState fluidState = WorldUtil.getFluidState(world, blockPos);
+                            Optional<Float> optional = this.behavior.getBlastResistance(this, world, blockPos, blockState, fluidState);
                             if (optional.isPresent()) {
                                 h -= (optional.get() + 0.3F) * 0.3F;
                             }
 
-                            if (h > 0.0F && this.behavior.canDestroyBlock(this, this.world, blockPos, blockState, h)) {
+                            if (h > 0.0F && behavior.canDestroyBlock(this, world, blockPos, blockState, h)) {
                                 set.add(blockPos);
                             }
 

@@ -25,7 +25,7 @@ public abstract class HeatMachineTile extends PowerAcceptorBlockEntity {
 
     public int getHeatPer() {
         if (world == null) return 0;
-        BlockEntity be = world.getBlockEntity(getPos());
+        BlockEntity be = WorldUtil.getBlockEntity(world, getPos());
         if (!(be instanceof HeatMachineTile)) return 0;
         HeatMachineTile tile = (HeatMachineTile) be;
         float heat = tile.getHeat();

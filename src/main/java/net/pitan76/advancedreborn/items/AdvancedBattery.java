@@ -39,7 +39,7 @@ public class AdvancedBattery extends ExtendItem implements RcEnergyItem {
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         TRItemUtils.checkActive(stack, 1, entity);
-        if (world.isClient) {
+        if (WorldUtil.isClient(world)) {
             return;
         }
         if (!TRItemUtils.isActive(stack)){

@@ -5,7 +5,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
 import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -21,7 +20,11 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
+import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
@@ -96,7 +99,7 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
         super.tick(world, pos, state, blockEntity2);
-        if (world == null || world.isClient) {
+        if (world == null || WorldUtil.isClient(world)) {
             return;
         }
         charge(energySlot);
@@ -156,30 +159,30 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
             ItemStack slotStack = inventory.getStack(i);
             if (slotStack.isEmpty()) {
                 inventory.setStack(i, stack);
-                markDirty();
+                BlockEntityUtil.markDirty(this);
                 return;
             }
             if (slotStack.getItem() == stack.getItem() && slotStack.getCount() + stack.getCount() < 64) {
                 inventory.setStack(i, ItemStackUtil.create(stack.getItem(), stack.getCount() + inventory.getStack(i).getCount()));
-                markDirty();
+                BlockEntityUtil.markDirty(this);
                 return;
             }
         }
 
-        world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+        WorldUtil.spawnEntity(world, ItemEntityUtil.create(world, pos.getX(), pos.getY(), pos.getZ(), stack));
     }
 
 
     public static void setFarmland(World world, BlockPos pos, int range) {
-        if (world.isClient) return;
+        if (WorldUtil.isClient(world)) return;
 
         BlockPos downPos = pos.down();
 
         for (int x = -range; x < range + 1; x++) {
             for (int z = -range; z < range + 1; z++) {
-                BlockPos executePos = new BlockPos(downPos.getX() + x, downPos.getY(), downPos.getZ() + z);
-                if (world.getBlockState(executePos).isIn(BlockTags.DIRT)) {
-                    world.setBlockState(executePos, net.minecraft.block.Blocks.FARMLAND.getDefaultState());
+                BlockPos executePos = PosUtil.flooredBlockPos(downPos.getX() + x, downPos.getY(), downPos.getZ() + z);
+                if (WorldUtil.getBlockState(world, executePos).isIn(BlockTags.DIRT)) {
+                    WorldUtil.setBlockState(world, executePos, net.minecraft.block.Blocks.FARMLAND.getDefaultState());
                 }
             }
         }
@@ -188,14 +191,14 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
     public static boolean tryHarvest(World world, BlockPos pos, int range, List<ItemStack> drops) {
         for (int x = -range; x < range + 1; x++) {
             for (int z = -range; z < range + 1; z++) {
-                BlockPos executePos = new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
-                BlockState state = world.getBlockState(executePos);
+                BlockPos executePos = PosUtil.flooredBlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
+                BlockState state = WorldUtil.getBlockState(world, executePos);
                 if (state.getBlock() instanceof CropBlock) {
                     CropBlock block = (CropBlock) state.getBlock();
-                    if (block.isMature(world.getBlockState(executePos))) {
+                    if (block.isMature(WorldUtil.getBlockState(world, executePos))) {
                         if (drops != null)
                             drops.addAll(CropBlock.getDroppedStacks(state, (ServerWorld) world, executePos, null));
-                        world.breakBlock(executePos, false);
+                        WorldUtil.breakBlock(world, executePos, false);
                         return true;
                     }
                 }
@@ -208,11 +211,11 @@ public class FarmingMachineTile extends PowerAcceptorBlockEntity implements IToo
         if (!(stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof CropBlock)) return false;
         for (int x = -range; x < range + 1; x++) {
             for (int z = -range; z < range + 1; z++) {
-                BlockPos executePos = new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
-                if (!world.getBlockState(executePos).isAir()) continue;
+                BlockPos executePos = PosUtil.flooredBlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z);
+                if (!WorldUtil.getBlockState(world, executePos).isAir()) continue;
 
-                if (world.getBlockState(executePos.down()).getBlock() instanceof FarmlandBlock) {
-                    world.setBlockState(executePos, ((BlockItem) stack.getItem()).getBlock().getDefaultState(), 11);
+                if (WorldUtil.getBlockState(world, executePos.down()).getBlock() instanceof FarmlandBlock) {
+                    WorldUtil.setBlockState(world, executePos, ((BlockItem) stack.getItem()).getBlock().getDefaultState(), 11);
                     return true;
                 }
             }

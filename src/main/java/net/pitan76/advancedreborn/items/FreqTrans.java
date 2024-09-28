@@ -27,8 +27,8 @@ public class FreqTrans extends ExtendItem {
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
             ItemStack stack = player.getStackInHand(hand);
             if (stack.getItem().equals(Items.FREQ_TRANS)) {
-                if (world.isClient()) return ActionResult.PASS;
-                BlockEntity tile = world.getBlockEntity(pos);
+                if (WorldUtil.isClient(world)) return ActionResult.PASS;
+                BlockEntity tile = WorldUtil.getBlockEntity(world, pos);
 
                 if (tile instanceof TeleporterTile) {
                     if (!CustomDataUtil.hasNbt(stack)) return ActionResult.FAIL;
@@ -47,7 +47,7 @@ public class FreqTrans extends ExtendItem {
     public ActionResult onRightClickOnBlock(ItemUseOnBlockEvent e) {
         World world = e.world;
         BlockPos pos = e.hit.getBlockPos();
-        BlockEntity tile = world.getBlockEntity(pos);
+        BlockEntity tile = WorldUtil.getBlockEntity(world, pos);
         if (tile == null) return ActionResult.PASS;
         if (!(tile instanceof TeleporterTile)) return ActionResult.PASS;
         if (e.isClient()) return ActionResult.SUCCESS;

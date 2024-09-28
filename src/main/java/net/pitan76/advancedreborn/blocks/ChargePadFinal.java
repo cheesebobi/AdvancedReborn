@@ -17,7 +17,7 @@ public class ChargePadFinal extends ChargePad {
     }
 
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (world.isClient()) return;
+        if (WorldUtil.isClient(world)) return;
         if (!(entity instanceof PlayerEntity)) return;
         PlayerEntity player = (PlayerEntity) entity;
         boolean needCharge = false;

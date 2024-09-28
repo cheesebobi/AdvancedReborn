@@ -32,6 +32,7 @@ import net.pitan76.mcpitanlib.api.event.block.result.BlockBreakResult;
 import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.event.nbt.NbtRWArgs;
 import net.pitan76.mcpitanlib.api.util.*;
+import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     }
 
     public void setFacing(Direction facing, World world, BlockPos pos) {
-        world.setBlockState(pos, world.getBlockState(pos).with(FACING, facing));
+        WorldUtil.setBlockState(world, pos, WorldUtil.getBlockState(world, pos).with(FACING, facing));
     }
 
     public Direction getFacing(BlockState state) {
@@ -66,19 +67,19 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     public BlockBreakResult onBreak(BlockBreakEvent e) {
         World world = e.world;
         BlockPos pos = e.pos;
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        BlockEntity blockEntity = WorldUtil.getBlockEntity(world, pos);
 
         if (blockEntity instanceof CardboardBoxTile) {
             CardboardBoxTile tile = (CardboardBoxTile) blockEntity;
-            if (!world.isClient() && e.player.isCreative() && !tile.isEmpty()) {
+            if (!WorldUtil.isClient(world) && e.player.isCreative() && !tile.isEmpty()) {
                 ItemStack stack = ItemStackUtil.create(this.asItem());
                 NbtCompound nbt = tile.writeInventoryNbt(NbtUtil.create());
                 if (tile.hasNote()) NbtUtil.set(nbt, "note" ,tile.getNote());
                 if (!nbt.isEmpty()) stack.set(DataComponentTypes.BLOCK_ENTITY_DATA, NbtComponent.of(nbt));
                 if (tile.hasCustomName()) stack.set(DataComponentTypes.CUSTOM_NAME, tile.getCustomName());
 
-                ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, stack);
-                itemEntity.setToDefaultPickupDelay();
+                ItemEntity itemEntity = ItemEntityUtil.create(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, stack);
+                ItemEntityUtil.setToDefaultPickupDelay(itemEntity);
                 WorldUtil.spawnEntity(world, itemEntity);
             }
         }
@@ -108,7 +109,7 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
             setFacing(placer.getHorizontalFacing().getOpposite(), world, pos);
 
         if (stack.contains(DataComponentTypes.CUSTOM_NAME)) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+            BlockEntity blockEntity = WorldUtil.getBlockEntity(world, pos);
             if (blockEntity instanceof CardboardBoxTile) {
                 ((CardboardBoxTile)blockEntity).setCustomName(stack.getName());
             }
@@ -192,7 +193,7 @@ public class CardboardBox extends ExtendBlock implements ExtendBlockEntityProvid
     }
 
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        return ScreenHandler.calculateComparatorOutput((Inventory)world.getBlockEntity(pos));
+        return ScreenHandler.calculateComparatorOutput((Inventory)WorldUtil.getBlockEntity(world, pos));
     }
 
     @Override

@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +17,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import net.pitan76.advancedreborn.entities.IndustrialTNTEntity;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundEvents;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -59,7 +61,7 @@ public class IndustrialTNT extends TntBlock {
     }
 
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (!world.isClient() && !player.isCreative() && state.get(UNSTABLE)) {
+        if (!WorldUtil.isClient(world) && !player.isCreative() && state.get(UNSTABLE)) {
             primeITnt(world, pos);
         }
 
@@ -67,11 +69,11 @@ public class IndustrialTNT extends TntBlock {
     }
 
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
-        if (world.isClient) return;
+        if (WorldUtil.isClient(world)) return;
 
         IndustrialTNTEntity tntEntity = new IndustrialTNTEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, explosion.getCausingEntity());
-        tntEntity.setFuse(world.random.nextInt(tntEntity.getFuse() / 4) + tntEntity.getFuse() / 8);
-        world.spawnEntity(tntEntity);
+        tntEntity.setFuse(WorldUtil.getRandom(world).nextInt(tntEntity.getFuse() / 4) + tntEntity.getFuse() / 8);
+        WorldUtil.spawnEntity(world, tntEntity);
     }
 
     public static void primeITnt(World world, BlockPos pos) {
@@ -79,23 +81,23 @@ public class IndustrialTNT extends TntBlock {
     }
 
     private static void primeITnt(World world, BlockPos pos, @Nullable LivingEntity entity) {
-        if (world.isClient) return;
+        if (WorldUtil.isClient(world)) return;
 
         IndustrialTNTEntity tntEntity = new IndustrialTNTEntity(world, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, entity);
-        world.spawnEntity(tntEntity);
-        world.playSound(null, tntEntity.getX(), tntEntity.getY(), tntEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        WorldUtil.spawnEntity(world, tntEntity);
+        WorldUtil.playSound(world, null, PosUtil.flooredBlockPos(tntEntity.getX(), tntEntity.getY(), tntEntity.getZ()), CompatSoundEvents.ENTITY_TNT_PRIMED, CompatSoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         primeITnt(world, pos, player);
-        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);
-        return ActionResult.success(world.isClient);
+        WorldUtil.setBlockState(world, pos, Blocks.AIR.getDefaultState(), 11);
+        return ActionResult.success(WorldUtil.isClient(world));
     }
 
     @Override
     public void onProjectileHit(World world, BlockState state, BlockHitResult hit, ProjectileEntity projectile) {
-        if (world.isClient) return;
+        if (WorldUtil.isClient(world)) return;
 
         Entity entity = projectile.getOwner();
         if (projectile.isOnFire()) {

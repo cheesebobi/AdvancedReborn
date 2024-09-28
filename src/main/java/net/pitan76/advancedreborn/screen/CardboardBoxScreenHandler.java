@@ -2,7 +2,6 @@ package net.pitan76.advancedreborn.screen;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -21,7 +20,7 @@ public class CardboardBoxScreenHandler extends ExtendedScreenHandler {
 
     public Inventory inventory;
     public String tmpNote = "";
-    public BlockPos pos = new BlockPos(0, 0, 0);
+    public BlockPos pos = PosUtil.flooredBlockPos(0, 0, 0);
 
     public CardboardBoxScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
         this(syncId, playerInventory, InventoryUtil.createSimpleInventory(9), "", null);

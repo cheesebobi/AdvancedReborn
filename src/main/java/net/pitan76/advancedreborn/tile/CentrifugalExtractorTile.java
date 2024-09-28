@@ -92,7 +92,7 @@ public class CentrifugalExtractorTile extends HeatMachineTile implements IToolDr
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
         super.tick(world, pos, state, blockEntity2);
-        if (world == null || world.isClient) {
+        if (world == null || WorldUtil.isClient(world)) {
             return;
         }
         // Charge

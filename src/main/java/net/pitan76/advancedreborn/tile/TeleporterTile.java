@@ -43,7 +43,7 @@ public class TeleporterTile extends BlockEntity implements BlockEntityTicker<Tel
     public void tick(World world, BlockPos pos, BlockState state, TeleporterTile tile) {
         if (!AutoConfigAddon.getConfig().teleporterEnabled) return;
         if (world == null) return;
-        if (world.isClient()) return;
+        if (WorldUtil.isClient(world)) return;
         if (getTeleportPos() == null) return;
         List<Entity> entities = getEntities();
         if (entities.isEmpty()) return;
@@ -69,12 +69,12 @@ public class TeleporterTile extends BlockEntity implements BlockEntityTicker<Tel
 
     public boolean use() {
         if (world == null) return false;
-        BlockEntity up = world.getBlockEntity(pos.up());
-        BlockEntity down =  world.getBlockEntity(pos.down());
-        BlockEntity north = world.getBlockEntity(pos.north());
-        BlockEntity south = world.getBlockEntity(pos.south());
-        BlockEntity east =  world.getBlockEntity(pos.east());
-        BlockEntity west =  world.getBlockEntity(pos.west());
+        BlockEntity up = WorldUtil.getBlockEntity(world, pos.up());
+        BlockEntity down =  WorldUtil.getBlockEntity(world, pos.down());
+        BlockEntity north = WorldUtil.getBlockEntity(world, pos.north());
+        BlockEntity south = WorldUtil.getBlockEntity(world, pos.south());
+        BlockEntity east =  WorldUtil.getBlockEntity(world, pos.east());
+        BlockEntity west =  WorldUtil.getBlockEntity(world, pos.west());
 
         if (useTile(up))
             return true;

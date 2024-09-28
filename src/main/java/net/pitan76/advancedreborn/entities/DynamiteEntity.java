@@ -9,8 +9,6 @@ import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -21,6 +19,8 @@ import net.pitan76.advancedreborn.entities.itnt.IndustrialExplosion;
 import net.pitan76.mcpitanlib.api.entity.CompatThrownItemEntity;
 import net.pitan76.mcpitanlib.api.event.entity.CollisionEvent;
 import net.pitan76.mcpitanlib.api.event.entity.InitDataTrackerArgs;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundCategory;
+import net.pitan76.mcpitanlib.api.sound.CompatSoundEvents;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 public class DynamiteEntity extends CompatThrownItemEntity {
@@ -133,7 +133,7 @@ public class DynamiteEntity extends CompatThrownItemEntity {
             Explosion explosion = new IndustrialExplosion(getEntityWorld(), this, null, null, getX(), getBodyY(0.0625D), getZ(),2.5F,false, Explosion.DestructionType.DESTROY);
             explosion.collectBlocksAndDamageEntities();
             explosion.affectWorld(true);
-            WorldUtil.playSound(getEntityWorld(), null, getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE.value(), SoundCategory.BLOCKS, 4.0F, (1.0F + (getEntityWorld().random.nextFloat() - getEntityWorld().random.nextFloat()) * 0.2F) * 0.7F);
+            WorldUtil.playSound(getEntityWorld(), null, getBlockPos(), CompatSoundEvents.ENTITY_GENERIC_EXPLODE, CompatSoundCategory.BLOCKS, 4.0F, (1.0F + (getEntityWorld().random.nextFloat() - getEntityWorld().random.nextFloat()) * 0.2F) * 0.7F);
             ((ServerWorld)getEntityWorld()).spawnParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
             return;
         }

@@ -50,7 +50,7 @@ public class RaySolarTile extends PowerAcceptorBlockEntity implements IToolDrop 
             return;
         }
 
-        if (world.isClient()) {
+        if (WorldUtil.isClient(world)) {
             return;
         }
         if ((!world.isRaining() && !world.isThundering() && world.isDay() && world.isSkyVisible(pos.up())) || solar.isRayGenerator) {

@@ -2,20 +2,14 @@ package net.pitan76.advancedreborn.mixins;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.pitan76.advancedreborn.Items;
-import net.pitan76.advancedreborn.api.Energy;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import team.reborn.energy.api.base.SimpleEnergyItem;
 
 @Mixin(LivingEntity.class)
 public abstract class ARLivingEntityMixin extends Entity {

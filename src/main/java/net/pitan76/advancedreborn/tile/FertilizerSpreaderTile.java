@@ -19,6 +19,8 @@ import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
@@ -88,7 +90,7 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
         super.tick(world, pos, state, blockEntity2);
-        if (world == null || world.isClient) {
+        if (world == null || WorldUtil.isClient(world)) {
             return;
         }
         charge(energySlot);
@@ -135,8 +137,8 @@ public class FertilizerSpreaderTile extends PowerAcceptorBlockEntity implements 
         for (int x = -range; x < range + 1; x++) {
             for (int z = -range; z < range + 1; z++) {
                 for (int y = -range; y < range + 1; y++) {
-                    BlockPos executePos = new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z);
-                    BlockState state = world.getBlockState(executePos);
+                    BlockPos executePos = PosUtil.flooredBlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z);
+                    BlockState state = WorldUtil.getBlockState(world, executePos);
                     if (state.getBlock() instanceof CropBlock || state.getBlock() instanceof SaplingBlock || state.isIn(BlockTags.SAPLINGS) || state.isIn(BlockTags.CROPS)) {
                         if (state.getBlock() instanceof CropBlock) {
                             CropBlock block = (CropBlock) state.getBlock();

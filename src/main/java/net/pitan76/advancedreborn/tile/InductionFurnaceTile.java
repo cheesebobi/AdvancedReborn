@@ -24,6 +24,7 @@ import net.pitan76.advancedreborn.tile.base.HeatMachineTile;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.RecipeUtil;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
@@ -191,16 +192,15 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
     }
 
     private void updateState() {
-        Block furnaceBlock = getWorld().getBlockState(pos).getBlock();
+        Block furnaceBlock = WorldUtil.getBlockState(getWorld(), pos).getBlock();
 
         if (furnaceBlock instanceof BlockMachineBase) {
             BlockMachineBase blockMachineBase = (BlockMachineBase) furnaceBlock;
             boolean isActive = (currentRecipe != null || canCraftAgain() ) || (currentRecipe2 != null || canCraftAgain2());
             blockMachineBase.setActive(isActive, world, pos);
         }
-        world.updateListeners(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+        world.updateListeners(pos, WorldUtil.getBlockState(world, pos), WorldUtil.getBlockState(world, pos), 3);
     }
-
 
     private boolean hasAllInputs(SmeltingRecipe recipe) {
         if (recipe == null) return false;
@@ -228,7 +228,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
             inventory.setStack(outputSlot, RecipeUtil.getOutput(recipe, world).copy());
         } else {
             // Just increment. We already checked stack match and stack size
-            outputStack.increment(1);
+            ItemStackUtil.incrementCount(outputStack, 1);
         }
 
         inventory.getStack(inputSlot).decrement(1);
@@ -261,7 +261,7 @@ public class InductionFurnaceTile extends HeatMachineTile implements IToolDrop, 
         super.tick(world, pos, state, blockEntity2);
         charge(2);
 
-        if (world == null || world.isClient) {
+        if (world == null || WorldUtil.isClient(world)) {
             return;
         }
 

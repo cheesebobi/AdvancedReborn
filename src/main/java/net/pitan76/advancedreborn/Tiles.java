@@ -8,7 +8,8 @@ import net.pitan76.advancedreborn.tile.*;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.tile.BlockEntityTypeBuilder;
 
-import static net.pitan76.advancedreborn.AdvancedReborn.*;
+import static net.pitan76.advancedreborn.AdvancedReborn.INSTANCE;
+import static net.pitan76.advancedreborn.AdvancedReborn.registry;
 
 public class Tiles {
     public static RegistryResult<BlockEntityType<?>> INDUCTION_FURNACE_TILE;

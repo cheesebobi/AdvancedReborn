@@ -90,7 +90,7 @@ public class SingularityCompressorTile extends HeatMachineTile implements IToolD
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
         super.tick(world, pos, state, blockEntity2);
-        if (world == null || world.isClient) {
+        if (world == null || WorldUtil.isClient(world)) {
             return;
         }
         charge(energySlot);

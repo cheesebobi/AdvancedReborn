@@ -5,7 +5,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItem;
@@ -21,7 +20,10 @@ import net.pitan76.advancedreborn.Blocks;
 import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.BlockEntityUtil;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
@@ -96,7 +98,7 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
 
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
         super.tick(world, pos, state, blockEntity2);
-        if (world == null || world.isClient) {
+        if (world == null || WorldUtil.isClient(world)) {
             return;
         }
         charge(energySlot);
@@ -145,17 +147,17 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
             ItemStack slotStack = inventory.getStack(i);
             if (slotStack.isEmpty()) {
                 inventory.setStack(i, stack);
-                markDirty();
+                BlockEntityUtil.markDirty(this);
                 return;
             }
             if (slotStack.getItem() == stack.getItem() && slotStack.getCount() + stack.getCount() < 64) {
                 inventory.setStack(i, ItemStackUtil.create(stack.getItem(), stack.getCount() + inventory.getStack(i).getCount()));
-                markDirty();
+                BlockEntityUtil.markDirty(this);
                 return;
             }
         }
 
-        world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+        WorldUtil.spawnEntity(world, ItemEntityUtil.create(world, pos.getX(), pos.getY(), pos.getZ(), stack));
     }
 
     public static boolean tryLogging(World world, BlockPos pos, Direction direction, int range, List<ItemStack> drops) {
@@ -163,11 +165,11 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
             for (int z = -range; z < range + 1; z++) {
                 for (int y = 0; y < range * 2 + 1; y++) {
                     BlockPos executePos = pos.offset(direction).add(x, y, z);
-                    BlockState state = world.getBlockState(executePos);
+                    BlockState state = WorldUtil.getBlockState(world, executePos);
                     if (state.isIn(BlockTags.LOGS) || state.isIn(BlockTags.LEAVES)) {
                         if (drops != null)
                             drops.addAll(CropBlock.getDroppedStacks(state, (ServerWorld) world, executePos, null));
-                        world.breakBlock(executePos, false);
+                        WorldUtil.breakBlock(world, executePos, false);
                         return true;
                     }
                 }
@@ -179,11 +181,11 @@ public class LoggingMachineTile extends PowerAcceptorBlockEntity implements IToo
 
     public static boolean tryPlant(World world, BlockPos pos, Direction direction, ItemStack stack) {
         BlockPos executePos = pos.offset(direction);
-        if (!world.getBlockState(executePos).isAir()) return false;
+        if (!WorldUtil.getBlockState(world, executePos).isAir()) return false;
 
-        if (world.getBlockState(executePos.down()).isIn(BlockTags.DIRT)) {
+        if (WorldUtil.getBlockState(world, executePos.down()).isIn(BlockTags.DIRT)) {
             if (stack.isIn(ItemTags.SAPLINGS)) {
-                world.setBlockState(executePos, ((BlockItem) stack.getItem()).getBlock().getDefaultState(), 11);
+                WorldUtil.setBlockState(world, executePos, ((BlockItem) stack.getItem()).getBlock().getDefaultState(), 11);
                 return true;
             }
         }
