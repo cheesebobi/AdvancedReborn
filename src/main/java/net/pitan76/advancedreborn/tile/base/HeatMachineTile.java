@@ -8,6 +8,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pitan76.advancedreborn.tile.InductionFurnaceTile;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 

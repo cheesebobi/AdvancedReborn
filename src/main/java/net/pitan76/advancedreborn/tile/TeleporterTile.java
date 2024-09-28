@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.pitan76.advancedreborn.Tiles;
 import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 import org.jetbrains.annotations.Nullable;
 import techreborn.blockentity.storage.energy.EnergyStorageBlockEntity;
@@ -103,9 +104,8 @@ public class TeleporterTile extends BlockEntity implements BlockEntityTicker<Tel
     }
 
     public List<Entity> getEntities() {
-        VoxelShape voxelShape = SHAPE_RANGE;
         try {
-            return voxelShape.getBoundingBoxes().stream().flatMap((box) -> getWorld().getEntitiesByClass(Entity.class, box.offset(getX(), getY(), getZ()), EntityPredicates.VALID_ENTITY).stream()).collect(Collectors.toList());
+            return SHAPE_RANGE.getBoundingBoxes().stream().flatMap((box) -> WorldUtil.getEntitiesByClass(getWorld(), Entity.class, box.offset(getX(), getY(), getZ()), EntityPredicates.VALID_ENTITY).stream()).collect(Collectors.toList());
         } catch (NullPointerException e) {
             return new ArrayList<>();
         }

@@ -17,6 +17,7 @@ import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.util.CustomDataUtil;
 import net.pitan76.mcpitanlib.api.util.NbtUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.math.PosUtil;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class FreqTrans extends ExtendItem {
         super(settings);
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
             ItemStack stack = player.getStackInHand(hand);
-            if (stack.getItem().equals(Items.FREQ_TRANS)) {
+            if (stack.getItem().equals(Items.FREQ_TRANS.getOrNull())) {
                 if (WorldUtil.isClient(world)) return ActionResult.PASS;
                 BlockEntity tile = WorldUtil.getBlockEntity(world, pos);
 

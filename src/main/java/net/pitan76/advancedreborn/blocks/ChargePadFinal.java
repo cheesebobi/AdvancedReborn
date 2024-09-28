@@ -1,13 +1,10 @@
 package net.pitan76.advancedreborn.blocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.pitan76.advancedreborn.api.Energy;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
+import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.event.block.EntityCollisionEvent;
 import team.reborn.energy.api.base.SimpleEnergyItem;
 
 public class ChargePadFinal extends ChargePad {
@@ -16,10 +13,12 @@ public class ChargePadFinal extends ChargePad {
         super(settings, multiple);
     }
 
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (WorldUtil.isClient(world)) return;
-        if (!(entity instanceof PlayerEntity)) return;
-        PlayerEntity player = (PlayerEntity) entity;
+    @Override
+    public void onEntityCollision(EntityCollisionEvent e) {
+        if (e.isClient()) return;
+        if (!(e.hasPlayerEntity())) return;
+        Player player = new Player(e.getPlayerEntity().get());
+
         boolean needCharge = false;
         for (int i = 0; i < player.getInventory().size(); i++) {
             ItemStack invStack = player.getInventory().getStack(i);
@@ -35,7 +34,7 @@ public class ChargePadFinal extends ChargePad {
             }
         }
         if (needCharge) {
-            super.onEntityCollision(state, world, pos, entity);
+            super.onEntityCollision(e);
         }
     }
 }

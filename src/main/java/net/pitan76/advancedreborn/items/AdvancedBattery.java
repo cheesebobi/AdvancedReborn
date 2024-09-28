@@ -10,6 +10,7 @@ import net.pitan76.mcpitanlib.api.event.item.ItemAppendTooltipEvent;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import reborncore.common.powerSystem.RcEnergyItem;
 import reborncore.common.powerSystem.RcEnergyTier;
 import reborncore.common.util.ItemUtils;
@@ -39,12 +40,9 @@ public class AdvancedBattery extends ExtendItem implements RcEnergyItem {
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         TRItemUtils.checkActive(stack, 1, entity);
-        if (WorldUtil.isClient(world)) {
-            return;
-        }
-        if (!TRItemUtils.isActive(stack)){
-            return;
-        }
+        if (WorldUtil.isClient(world)) return;
+        if (!TRItemUtils.isActive(stack)) return;
+
         if (entity instanceof PlayerEntity) {
             ItemUtils.distributePowerToInventory((PlayerEntity) entity, stack, tier.getMaxOutput(), (testStack) -> !(testStack.getItem() instanceof BatteryItem));
         }

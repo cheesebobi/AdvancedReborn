@@ -16,6 +16,7 @@ import net.pitan76.advancedreborn.addons.autoconfig.AutoConfigAddon;
 import net.pitan76.advancedreborn.tile.base.HeatMachineTile;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
+import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.api.recipe.IRecipeCrafterProvider;
