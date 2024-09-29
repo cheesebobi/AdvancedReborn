@@ -46,7 +46,7 @@ public class FoodCanItem extends ExtendItem {
 
             player.incrementStat(Stats.USED.getOrCreateStat(this));
             if (!player.isCreative()) {
-                playerEntity.eatFood(world, stack, CAN_FOOD_COMPONENT);
+                player.eatFood(world, stack, CAN_FOOD_COMPONENT);
             }
         }
 
