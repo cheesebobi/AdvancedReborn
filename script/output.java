@@ -163,7 +163,7 @@ public class Items {
         CARDBOARD_BOX = registry.registerItem(INSTANCE.compatId("CARDBOARD_BOX"), () -> ItemUtil.ofBlock(Blocks.CARDBOARD_BOX, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
         CARDBOARD_BOX_MINETARO = registry.registerItem(INSTANCE.compatId("CARDBOARD_BOX_MINETARO"), () -> ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_MINETARO, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
         CARDBOARD_BOX_MINEZON = registry.registerItem(INSTANCE.compatId("CARDBOARD_BOX_MINEZON"), () -> ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_MINEZON, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
-        CARDBOARD_BOX_NOTHING = registry.registerItem(INSTANCE.compatId("CARDBOARD_BOX_NOTHING"), () -> ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_NOTHING, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
+        CARDBOARD_BOX_NOTHING = registry.registerItem(INSTANCE.compatId("cardboard_box_nothing_logo"), () -> ItemUtil.ofBlock(Blocks.CARDBOARD_BOX_NOTHING, CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
         EMPTY_CAN = registry.registerItem(INSTANCE.compatId("EMPTY_CAN"), () -> new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
         FUEL_CAN = registry.registerItem(INSTANCE.compatId("FUEL_CAN"), () -> new FuelCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64).recipeRemainder(EMPTY_CAN)));
         FOOD_CAN = registry.registerItem(INSTANCE.compatId("FOOD_CAN"), () -> new FoodCanItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64).recipeRemainder(EMPTY_CAN).food(CAN_FOOD_COMPONENT)));

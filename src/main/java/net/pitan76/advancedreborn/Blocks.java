@@ -96,7 +96,7 @@ public class Blocks {
         CARDBOARD_BOX = registry.registerBlock(INSTANCE.compatId("cardboard_box"), () -> new CardboardBox(CompatibleBlockSettings.of(CompatibleMaterial.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3)));
         CARDBOARD_BOX_MINEZON = registry.registerBlock(INSTANCE.compatId("cardboard_box_minezon"), () -> new CardboardBox(CompatibleBlockSettings.of(CompatibleMaterial.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3)));
         CARDBOARD_BOX_MINETARO = registry.registerBlock(INSTANCE.compatId("cardboard_box_minetaro"), () -> new CardboardBox(CompatibleBlockSettings.of(CompatibleMaterial.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3)));
-        CARDBOARD_BOX_NOTHING = registry.registerBlock(INSTANCE.compatId("cardboard_box_nothing"), () -> new CardboardBox(CompatibleBlockSettings.of(CompatibleMaterial.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3)));
+        CARDBOARD_BOX_NOTHING = registry.registerBlock(INSTANCE.compatId("cardboard_box_nothing_logo"), () -> new CardboardBox(CompatibleBlockSettings.of(CompatibleMaterial.WOOD).sounds(BlockSoundGroup.WOOD).strength(1, 3)));
         LIGHT = registry.registerBlock(INSTANCE.compatId("light"), () -> new ExtendBlock(CompatibleBlockSettings.of(CompatibleMaterial.METAL).strength(1.5F, 4).luminance((state) -> 15)));
         INDUSTRIAL_TNT = registry.registerBlock(INSTANCE.compatId("industrial_tnt"), () -> new IndustrialTNT(CompatibleBlockSettings.copy(net.minecraft.block.Blocks.TNT)));
     }

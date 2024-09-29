@@ -10,9 +10,9 @@
       "item": "advanced_reborn:empty_can"
     }
   ],
-  "results": [
+  "outputs": [
     {
-      "item": "advanced_reborn:fuel_can",
+      "id": "advanced_reborn:fuel_can",
       "count": 1
     }
   ]
