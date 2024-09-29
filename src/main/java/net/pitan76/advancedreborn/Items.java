@@ -1,9 +1,9 @@
 package net.pitan76.advancedreborn;
 
-import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
 import net.pitan76.advancedreborn.armormaterials.BBArmorMaterial;
 import net.pitan76.advancedreborn.items.*;
+import net.pitan76.mcpitanlib.api.item.CompatFoodComponent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
@@ -97,7 +97,7 @@ public class Items {
     public static RegistryResult<Item> EMPTY_CAN;
     public static RegistryResult<Item> FUEL_CAN;
 
-    public static FoodComponent CAN_FOOD_COMPONENT = new FoodComponent.Builder().snack().nutrition(2).saturationModifier(2).build();
+    public static CompatFoodComponent CAN_FOOD_COMPONENT = new CompatFoodComponent().setSnack().setHunger(2).setSaturation(2);
     public static RegistryResult<Item> FOOD_CAN;
 
     // Better Batpack
@@ -179,6 +179,7 @@ public class Items {
         DUCT_TAPE = registry.registerItem(INSTANCE.compatId("duct_tape"), () -> new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
         CARDBOARD_SHEET = registry.registerItem(INSTANCE.compatId("cardboard_sheet"), () -> new ExtendItem(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
 
+        registry.registerFuel(() -> FUEL_CAN.getOrNull(), 500);
         //ADD_ITEMS = registry.registerItem(INSTANCE.compatId("add_items"), () -> new AddItems(CompatibleItemSettings.of().addGroup(AdvancedReborn.AR_GROUP).maxCount(64)));
     }
 }
