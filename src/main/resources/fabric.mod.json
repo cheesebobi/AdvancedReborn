@@ -23,9 +23,6 @@
     ],
     "client": [
       "ml.pkom.advancedreborn.AdvancedRebornClient"
-    ],
-    "rei_client": [
-      "ml.pkom.advancedreborn.addons.rei.REIAddon"
     ]
   },
   "mixins": [

@@ -12,10 +12,4 @@ public class ModManager {
 
     public static void afterInit() {
     }
-
-    public static void initAfterLoadedTR() {
-        if (FabricLoader.getInstance().isModLoaded("computercraft")) {
-            if (AutoConfigAddon.getConfig().linkComputerCraft) ml.pkom.advancedreborn.addons.computercraft.ComputerCraftAddon.init();
-        }
-    }
 }

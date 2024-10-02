@@ -55,7 +55,7 @@ public class AdvancedRebornConfig implements ConfigData {
 
     @Comment("Teleporter Use Energy (Value in EU)")
     @ConfigEntry.Category("teleporter")
-    public int teleporterUseEnergy = 64;
+    public int teleporterUseEnergy = 10000;
 
     @Comment("If you make a mistake in setting the teleporter and you get an infinite loop, you can fix it by disabling it.")
     @ConfigEntry.Category("teleporter")

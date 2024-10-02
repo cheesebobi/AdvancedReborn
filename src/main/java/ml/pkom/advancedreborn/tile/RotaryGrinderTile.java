@@ -31,6 +31,12 @@ public class RotaryGrinderTile extends HeatMachineTile implements IToolDrop, Inv
     public RebornInventory<?> inventory;
     public RecipeCrafter crafter;
 
+    private static final int INPUT_SLOT = 1;
+    private static final int OUTPUT_SLOT = 2;
+
+    private int cooldown = 0;
+
+
     public RotaryGrinderTile(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
         toolDrop = Blocks.ROTARY_GRINDER;
@@ -71,10 +77,10 @@ public class RotaryGrinderTile extends HeatMachineTile implements IToolDrop, Inv
     }
 
     public int getProgressScaled(int scale) {
-        if (crafter != null && crafter.currentTickTime != 0 && crafter.currentNeededTicks != 0) {
-            return crafter.currentTickTime * scale / crafter.currentNeededTicks;
+        if (crafter == null || crafter.currentTickTime == 0 || crafter.currentNeededTicks == 0) {
+            return 0;
         }
-        return 0;
+        return crafter.currentTickTime * scale / crafter.currentNeededTicks;
     }
 
     public RecipeCrafter getRecipeCrafter() {
@@ -85,23 +91,37 @@ public class RotaryGrinderTile extends HeatMachineTile implements IToolDrop, Inv
         return new ItemStack(toolDrop, 1);
     }
 
+    @Override
     public void tick(World world, BlockPos pos, BlockState state, MachineBaseBlockEntity blockEntity2) {
         super.tick(world, pos, state, blockEntity2);
         if (world == null || world.isClient) {
             return;
         }
         charge(energySlot);
-        if (!getInventory().getStack(1).isEmpty()) {
-            if (getStack(1).getItem().equals(getStack(2).getItem())) {
-                if (getStack(2).getCount() == getStack(2).getMaxCount()) return;
-                getStack(2).increment(1);
-                getStack(1).decrement(1);
-            } else if (getStack(2).isEmpty()) {
-                setStack(2, new ItemStack(getStack(1).getItem(), 1));
-                getStack(1).decrement(1);
+
+
+        if (cooldown > 0) {
+            cooldown--;
+        } else {
+            cooldown = 20;
+            ItemStack inputStack = getInventory().getStack(INPUT_SLOT);
+            ItemStack outputStack = getInventory().getStack(OUTPUT_SLOT);
+
+            if (inputStack.isEmpty()) return;
+
+            if (outputStack.isEmpty()) {
+                getInventory().setStack(OUTPUT_SLOT, inputStack.copy());
+                inputStack.setCount(0);
+            } else if (ItemStack.areItemsEqual(inputStack, outputStack) && ItemStack.areNbtEqual(inputStack, outputStack)) {
+                int transferAmount = Math.min(inputStack.getCount(), outputStack.getMaxCount() - outputStack.getCount());
+                if (transferAmount > 0) {
+                    outputStack.increment(transferAmount);
+                    inputStack.decrement(transferAmount);
+                }
             }
         }
     }
+
 
     public Inventory getInventory() {
         return inventory;

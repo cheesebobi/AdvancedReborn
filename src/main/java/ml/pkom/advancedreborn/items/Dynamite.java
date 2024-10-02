@@ -6,6 +6,7 @@ import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
 import ml.pkom.mcpitanlibarch.api.item.ExtendItem;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ProjectileDispenserBehavior;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -44,17 +45,26 @@ public class Dynamite extends ExtendItem {
     }
 
     public TypedActionResult<ItemStack> onRightClick(ItemUseEvent event) {
-        ItemStack stack = event.user.getPlayerEntity().getStackInHand(event.hand);
-        if (!event.user.getAbilities().creativeMode) stack.decrement(1);
+        PlayerEntity player = event.user.getPlayerEntity();
+        ItemStack stack = player.getStackInHand(event.hand);
+
+        player.getItemCooldownManager().set(this, 30);
+
+
+        if (!player.getAbilities().creativeMode) {
+            stack.decrement(1);
+        }
+
         if (!event.world.isClient()) {
-            DynamiteEntity dynamiteEntity = new DynamiteEntity(event.world, event.user.getEntity());
-            dynamiteEntity.setVelocity(event.user.getPlayerEntity(), event.user.getPlayerEntity().getPitch(), event.user.getPlayerEntity().getYaw(), 0.0F, 1.5F, 1.0F);
+            DynamiteEntity dynamiteEntity = new DynamiteEntity(event.world, player);
+            dynamiteEntity.setVelocity(player, player.getPitch(), player.getYaw(), 0.0F, 1.5F, 1.0F);
             dynamiteEntity.setItem(stack);
             dynamiteEntity.setSticky(isSticky);
             dynamiteEntity.setIndustrial(isIndustrial);
             event.world.spawnEntity(dynamiteEntity);
             event.world.playSound(null, dynamiteEntity.getX(), dynamiteEntity.getY(), dynamiteEntity.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
+
         return TypedActionResult.success(stack);
     }
 }

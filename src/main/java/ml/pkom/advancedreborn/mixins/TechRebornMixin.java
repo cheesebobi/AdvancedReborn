@@ -11,6 +11,5 @@ import techreborn.TechReborn;
 public class TechRebornMixin {
     @Inject(method = "onInitialize", at = @At("TAIL"), remap = false)
     public void onInitialize(CallbackInfo ci) {
-        ModManager.initAfterLoadedTR();
     }
 }

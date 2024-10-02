@@ -31,7 +31,13 @@ public class FreqTrans extends ExtendItem {
                 if (tile instanceof TeleporterTile) {
                     if (!stack.hasNbt()) return ActionResult.FAIL;
                     NbtCompound tag = stack.getNbt();
-                    if (!tag.contains("tpX") || !tag.contains("tpY") || !tag.contains("tpZ")) return ActionResult.FAIL;
+                    if (!tag.contains("tpX") || !tag.contains("tpY") || !tag.contains("tpZ") || !tag.contains("tpWorld")) return ActionResult.FAIL;
+
+                    if (!tag.getString("tpWorld").equals(world.getRegistryKey().getValue().toString())) {
+                        player.sendMessage(TextUtil.literal("The Frequency Transmitter Coordinates are not in the same world as the Teleporter."), false);
+                        return ActionResult.FAIL;
+                    }
+
                     TeleporterTile machine = (TeleporterTile) tile;
                     machine.setTeleportPos(PosUtil.flooredBlockPos(tag.getDouble("tpX"), tag.getDouble("tpY"), tag.getDouble("tpZ")));
                     player.sendMessage(TextUtil.literal("Loaded Teleport Pos from The Frequency Transmitter.(" + tag.getDouble("tpX") + "," + tag.getDouble("tpY") + "," + tag.getDouble("tpZ") + ")"), false);
@@ -58,6 +64,7 @@ public class FreqTrans extends ExtendItem {
         tag.putDouble("tpX", machine.getX());
         tag.putDouble("tpY", machine.getY());
         tag.putDouble("tpZ", machine.getZ());
+        tag.putString("tpWorld", world.getRegistryKey().getValue().toString());
         stack.setNbt(tag);
         event.player.sendMessage(TextUtil.literal("Saved Machine's Pos to The Frequency Transmitter.(" + tag.getDouble("tpX") + "," + tag.getDouble("tpY") + "," + tag.getDouble("tpZ") + ")"));
         return ActionResult.SUCCESS;
