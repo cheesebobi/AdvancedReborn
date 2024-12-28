@@ -68,7 +68,11 @@ public class RenamingMachineTile extends PowerAcceptorBlockEntity implements ITo
     }
 
     public void setName(@Nullable String name) {
-        this.name = name;
+        if (name != null && name.length() > 30) {
+            this.name = name.substring(0, 30);
+        } else {
+            this.name = name;
+        }
     }
 
     public void setNameClient(@Nullable String name) {
